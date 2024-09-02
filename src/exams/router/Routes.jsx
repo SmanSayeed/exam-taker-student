@@ -5,7 +5,8 @@ import NotFoundPage from "../../NotFoundPage";
 import App from "../../App";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import ExamPage from './../pages/ExamPage';
+import ExamStartingPage from './../pages/ExamStartingPage';
+import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 
 const Routes = createBrowserRouter([
     {
@@ -18,8 +19,16 @@ const Routes = createBrowserRouter([
                 element:<HomPage />
             },
             {
+                path: "/exams-starting",
+                element:<ExamStartingPage />
+            },
+            {
+                path: "/exam-on-going",
+                element:<ExamOnGoingPage />
+            },
+            {
                 path: "/exams",
-                element:<ExamPage />
+                element:<ExamStartingPage />
             },
             {
                 path: "/login",

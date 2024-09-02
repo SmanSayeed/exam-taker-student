@@ -9,7 +9,7 @@ export const NavLinks = [
     },
     {
         title: "Exams",
-        href: "/exams",
+        href: "/exams-starting",
     },
     {
         title: "Information",

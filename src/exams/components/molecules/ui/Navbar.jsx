@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Logo from '../atoms/Logo'
-import ThemeSwitch from './../atoms/ThemeSwitch';
+import Logo from '../../atoms/Logo'
+import ThemeSwitch from '../../atoms/ThemeSwitch';
 import { AlignJustify, X } from 'lucide-react';
-import { Button } from '../../../components/ui/button';
-import UserNav from '../organism/UserNav';
-import { Layout } from '../../templates/Layout';
-import Nav from '../../templates/Nav';
+import { Button } from '../../../../components/ui/button';
+import UserNav from '../../organism/UserNav';
+import { Layout } from '../../../templates/Layout';
+import Nav from '../../../templates/Nav';
 import { NavLinks } from './NavLinks';
 
 export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
@@ -23,8 +23,7 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
 
 
     return (
-        <div className='p-'>
-            <nav className='flex items-center justify-between border-b-2  '>
+            <nav className='flex items-center justify-between   '>
 
                 {/* Overlay in mobile */}
                 <div
@@ -89,6 +88,5 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
                     
                 </Layout>
             </nav>
-        </div>
     )
 }

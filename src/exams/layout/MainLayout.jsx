@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Navbar from "../components/molecules/Navbar";
-import Footer from "../components/molecules/Footer";
+import Navbar from "../components/molecules/ui/Navbar";
+import Footer from "../components/molecules/ui/Footer";
 import { Toaster } from './../../components/ui/sonner'
 
 const MainLayout = () => {

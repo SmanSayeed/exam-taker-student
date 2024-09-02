@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MultiSelectCategory from "./MultiSelectCategory";
+import MultiSelectCategory from './MultiSelectCategory';
 
 export default function FilteringExamsForCategories() {
     const [selectedSections, setSelectedSections] = useState({});

@@ -60,7 +60,7 @@ const UserNav = () => {
                         <Logout />
                     </DropdownMenuItem>
                 </> : <DropdownMenuItem>
-                        <Link to={"login"}>Loin</Link>
+                        <Link to={"login"}>Login</Link>
                 </DropdownMenuItem> }
             </DropdownMenuContent>
         </DropdownMenu>
