@@ -5,18 +5,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import CategoriesExam from "../components/organism/CategoriesExam";
 import { useForm } from "react-hook-form";
-// import { Input } from "../../../../components/ui/input";
-// import { Checkbox } from "@/components/ui/checkbox";
-// import { Label } from "../../../../components/ui/label";
-import { Label } from "./../../components/ui/label";
-import { Input } from "./../../components/ui/input";
-import { Checkbox } from "./../../components/ui/checkbox";
-import { Button } from "./../../components/ui/button";
+import { Label } from "../../components/ui/label";
+import { Input } from "../../components/ui/input";
+import { Checkbox } from "../../components/ui/checkbox";
+import { Button } from "../../components/ui/button";
+import { Link } from "react-router-dom";
+import { DrawerForQuestionFilter } from "../components/organism/DrawerForQuestionFilter";
 
 
-export default function ExamPage() {
+export default function ExamStartingPage() {
   const {
     register,
     handleSubmit,
@@ -32,33 +30,29 @@ export default function ExamPage() {
     <div>
       <Card>
         <CardHeader>
-          <CategoriesExam />
+          <h1 className="text-4xl mt-10 ">
+            Welcome to the OES! 
+          </h1>
         </CardHeader>
         <div className="">
-          <h1 className="text-5xl group  w-fit mx-auto my-10 ">
-            <span className="mx-3 relative inline-block bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text group-hover:from-green-500 group-hover:via-yellow-500 group-hover:to-red-500 duration-1000">
-              Unlimited
-            </span>
-            <span className="text-2xl">practice on millions of </span>
-            <span className="mx-3 relative inline-block bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text group-hover:from-green-500 group-hover:via-yellow-500 group-hover:to-red-500 duration-1000">
-              Questions
-            </span>
-          </h1>
+          <h1 className="mb-2">Here, you can easily access and take your exams. Best of luck with your assessments.</h1>
+          <DrawerForQuestionFilter />
+
 
           <Card className="text-left my-5 p-5 w-full md:w-3/4 mx-auto ">
             <p className="font-medium underline">Instructions to candidates:</p>
             <ul className="list-disc mt-3 ml-5 text-sm space-y-2 tracking-wider ">
               <li className="">
-                According to your preparation, select the type of question through the filter above and enter the question number and test time in the box below and click on the start button to start the test.
+                According to your preparation, select the <span className="font-semibold">type of question</span> through the filter above and enter the <span className="font-semibold">question number</span> and <span className="font-semibold">test time</span> in the box below and click on the start button to start the test.
               </li>
               <li>
-                Negative Marking 0.25 for each wrong answer and medical admission students will get 5% deduction from total marks if they click on Second Time option.
+                Negative Marking 0.25 for each wrong answer and medical admission students will get 5% deduction from total marks if they click on <span className="font-semibold">2nd Time</span> option.
               </li>
               <li>
                 Randomly from a database of millions of questions will show you a certain number of questions per set.
               </li>
               <li>
-                All the exam answer sheets will be saved for all the exams you take, you can see all the exam answer sheets by clicking on the Exam Performance option below.
+                All the exam answer sheets will be saved for all the exams you take, you can see all the exam answer sheets by clicking on the <span className="font-semibold">Exam Performance</span> option below.
               </li>
             </ul>
           </Card>
@@ -106,13 +100,13 @@ export default function ExamPage() {
                     </label>
                   </div>
 
-                  <button
+                  <Link to={"/exam-on-going"}
                     // disabled={isLoading}
                     type="submit"
                     className="w-fit font-medium bg-slate-500 py-1 px-5 rounded-lg  hover:bg-gray-400"
                   >
                     Start
-                  </button>
+                  </Link>
                 </div>
               </div>
             </form>
@@ -123,8 +117,6 @@ export default function ExamPage() {
             <Button>Performance</Button>
             <Button>Exams</Button>
          </div>
-
-
         </div>
       </Card>
     </div>

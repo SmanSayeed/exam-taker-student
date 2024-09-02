@@ -1,4 +1,4 @@
-import FilteringExamsForCategories from "../molecules/FilteringExamsForCategories";
+import FilteringExamsForCategories from "../molecules/ui/FilteringExamsForCategories";
 
 export default function CategoriesExam() {
   return (
