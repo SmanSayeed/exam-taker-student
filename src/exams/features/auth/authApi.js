@@ -1,81 +1,79 @@
 import { apiSlice } from "../api/apiSlice";
-import { userLoggedIn, userLoggedOut } from "./authSlice";
+import { loggedIn, loggedOut } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
-    endpoints: (builder) => ({
-        userRegister: builder.mutation({
-            query: (data) => ({
-                url: "/create",
-                method: "POST",
-                body: data,
-            }),
-        }),
-        login: builder.mutation({
-            query: (data) => ({
-                url: "/login",
-                method: "POST",
-                body: data,
-            }),
-
-            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-
-                try {
-                    const result = await queryFulfilled;
-
-                    const { status, message, data } = result.data;
-
-                    localStorage.setItem(
-                        "auth",
-                        JSON.stringify({
-                            status,
-                            message,
-                            access_token: data?.token,
-                            admin_user: data?.admin,
-                        })
-                    );
-
-                    dispatch(
-                        userLoggedIn({
-                            status,
-                            message,
-                            access_token: data?.token,
-                            admin_user: data?.admin,
-                        })
-                    );
-                } catch (err) {
-                    console.log(err);
-                }
-            },
-        }),
-        logout: builder.mutation({
-            query: () => ({
-                url: "/logout",
-                method: "POST"
-            }),
-
-            async onQueryStarted(arg, { dispatch }) {
-
-                try {
-                    localStorage.clear();
-
-                    dispatch(
-                        userLoggedOut({
-                            status: null,
-                            message: null,
-                            access_token: null,
-                            admin_user: null,
-                        })
-                    );
-                } catch (err) {
-                    console.log(err);
-                }
-            },
-        }),
+  endpoints: (builder) => ({
+    registration: builder.mutation({
+      query: (data) => ({
+        url: "/register",
+        method: "POST",
+        body: data,
+      }),
     }),
+    loggedIn: builder.mutation({
+      query: (data) => ({
+        url: "/login",
+        method: "POST",
+        body: data,
+      }),
+
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+
+          const { status, message, data } = result.data;
+
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({
+              status,
+              message,
+              token: data?.token,
+              student: data?.student,
+            })
+          );
+
+          dispatch(
+            loggedIn({
+              status,
+              message,
+              token: data?.token,
+              student: data?.student,
+            })
+          );
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    }),
+    loggedOut: builder.mutation({
+      query: () => ({
+        url: "/logout",
+        method: "POST",
+      }),
+
+      async onQueryStarted(arg, { dispatch }) {
+        try {
+          localStorage.clear();
+
+          dispatch(
+            loggedOut({
+              status: null,
+              message: null,
+              token: null,
+              student: null,
+            })
+          );
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    }),
+  }),
 });
 
 export const {
-    useLoginMutation,
-    useLogoutMutation,
-    useUserRegisterMutation
+    useLoggedInMutation,
+  useLoggedOutMutation,
+    useRegistrationMutation
 } = authApi;

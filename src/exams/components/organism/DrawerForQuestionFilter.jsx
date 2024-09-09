@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
-// import { Bar, BarChart, ResponsiveContainer } from "recharts"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,11 +17,6 @@ import CategoriesExam from "./CategoriesExam"
 
 
 export function DrawerForQuestionFilter() {
-    // const [goal, setGoal] = React.useState(350)
-
-    // function onClick(adjustment) {
-    //     setGoal(Math.max(200, Math.min(400, goal + adjustment)))
-    // }
 
     return (
         <div className="flex items-center justify-center ">
@@ -30,8 +24,8 @@ export function DrawerForQuestionFilter() {
                 <DrawerTrigger asChild>
                     <Button variant="outline">Choose your desired Questions</Button>
                 </DrawerTrigger>
-                <DrawerContent className=" ">
-                    <div className="mx-auto w-full max-w-7xl ">
+                <DrawerContent>
+                    <div className="mx-auto h-full w-full max-w-7xl flex items-center justify-center flex-col">
                         <DrawerHeader className="w-full md:w-3/4 mx-auto ">
                             <DrawerTitle>Set your desired destination</DrawerTitle>
                             <DrawerDescription> It's quick and easy</DrawerDescription>

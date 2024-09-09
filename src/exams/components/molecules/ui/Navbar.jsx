@@ -7,8 +7,16 @@ import UserNav from '../../organism/UserNav';
 import { Layout } from '../../../templates/Layout';
 import Nav from '../../../templates/Nav';
 import { NavLinks } from './NavLinks';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
+
+    const checkingUser = localStorage.getItem("auth")
+    const navigate = useNavigate()
+    
+    const handleNavigating = () => {
+        navigate("/login")
+    }
 
     const [navOpened, setNavOpened] = useState(false);
     /* Make body not scrollable when navBar is opened */
@@ -23,70 +31,71 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
 
 
     return (
-            <nav className='flex items-center justify-between   '>
+        <nav className='flex items-center justify-between   '>
 
-                {/* Overlay in mobile */}
-                <div
-                    onClick={() => setNavOpened(false)}
-                    className={`absolute top-10 inset-0 transition-[opacity] delay-100 duration-700 z-50 ${navOpened ? 'h-svh opacity-100' : 'h-0 opacity-0'} w-full bg-black md:hidden`}
+            {/* Overlay in mobile */}
+            <div
+                onClick={() => setNavOpened(false)}
+                className={`absolute top-10 inset-0 transition-[opacity] delay-100 duration-700 z-50 ${navOpened ? 'h-svh opacity-100' : 'h-0 opacity-0'} w-full bg-black md:hidden`}
+            >
+                <Nav
+                    id='sidebar-menu'
+                    className={`z-40 h-full md:hidden flex flex-row  overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen'}`}
+                    closeNav={() => setNavOpened(false)}
+                    isCollapsed={isCollapsed}
+                    links={NavLinks}
+                />
+            </div>
+
+
+            <Layout fixed className={` ${navOpened ? 'h-svh' : ''} w-full flex flex-co items-center justify-between md:flex-row `}>
+                <Layout.Header
+                    sticky
+                    className='z-50 w-full flex justify-between shadow-sm py-3 px-3 md:px-6  '
                 >
+                    <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
+                        <Logo />
+                        <span className="font-medium hidden lg:block ">Online Exam System</span>
+                    </div>
+
                     <Nav
                         id='sidebar-menu'
-                        className={`z-40 h-full md:hidden flex flex-row  overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen'}`}
+                        className={`z-40 h-full hidden md:flex flex-row  overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen'}`}
                         closeNav={() => setNavOpened(false)}
                         isCollapsed={isCollapsed}
                         links={NavLinks}
                     />
-                </div>
-                
 
-                <Layout fixed className={` ${navOpened ? 'h-svh' : ''} w-full flex flex-co items-center justify-between md:flex-row `}>
-                    <Layout.Header
-                        sticky
-                        className='z-50 w-full flex justify-between shadow-sm py-3 px-3 md:px-6  '
-                    >
-                        <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
-                            <Logo />
-                            <span className="font-medium hidden lg:block ">Online Exam System</span>
-                        </div>
 
-                        <Nav
-                            id='sidebar-menu'
-                            className={`z-40 h-full hidden md:flex flex-row  overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen'}`}
-                            closeNav={() => setNavOpened(false)}
-                            isCollapsed={isCollapsed}
-                            links={NavLinks}
-                        />
-                        
+                    <div className='hidden md:flex items-center gap-3'>
+                        <ThemeSwitch />
+                        {
+                            checkingUser ? <UserNav /> : <Button onClick={handleNavigating} >Login</Button>
+                        }
+                    </div>
 
-                        <div className='hidden md:flex items-center gap-3'>
+
+                    <div className='flex items-center md:hidden '>
+                        <div>
                             <ThemeSwitch />
-                            <UserNav />
                         </div>
 
+                        {/* Toggle Button in mobile */}
+                        <Button
+                            variant='ghost'
+                            size='icon'
 
-                        <div className='flex items-center md:hidden '>
-                            <div>
-                                <ThemeSwitch />
-                            </div>
+                            aria-label='Toggle Navigation'
+                            aria-controls='sidebar-menu'
+                            aria-expanded={navOpened}
+                            onClick={() => setNavOpened((prev) => !prev)}
+                        >
+                            {navOpened ? <X /> : <AlignJustify />}
+                        </Button>
+                    </div>
+                </Layout.Header>
 
-                            {/* Toggle Button in mobile */}
-                            <Button
-                                variant='ghost'
-                                size='icon'
-
-                                aria-label='Toggle Navigation'
-                                aria-controls='sidebar-menu'
-                                aria-expanded={navOpened}
-                                onClick={() => setNavOpened((prev) => !prev)}
-                            >
-                                {navOpened ? <X /> : <AlignJustify />}
-                            </Button>
-                        </div>
-                        
-                    </Layout.Header>
-                    
-                </Layout>
-            </nav>
+            </Layout>
+        </nav>
     )
 }

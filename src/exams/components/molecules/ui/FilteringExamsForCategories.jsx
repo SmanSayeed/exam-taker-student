@@ -27,6 +27,11 @@ export default function FilteringExamsForCategories() {
     <div className="flex flex-wrap items-center justify-center gap-4 w-full md:w-2/3 mx-auto ">
           <MultiSelectCategory
               options={sections}
+              label="Questions Category"
+              onChange={(selected) => handleCategoryChange(selected, "Category")}
+          />
+          <MultiSelectCategory
+              options={sections}
               label="Sections"
               onChange={(selected) => handleCategoryChange(selected, "Sections")}
           />

@@ -10,7 +10,7 @@ import {
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useLogoutMutation } from "./../../../features/auth/authApi";
+import { useLoggedOutMutation } from "./../../../features/auth/authApi";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -24,8 +24,7 @@ const Logout = () => {
         setOpen(true)
     };
 
-    const [logout, { isError, isSuccess, error }] = useLogoutMutation();
-
+    const [logout, { isError, isSuccess, error }] = useLoggedOutMutation();
     const handleLogout = () => {
         logout();
     }
