@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useLoginMutation } from "../../../features/auth/authApi";
+import { useLoggedInMutation } from "../../../features/auth/authApi";
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -18,10 +18,10 @@ const LoginForm = () => {
         setError,
     } = useForm();
 
-    const [login, { data, isLoading, error }] = useLoginMutation();
+    const [loggedIn, { data, isLoading, error }] = useLoggedInMutation();
 
     const handleLogin = (formData) => {
-        login(formData);
+        loggedIn(formData);
     }
 
     useEffect(() => {

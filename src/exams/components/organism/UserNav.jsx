@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,13 +13,19 @@ import {
 
 import Logout from './../molecules/auth/Logout';
 import { Link } from 'react-router-dom';
+import { Circle } from 'lucide-react';
+
+
+const auth = localStorage.getItem('auth');
+const authObject = JSON.parse(auth);
+if (authObject && authObject?.student && authObject?.student?.email) {
+    console.log(authObject?.student?.profile_image);
+} else {
+    console.log("Email not found");
+}
+
 
 const UserNav = () => {
-
-    const checkingUser = localStorage.getItem("auth")
-    console.log("user check", checkingUser)
-
-    
 
 
     return (
@@ -27,7 +34,7 @@ const UserNav = () => {
                 <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
                     <Avatar className='h-8 w-8'>
                         <AvatarImage src='/avatars/01.png' alt='@shadcn' />
-                        <AvatarFallback>SN</AvatarFallback>
+                        <AvatarFallback>  <img src={authObject?.student?.profile_image} alt="user image" /> </AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
@@ -38,30 +45,23 @@ const UserNav = () => {
                         <p className='text-xs leading-none text-muted-foreground'>
                             satnaingdev@gmail.com
                         </p>
+                        <img src={authObject?.student?.profile_image} alt="user image" /> 
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {checkingUser ? <>
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem>
-                            Profile
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            Settings
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    {/* changge password button */}
+
+                <DropdownMenuGroup>
                     <DropdownMenuItem>
-                        Change Passsword
+                        Profile
                     </DropdownMenuItem>
-                    {/* logout button */}
                     <DropdownMenuItem>
-                        <Logout />
+                        Settings
                     </DropdownMenuItem>
-                </> : <DropdownMenuItem>
-                        <Link to={"login"}>Login</Link>
-                </DropdownMenuItem> }
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                    <Logout />
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )

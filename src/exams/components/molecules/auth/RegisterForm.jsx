@@ -5,22 +5,40 @@ import { Label } from "@/components/ui/label";
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
+    SelectLabel,
     SelectTrigger,
-    SelectValue
+    SelectValue,
 } from "@/components/ui/select";
 
-// import { useUserRegisterMutation } from "@/features/auth/authApi";
+import { useRegistrationMutation } from "./../../../features/auth/authApi";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
+
+// Utility function to fetch IP
+const fetchUserIP = async () => {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        console.error("Error fetching IP address:", error);
+        return null;
+    }
+};
 
 const RegisterForm = () => {
     const navigate = useNavigate();
     const [isActive, setIsActive] = useState(true);
     const [profileImage, setProfileImage] = useState(null);
     const [imageError, setImageError] = useState("");
+    const [ipAddress, setIpAddress] = useState(""); // State to store IP address
+    const [showPass, setShowPass] = useState(false); 
+    const [showConfirmPass, setShowConfirmPass] = useState(false); 
 
     const {
         register,
@@ -32,7 +50,16 @@ const RegisterForm = () => {
     } = useForm();
     const watchPassword = watch("password");
 
-    // const [userRegister, { data, isSuccess, isLoading, error }] = useUserRegisterMutation();
+    const [registration, { data, isSuccess, isLoading, error }] = useRegistrationMutation();
+
+    // Fetch IP address when component mounts
+    useEffect(() => {
+        const getUserIP = async () => {
+            const ip = await fetchUserIP();
+            setIpAddress(ip);
+        };
+        getUserIP();
+    }, []);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -60,68 +87,68 @@ const RegisterForm = () => {
     };
 
     const handleRegister = (formData) => {
-        const payload = {
-            name: `${formData.firstName} ${formData.lastName}`,
-            email: formData.email,
-            password: formData.password,
-            password_confirmation: formData.confirmPassword,
-            role: formData.role,
-            phone: formData.phone,
-            active_status: isActive,
-            picture: profileImage
+        // Create a new FormData object
+        const payload = new FormData();
+
+        // Append form data to FormData object
+        payload.append("name", formData.firstName);
+        payload.append("email", formData.email);
+        payload.append("password", formData.password);
+        payload.append("password_confirmation", formData.password_confirmation);
+        payload.append("phone", formData.phone);
+        // payload.append("active_status", isActive);
+        // Convert isActive to 1 or 0 and append it
+    payload.append("active_status", isActive ? 1 : 0);
+        
+        // Check if the profile image exists and append it
+        if (profileImage) {
+            payload.append("profile_image", profileImage);  // Append the profile image
         }
 
-        userRegister(payload);
-    }
+        payload.append("ip_address", ipAddress);  // Append IP address
+        payload.append("country", formData.country);
+        payload.append("country_code", formData.country_code);
+        payload.append("address", formData.address);
 
-    // useEffect(() => {
-    //     if (error?.data) {
-    //         toast.error(error?.data?.message);
+        // Make the registration API call with the FormData payload
+        registration(payload);
+    };
 
-    //         setError("root.random", {
-    //             type: "random",
-    //             message: `Something went wrong: ${error?.data?.message}`
-    //         });
-    //     }
+    useEffect(() => {
+        if (error?.data) {
+            console.log("err is ", error)
+            toast.error(error?.data?.message);
 
-    //     if (isSuccess && data?.data) {
-    //         toast.success(data?.message);
-    //         navigate("/admin/users");
-    //     }
-    // }, [error, setError, isSuccess, data, navigate]);
+            setError("root.random", {
+                type: "random",
+                message: `Something went wrong: ${error?.data?.message}`,
+            });
+        }
+
+        if (isSuccess && data?.data) {
+            toast.success(data?.message);
+            navigate("/login");
+        }
+    }, [error, setError, isSuccess, data, navigate]);
 
     return (
-        <form onSubmit={handleSubmit(handleRegister)} >
-            <div className="grid gap-4 space-y-2">
-                {/* name */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="grid gap-1">
-                        <div className="flex items-center">
-                            <Label htmlFor="firstName">First name</Label>
-                        </div>
-                        <Input
-                            {...register("firstName", { required: "First Name is Required" })}
-                            id="firstName"
-                            name="firstName"
-                            placeholder="Max"
-                        />
-                        {errors.firstName && <span className="text-red-600">{errors.firstName.message}</span>}
+        <form onSubmit={handleSubmit(handleRegister)}>
+            <div className="grid gap-4 space-y-2 text-left ">
+                {/* Name */}
+                <div className="grid gap-1">
+                    <div className="flex items-center">
+                        <Label htmlFor="firstName">Name</Label>
                     </div>
-                    <div className="grid gap-1">
-                        <div className="flex items-center">
-                            <Label htmlFor="lastName">Last name</Label>
-                        </div>
-                        <Input
-                            {...register("lastName", { required: "Last Name is Required" })}
-                            id="lastName"
-                            name="lastName"
-                            placeholder="Robinson"
-                        />
-                        {errors.lastName && <span className="text-red-600">{errors.lastName.message}</span>}
-                    </div>
+                    <Input
+                        {...register("firstName", { required: "First Name is Required" })}
+                        id="firstName"
+                        name="firstName"
+                        placeholder="Max"
+                    />
+                    {errors.firstName && <span className="text-red-600">{errors.firstName.message}</span>}
                 </div>
 
-                {/* email */}
+                {/* Email */}
                 <div className="grid gap-1">
                     <div className="flex items-center">
                         <Label htmlFor="email">Email</Label>
@@ -136,11 +163,61 @@ const RegisterForm = () => {
                     {errors.email && <span className="text-red-600">{errors.email.message}</span>}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    {/* phone number */}
+                {/* Country and Country code */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="grid gap-1">
                         <div className="flex items-center">
-                            <Label htmlFor="phone">Phone(optional)</Label>
+                            <Label htmlFor="country">Country</Label>
+                        </div>
+                        <Select name="country" id="country"
+                            {...register("country_code", { required: "Country code is Required" })} >
+                            <SelectTrigger className="">
+                                <SelectValue placeholder="Bangladesh" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Country</SelectLabel>
+                                    <SelectItem value="AF">Afghanistan</SelectItem>
+                                    <SelectItem value="DZ">Algeria</SelectItem>
+                                    <SelectItem value="AL">Albania</SelectItem>
+                                    <SelectItem value="AU">Australia</SelectItem>
+                                    <SelectItem value="AR">Argentina</SelectItem>
+                                    <SelectItem value="AZ">Azerbaijan</SelectItem>
+                                    <SelectItem value="AZ">Azerbaijan</SelectItem>
+                                    <SelectItem value="BD">Bangladesh</SelectItem>
+                                    <SelectItem value="BT">Bhutan</SelectItem>
+                                    <SelectItem value="BM">Bermuda</SelectItem>
+                                    <SelectItem value="BE">Belgium</SelectItem>
+                                    <SelectItem value="BY">Belarus</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        {errors.country && <span className="text-red-600">{errors.country.message}</span>}
+                    </div>
+
+
+                    {/* Country code */}
+                    <div className="grid gap-1">
+                        <div className="flex items-center">
+                            <Label htmlFor="country_code">Country Code</Label>
+                        </div>
+                        <Input
+                            {...register("country_code", { required: "Country code is Required" })}
+                            id="country_code"
+                            name="country_code"
+                            type="number"
+                            placeholder="+88"
+                        />
+                        {errors.country_code && <span className="text-red-600">{errors.country_code.message}</span>}
+                    </div>
+                </div>
+
+                {/* Phone and Profile Image */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Phone */}
+                    <div className="grid gap-1">
+                        <div className="flex items-center">
+                            <Label htmlFor="phone">Phone (optional)</Label>
                         </div>
                         <Input
                             {...register("phone")}
@@ -151,52 +228,39 @@ const RegisterForm = () => {
                         />
                     </div>
 
-                    {/* role */}
+                    {/* Profile Image */}
                     <div className="grid gap-1">
-                        {/* <Label>Role</Label> */}
                         <div className="flex items-center">
-                            <Label htmlFor="Role">Registration as</Label>
+                            <Label htmlFor="profile_image">Profile Image</Label>
                         </div>
-                        <Controller
-                            name="role"
-                            control={control}
-                            rules={{ required: "Role is required" }}
-                            render={({ field }) => (
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="As a" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="admin">Admin</SelectItem>
-                                        <SelectItem value="sub_admin">Sub-admin</SelectItem>
-                                        <SelectItem value="editor">Editor</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            )}
+                        <Input
+                            id="profile_image"
+                            name="profile_image"
+                            type="file"
+                            accept="image/jpeg, image/jpg, image/png"
+                            onChange={handleImageChange}
                         />
-                        {errors.role && <span className="text-red-600">{errors.role.message}</span>}
+                        {imageError && <span className="text-red-600">{imageError}</span>}
                     </div>
-                </div>
-                
-                {/* profile image */}
-                <div className="grid gap-1">
-                    <div className="flex items-center">
-                        <Label htmlFor="picture">Profile Image</Label>
-                    </div>
-                    <Input
-                        {...register("picture")}
-                        id="picture"
-                        name="picture"
-                        type="file"
-                        accept="image/jpeg, image/jpg, image/png"
-                        onChange={handleImageChange}
-                    />
-                    {imageError && <span className="text-red-600">{imageError}</span>}
-                    {errors.picture && <span className="text-red-600">{errors.picture.message}</span>}
                 </div>
 
-                {/* password */}
+                {/* Address */}
                 <div className="grid gap-1">
+                    <div className="flex items-center">
+                        <Label htmlFor="address">Address</Label>
+                    </div>
+                    <Input
+                        {...register("address")}
+                        id="address"
+                        name="address"
+                        type="text"
+                        placeholder="Chattogram, Bangladesh"
+                    />
+                    {errors.address && <span className="text-red-600">{errors.address.message}</span>}
+                </div>
+
+                {/* Password */}
+                <div className="grid gap-1 relative">
                     <div className="flex items-center">
                         <Label htmlFor="password">Password</Label>
                     </div>
@@ -210,31 +274,57 @@ const RegisterForm = () => {
                         })}
                         id="password"
                         name="password"
-                        type="password"
-                        placeholder="A-Strong_Password"
+                        type={showPass ? "text" : "password"}
+                        placeholder="Password"
                     />
+                    {showPass ? (
+                        <EyeOff
+                            onClick={() => setShowPass(!showPass)}
+                            size={18}
+                            className="absolute right-3 top-1/2 cursor-pointer"
+                        />
+                    ) : (
+                        <Eye
+                            onClick={() => setShowPass(!showPass)}
+                            size={18}
+                            className="absolute right-3 top-1/2 cursor-pointer"
+                        />
+                    )}
                     {errors.password && <span className="text-red-600">{errors.password.message}</span>}
                 </div>
 
-                {/* confirm password */}
-                <div className="grid gap-1">
+                {/* Confirm Password */}
+                <div className="grid gap-1 relative">
                     <div className="flex items-center">
-                        <Label htmlFor="confirmPassword">Confirm Password</Label>
+                        <Label htmlFor="password_confirmation">Confirm Password</Label>
                     </div>
                     <Input
-                        {...register("confirmPassword", {
+                        {...register("password_confirmation", {
                             required: "Confirm Password is required",
-                            validate: value => value === watchPassword || "Passwords do not match"
+                            validate: (value) => value === watchPassword || "Passwords do not match",
                         })}
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        type="password"
-                        placeholder="Retype the password"
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        type={showConfirmPass ? "text" : "password"}
+                        placeholder="Confirm Password"
                     />
-                    {errors.confirmPassword && <span className="text-red-600">{errors.confirmPassword.message}</span>}
+                    {showConfirmPass ? (
+                        <EyeOff
+                            onClick={() => setShowConfirmPass(!showConfirmPass)}
+                            size={18}
+                            className="absolute right-3 top-1/2 cursor-pointer"
+                        />
+                    ) : (
+                        <Eye
+                            onClick={() => setShowConfirmPass(!showConfirmPass)}
+                            size={18}
+                            className="absolute right-3 top-1/2 cursor-pointer"
+                        />
+                    )}
+                    {errors.password_confirmation && <span className="text-red-600">{errors.password_confirmation.message}</span>}
                 </div>
 
-                {/* Active status */}
+                 {/* Active status */}
                 <div className="flex items-center space-x-2">
                     <Checkbox
                         id="active_status"
@@ -249,13 +339,13 @@ const RegisterForm = () => {
                     </label>
                 </div>
 
-                <Button
-                    // disabled={isLoading}
-                >
-                    Create an account
+                {/* Submit button */}
+                <Button type="submit" disabled={isLoading}>
+                    {isLoading ? "Registering..." : "Register"}
                 </Button>
             </div>
         </form>
-    )
-}
+    );
+};
+
 export default RegisterForm;
