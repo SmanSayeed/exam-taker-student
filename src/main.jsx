@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import { RouterProvider } from 'react-router-dom'
-import Routes from './exams/router/Routes.jsx'
-import { ThemeProvider } from './providers/ThemeProvider';
 import { Provider } from 'react-redux'
+import { RouterProvider } from 'react-router-dom'
 import { store } from './app/store.js'
+import Routes from './exams/router/Routes.jsx'
+import './index.css'
+import { ThemeProvider } from './providers/ThemeProvider'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

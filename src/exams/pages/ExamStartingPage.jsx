@@ -1,18 +1,14 @@
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+  CardHeader
 } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
-import { Label } from "../../components/ui/label";
-import { Input } from "../../components/ui/input";
-import { Checkbox } from "../../components/ui/checkbox";
-import { Button } from "../../components/ui/button";
 import { Link } from "react-router-dom";
+import { Button } from "../../components/ui/button";
+import { Checkbox } from "../../components/ui/checkbox";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import { DrawerForQuestionFilter } from "../components/organism/DrawerForQuestionFilter";
-
 
 export default function ExamStartingPage() {
   const {
@@ -31,7 +27,7 @@ export default function ExamStartingPage() {
       <Card>
         <CardHeader>
           <h1 className="text-4xl mt-10 ">
-            Welcome to the OES! 
+            Welcome to the OES!
           </h1>
         </CardHeader>
         <div className="">
@@ -73,7 +69,7 @@ export default function ExamStartingPage() {
                     {errors.numberOfQuestion && <span className="text-red-600">{errors.numberOfQuestion.message}</span>}
                   </div>
                   <div id="exam-time" className="w-full flex flex-col items-start gap-2 text-center">
-                      <Label htmlFor="time">Time (in minutes)</Label>
+                    <Label htmlFor="time">Time (in minutes)</Label>
                     <Input
                       {...register("time", { required: "Time is required", })}
                       name="time"
@@ -84,7 +80,7 @@ export default function ExamStartingPage() {
                   </div>
                 </div>
 
-                
+
                 <div className="flex items-center justify-center gap-6 ">
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -111,12 +107,12 @@ export default function ExamStartingPage() {
               </div>
             </form>
           </Card>
-          
+
           <div className="flex items-center justify-center gap-4">
             <Button>Answer sheets</Button>
             <Button>Performance</Button>
             <Button>Exams</Button>
-         </div>
+          </div>
         </div>
       </Card>
     </div>
