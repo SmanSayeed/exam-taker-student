@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import Logo from '../../atoms/Logo'
-import ThemeSwitch from '../../atoms/ThemeSwitch';
 import { AlignJustify, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../../components/ui/button';
-import UserNav from '../../organism/UserNav';
 import { Layout } from '../../../templates/Layout';
 import Nav from '../../../templates/Nav';
+import Logo from '../../atoms/Logo';
+import ThemeSwitch from '../../atoms/ThemeSwitch';
+import UserNav from '../../organism/UserNav';
 import { NavLinks } from './NavLinks';
-import { useNavigate } from 'react-router-dom';
 
 export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
 
     const checkingUser = localStorage.getItem("auth")
     const navigate = useNavigate()
-    
+
     const handleNavigating = () => {
         navigate("/login")
     }
@@ -55,7 +55,6 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
                 >
                     <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
                         <Logo />
-                        <span className="font-medium hidden lg:block ">Online Exam System</span>
                     </div>
 
                     <Nav

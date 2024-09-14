@@ -1,12 +1,9 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
-import { ResultShowingModal } from "./ResultShowingModal";
-import { Link } from "react-router-dom";
+import { ResultShowingModal } from "../../molecules/ui/ResultShowingModal";
 // import DOMPurify from "dompurify";
 // import { useDeleteQuestionMutation } from "@/features/questions/questionsApi";
-import { toast } from "sonner";
 
-// Helper function to parse HTML string and convert to JSX with Tailwind classes
+// // Helper function to parse HTML string and convert to JSX with Tailwind classes
 // const parseHtmlContent = (htmlContent) => {
 //     return (
 //         <div
@@ -17,7 +14,8 @@ import { toast } from "sonner";
 //     );
 // };
 
-export default function CreativeQuestionCard() {
+export default function NormalExamPage() {
+    // { data: questionData }
     // const { id, title, description, is_paid, is_featured, type, mark } =
     //     questionData || {};
 
@@ -58,7 +56,7 @@ export default function CreativeQuestionCard() {
                     Featured
                 </p>
                 <p className="border-l border-gray-500  pl-2"> <span
-                    // className={`${type === "mcq" ? "uppercase" : "capitalize"}`}
+                // className={`${type === "mcq" ? "uppercase" : "capitalize"}`}
                 >
                     {/* {type} */}
                 </span>Question</p>
@@ -89,12 +87,11 @@ export default function CreativeQuestionCard() {
                 {/* {parseHtmlContent(description)} */}
             </div>
 
-
             <div className="absolute bottom-4 right-4 flex items-center gap-3">
                 {/* <Button> */}
-                    <ResultShowingModal
-                        // data={questionData}
-                    />
+                <ResultShowingModal
+                // data={questionData}
+                />
                 {/* </Button> */}
             </div>
         </Card>

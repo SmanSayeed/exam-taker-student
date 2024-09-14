@@ -1,10 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
-import { ResultShowingModal } from "./ResultShowingModal";
-import { Link } from "react-router-dom";
+import { ResultShowingModal } from "../../molecules/ui/ResultShowingModal";
 // import DOMPurify from "dompurify";
 // import { useDeleteQuestionMutation } from "@/features/questions/questionsApi";
-import { toast } from "sonner";
 
 // Helper function to parse HTML string and convert to JSX with Tailwind classes
 // const parseHtmlContent = (htmlContent) => {
@@ -17,8 +14,7 @@ import { toast } from "sonner";
 //     );
 // };
 
-export default function McqQuestionCard() {
-    // { data: questionData }
+export default function CreativeExamPage() {
     // const { id, title, description, is_paid, is_featured, type, mark } =
     //     questionData || {};
 
@@ -93,9 +89,9 @@ export default function McqQuestionCard() {
 
             <div className="absolute bottom-4 right-4 flex items-center gap-3">
                 {/* <Button> */}
-                    <ResultShowingModal
-                    // data={questionData}
-                    />
+                <ResultShowingModal
+                // data={questionData}
+                />
                 {/* </Button> */}
             </div>
         </Card>
