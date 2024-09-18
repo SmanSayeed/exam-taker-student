@@ -6,7 +6,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { XIcon } from "lucide-react";
 import { Controller } from "react-hook-form";
 
 const SelectField = ({
@@ -52,7 +51,7 @@ const SelectField = ({
                                     ))}
                                 </SelectContent>
                             </Select>
-                            {field.value && (
+                            {/* {field.value && (
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -63,7 +62,7 @@ const SelectField = ({
                                 >
                                     <XIcon className="w-5 h-5" aria-hidden="true" />
                                 </button>
-                            )}
+                            )} */}
                         </div>
                         {errors[name] && <span className="text-red-600">{errors[name]?.message}</span>}
                     </>

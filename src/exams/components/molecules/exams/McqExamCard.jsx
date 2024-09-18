@@ -37,7 +37,7 @@ const McqExamCard = ({ queIndex, question }) => {
                             <p className="border rounded-full h-6 w-6 p-2 flex items-center justify-center " >
                                 {index + 1}
                             </p>
-                            <h1>{option?.mcq_question_text}</h1>
+                            <h1>{parseHtmlContent(option?.mcq_question_text)}</h1>
                         </div>
                     </div>)
                 }

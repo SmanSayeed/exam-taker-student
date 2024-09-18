@@ -12,12 +12,14 @@ import {
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useGetQuestionsQuery } from '@/exams/features/questions/questionsApi'
+import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import FilterQuesByCategories from "../molecules/filterquesforexam/FilterQuesByCategories"
 
-export function DrawerForQuestionFilter({ onFilterQuestions }) {
+export function DrawerForQuestionFilter({ onFilterQuestions, control }) {
+    const [isOpen, setIsOpen] = useState(false);
+
     const {
-        control,
         setValue,
         handleSubmit
     } = useForm();
@@ -30,6 +32,7 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
 
             // Pass filtered questions to parent
             onFilterQuestions(filteredQues);
+            setIsOpen(false);
         } catch (err) {
             console.error(err);
         }
@@ -37,7 +40,7 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
 
     return (
         <div className="flex items-center justify-center ">
-            <Drawer>
+            <Drawer open={isOpen} onOpenChange={setIsOpen}>
                 <DrawerTrigger asChild>
                     <Button variant="outline" className="tracking-wide" >Filter Your Questions</Button>
                 </DrawerTrigger>
@@ -46,7 +49,7 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                         <div className="mx-auto h-full w-full flex items-center justify-center flex-col">
                             <DrawerHeader className="text-center mt-10">
                                 <DrawerTitle>Set your desired destination</DrawerTitle>
-                                <DrawerDescription> It's quick and easy</DrawerDescription>
+                                <DrawerDescription> It&apos;s quick and easy</DrawerDescription>
                             </DrawerHeader>
                             {/* choose type */}
                             <div className="p-4 pb-0 w-1/2 space-y-2">
@@ -56,7 +59,6 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                                     control={control}
                                     render={({ field }) => (
                                         <Select onValueChange={(value) => {
-                                            console.log("Selected value:", value);
                                             field.onChange(value);
                                         }}
                                             value={field.value}
@@ -73,6 +75,7 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                                     )}
                                 />
                             </div>
+
                             {/* select category */}
                             <div className="p-4 pb-0">
                                 <div className="mt-3 px-0  border4 ">
@@ -82,6 +85,9 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                                     />
                                 </div>
                             </div>
+
+                            {/* <MultipleSelector /> */}
+
                             <DrawerFooter className="w-full md:w-3/5 mx-auto ">
                                 <Button type="submit">Submit</Button>
                                 <DrawerClose asChild>

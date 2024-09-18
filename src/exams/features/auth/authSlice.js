@@ -32,21 +32,21 @@ const saveState = (state) => {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: loadState(), // Load persisted state on startup
+  initialState: loadState(), 
   reducers: {
     loggedIn: (state, action) => {
       state.status = action.payload.status;
       state.message = action.payload.message;
       state.token = action.payload.token;
       state.student = action.payload.student;
-      saveState(state); // Save state to localStorage on login
+      saveState(state); 
     },
     loggedOut: (state) => {
       state.status = null;
       state.message = null;
       state.token = null;
       state.student = null;
-      localStorage.removeItem("auth"); // Remove from localStorage on logout
+      localStorage.removeItem("auth"); 
     },
   },
 });

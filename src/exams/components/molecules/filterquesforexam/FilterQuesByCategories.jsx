@@ -1,25 +1,26 @@
-import SelectField from "./SelectField";
+import { MultipleSelector } from "./MultipleSelector";
 import { useCategoryData } from "./useCategoryData";
 
 // , setSelectedSection, setSelectedExamType, setSelectedExamSubType, setSelectedGroup, setSelectedLesson, setSelectedLevel, setSelectedSubject, setSelectedTopic, setSelectedSubTopic, setSelectedYear
 
 export default function FilterQuesByCategories({ control, setValue }) {
 
-    const { data: sections, isLoading, error, categoryData: sectionData, setCategoryData: setSectionData } = useCategoryData("sections", "selectedSection");
-    const { data: examTypes, categoryData: examTypeData, setCategoryData: setExamTypeData } = useCategoryData("exam-types", "selectedExamType");
+    const { categories: sections, isLoading, error, categoryData: sectionData, setCategoryData: setSectionData } = useCategoryData("sections");
+    const { categories: examTypes, categoryData: examTypeData, setCategoryData: setExamTypeData } = useCategoryData("exam-types");
     // const { selected: selectedExamSubType } = useCategoryData("exam-sub-types", "selectedExamSubType");
-    const { data: groups, categoryData: groupData, setCategoryData: setGroupData } = useCategoryData("groups", "selectedGroup");
-    const { data: levels, categoryData: levelData, setCategoryData: setLevelData } = useCategoryData("levels", "selectedLevel");
-    const { data: subjects, categoryData: subjectData, setCategoryData: setSubjectData } = useCategoryData("subjects", "selectedSubject");
-    const { data: lessons, categoryData: lessonData, setCategoryData: setLessonData } = useCategoryData("lessons", "selectedLesson");
-    const { data: topics, categoryData: topicData, setCategoryData: setTopicData } = useCategoryData("topics", "selectedTopic");
+    const { categories: groups, categoryData: groupData, setCategoryData: setGroupData } = useCategoryData("groups");
+    const { categories: levels, categoryData: levelData, setCategoryData: setLevelData } = useCategoryData("levels");
+    const { categories: subjects, categoryData: subjectData, setCategoryData: setSubjectData } = useCategoryData("subjects");
+    const { categories: lessons, categoryData: lessonData, setCategoryData: setLessonData } = useCategoryData("lessons");
+    const { categories: topics, categoryData: topicData, setCategoryData: setTopicData } = useCategoryData("topics");
     // const { selected: selectedSubTopic } = useCategoryData("sub-topics", "selectedSubTopic");
-    const { data: years } = useCategoryData("years", "selectedYear");
+    const { categories: years } = useCategoryData("years");
 
     const handleSectionChange = (id) => {
         if (sections) {
             const foundData = sections.find(item => item.id == id);
             setSectionData(foundData || null);
+            console.log(sectionData)
             setValue("section", id)
         }
     }
@@ -93,7 +94,7 @@ export default function FilterQuesByCategories({ control, setValue }) {
     }
 
     const renderSelectField = ({ label, name, options, onChange, defaultValue, rules, disabled }) => (
-        <SelectField
+        <MultipleSelector
             label={label}
             name={name}
             control={control}

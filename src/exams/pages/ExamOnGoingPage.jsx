@@ -8,9 +8,10 @@ import NormalExamPage from "../components/organism/exams/NormalExamPage";
 
 export default function ExamOnGoingPage() {
   const location = useLocation();
+  console.log(location.state)
   const filteredQues = location.state?.filteredQuestions;
   const time = location.state?.time;
-  const questionType = filteredQues[0]?.type;
+  const questionType = location.state.questionType;
 
   return (
     <div className="px-5 w-full ">
@@ -18,9 +19,7 @@ export default function ExamOnGoingPage() {
         <div className="z-50 fixed right-10 border px-4 py-2 rounded-md flex items-center justify-center  " >
           <CountdownTimer minutes={time} />
         </div>
-        <CardTitle>
-          Mock Exam
-        </CardTitle>
+        <CardTitle> Mock Exam </CardTitle>
         <p className="mt-3" >Time: {time} minutes </p>
 
         <p>1 mark per question and 0.25 marks will be deducted for each mistake</p>
