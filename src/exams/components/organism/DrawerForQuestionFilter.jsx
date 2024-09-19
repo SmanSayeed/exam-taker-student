@@ -30,7 +30,6 @@ export function DrawerForQuestionFilter({ onFilterQuestions, control }) {
         try {
             const filteredQues = questionsData?.data?.data.filter(que => que?.type === formData?.questionType);
 
-            // Pass filtered questions to parent
             onFilterQuestions(filteredQues);
             setIsOpen(false);
         } catch (err) {
@@ -45,6 +44,7 @@ export function DrawerForQuestionFilter({ onFilterQuestions, control }) {
                     <Button variant="outline" className="tracking-wide" >Filter Your Questions</Button>
                 </DrawerTrigger>
                 <DrawerContent>
+
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mx-auto h-full w-full flex items-center justify-center flex-col">
                             <DrawerHeader className="text-center mt-10">
@@ -86,8 +86,6 @@ export function DrawerForQuestionFilter({ onFilterQuestions, control }) {
                                 </div>
                             </div>
 
-                            {/* <MultipleSelector /> */}
-
                             <DrawerFooter className="w-full md:w-3/5 mx-auto ">
                                 <Button type="submit">Submit</Button>
                                 <DrawerClose asChild>
@@ -96,6 +94,7 @@ export function DrawerForQuestionFilter({ onFilterQuestions, control }) {
                             </DrawerFooter>
                         </div>
                     </form>
+
                 </DrawerContent>
             </Drawer>
         </div>

@@ -19,29 +19,6 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 
-const frameworks = [
-    {
-        value: "next.js",
-        label: "Next.js",
-    },
-    {
-        value: "sveltekit",
-        label: "SvelteKit",
-    },
-    {
-        value: "nuxt.js",
-        label: "Nuxt.js",
-    },
-    {
-        value: "remix",
-        label: "Remix",
-    },
-    {
-        value: "astro",
-        label: "Astro",
-    },
-];
-
 export function MultipleSelector({
     label,
     name,
@@ -57,8 +34,6 @@ export function MultipleSelector({
     const [open, setOpen] = useState(false);
     const [selectedValues, setSelectedValues] = useState([]);
 
-    console.log("selectedValues", selectedValues)
-
     // const handleSetValue = (val) => {
     //     if (selectedValues.includes(val)) {
     //         selectedValues.splice(selectedValues.indexOf(val), 1);
@@ -71,17 +46,15 @@ export function MultipleSelector({
 
     const handleSetValue = (val) => {
         let updatedValues;
+
         if (selectedValues.includes(val)) {
-            // Remove the value
             updatedValues = selectedValues.filter((item) => item !== val);
         } else {
-            // Add the value
             updatedValues = [...selectedValues, val];
         }
 
         setSelectedValues(updatedValues);
 
-        // Trigger the parent `onChange` to update state in the parent component
         if (onChange) {
             onChange(updatedValues);
         }
@@ -110,7 +83,7 @@ export function MultipleSelector({
                                             selectedValues?.length ?
                                                 selectedValues.map((val, i) => (
                                                     <div key={i} className="px-2 py-1 rounded-xl border bg-slate-200 text-xs font-medium">
-                                                        {options.find((item) => item.id === val)?.title}
+                                                        {options?.find((item) => item.id === val)?.title}
                                                     </div>
                                                 ))
                                                 : `Select ${label}...`
@@ -132,7 +105,7 @@ export function MultipleSelector({
                                     <CommandGroup>
                                         <CommandList>
                                             {
-                                                options.map((item) => (
+                                                options?.map((item) => (
                                                     <CommandItem
                                                         key={item.id}
                                                         value={item.id}

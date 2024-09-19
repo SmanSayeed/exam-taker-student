@@ -1,58 +1,25 @@
-import axios from "axios";
+import { fetchCategoryData } from "@/exams/features/categories/categorySlice";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export const useCategoryData = (category) => {
+  const dispatch = useDispatch();
 
-    const [categories, setCategories] = useState([]);
-    const [categoryData, setCategoryData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const { categories, isLoading, error } = useSelector((state) => state.category);
+  const [categoryData, setCategoryData] = useState(null);
 
-    const baseURL = import.meta.env.VITE_SERVER_BASE_URL_2;
+  useEffect(() => {
+    if (category && !categories[category]) {
+      // If data is not cached, fetch it
+      dispatch(fetchCategoryData(category));
+    }
+  }, [category, dispatch, categories]);
 
-    useEffect(() => {
-        const fetchCategoryData = async () => {
-            setIsLoading(true);
-
-            try {
-                const storedAuth = localStorage.getItem("auth");
-                const auth = storedAuth ? JSON.parse(storedAuth) : null;
-                const token = auth?.token;
-
-                if (!token) {
-                    throw new Error("No authentication token found");
-                }
-
-                const response = await axios.get(`${baseURL}/questions/${category}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                setCategories(response.data?.data?.data || []);
-            } catch (err) {
-                setError(err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (category) {
-            fetchCategoryData();
-        }
-    }, [category, baseURL]);
-
-    return {
-        // data: data?.data?.data || [],
-        // isLoading,
-        // error,
-        // categoryData,
-        // setCategoryData
-        categoryData,
-        isLoading,
-        error,
-        setCategoryData,
-        categories,
-        setCategories
-    };
+  return {
+    categories: categories[category] || [],
+    categoryData,
+    setCategoryData,
+    isLoading,
+    error,
+  };
 };
