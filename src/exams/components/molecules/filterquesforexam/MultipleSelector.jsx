@@ -96,6 +96,7 @@ export function MultipleSelector({
                                 <Command
                                     value={field.value}
                                 // onChange={(val) => {
+                                //     console.log("selctedvalue", val)
                                 //     field.onChange(val)
                                 //     if (onChange) onChange(val)
                                 // }}
@@ -110,6 +111,7 @@ export function MultipleSelector({
                                                         key={item.id}
                                                         value={item.id}
                                                         onSelect={() => {
+                                                            console.log("selectedid", item.id)
                                                             handleSetValue(item.id)
                                                         }}
                                                     >

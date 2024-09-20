@@ -1,9 +1,10 @@
 import { MultipleSelector } from "./MultipleSelector";
 import { useCategoryData } from "./useCategoryData";
 
-export default function FilterQuesByCategories({ control, setValue }) {
+export default function QuesCategoryForFilter({ control, setValue }) {
 
     const { categories: sections, isLoading, error, categoryData: sectionData, setCategoryData: setSectionData } = useCategoryData("sections");
+    console.log("sectionData", sectionData)
     const { categories: examTypes, categoryData: examTypeData, setCategoryData: setExamTypeData } = useCategoryData("exam-types");
     const { categories: groups, categoryData: groupData, setCategoryData: setGroupData } = useCategoryData("groups");
     const { categories: levels, categoryData: levelData, setCategoryData: setLevelData } = useCategoryData("levels");
@@ -14,7 +15,9 @@ export default function FilterQuesByCategories({ control, setValue }) {
 
     const handleSectionChange = (ids) => {
         if (sections) {
+            console.log("sections", sections)
             const foundData = ids.map(id => sections.find(item => item.id === id)).filter(Boolean);
+            console.log("foundData", foundData)
             setSectionData(foundData || null);
 
             const allExamTypes = foundData.flatMap(section => section.exam_types || []);

@@ -1,4 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
+import { saveExamInfo } from "./examSlice";
 
 export const examsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -12,29 +13,22 @@ export const examsApi = apiSlice.injectEndpoints({
                 body: data,
             }),
 
-            // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
 
-            //     try {
-            //         const result = await queryFulfilled;
+                try {
+                    const result = await queryFulfilled;
+                    const {exam, questions_list} = result.data;
 
-            //         dispatch(
-            //             saveQuestion({
-            //                 question_id: result.data.data.id,
-            //                 title: result.data.data.title,
-            //                 description: result.data.data.description,
-            //                 type: result.data.data.type,
-            //                 mark: result.data.data.mark,
-            //                 images: result.data.data.images,
-            //                 is_paid: result.data.data.is_paid,
-            //                 is_featured: result.data.data.is_featured,
-            //                 status: result.data.data.status,
-            //                 mcq_options: result.data.data.mcq_questions,
-            //             })
-            //         );
-            //     } catch (err) {
-            //         console.log(err);
-            //     }
-            // },
+                    dispatch(
+                        saveExamInfo({
+                            exam: exam,
+                            questions_list: questions_list
+                        })
+                    );
+                } catch (err) {
+                    console.log(err);
+                }
+            },
         }),
         // deleteQuestion: builder.mutation({
         //     query: (id) => ({

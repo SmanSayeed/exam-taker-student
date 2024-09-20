@@ -7,46 +7,21 @@ const initialState = {
   student: null,
 };
 
-// Helper to load state from localStorage
-const loadState = () => {
-  try {
-    const serializedState = localStorage.getItem("auth");
-    if (serializedState === null) {
-      return initialState;
-    }
-    return JSON.parse(serializedState);
-  } catch (err) {
-    return initialState;
-  }
-};
-
-// Persist state to localStorage
-const saveState = (state) => {
-  try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem("auth", serializedState);
-  } catch (err) {
-    // Ignore write errors
-  }
-};
-
 const authSlice = createSlice({
   name: "auth",
-  initialState: loadState(), 
+  initialState,
   reducers: {
     loggedIn: (state, action) => {
       state.status = action.payload.status;
       state.message = action.payload.message;
       state.token = action.payload.token;
       state.student = action.payload.student;
-      saveState(state); 
     },
     loggedOut: (state) => {
       state.status = null;
       state.message = null;
       state.token = null;
       state.student = null;
-      localStorage.removeItem("auth"); 
     },
   },
 });

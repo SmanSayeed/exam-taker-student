@@ -1,17 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
-import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import CountdownTimer from "../components/molecules/exams/CountdownTimer";
 import CreativeExamPage from "../components/organism/exams/CreativeExamPage";
 import McqExamPage from "../components/organism/exams/McqExamPage";
 import NormalExamPage from "../components/organism/exams/NormalExamPage";
 
 export default function ExamOnGoingPage() {
-  const location = useLocation();
-  console.log(location.state)
-  const filteredQues = location.state?.filteredQuestions;
-  const time = location.state?.time;
-  const questionType = location.state.questionType;
+  // const location = useLocation();
+  // const filteredQues = location.state?.filteredQuestions;
+  // const time = location.state?.time;
+  // const questionType = location.state.questionType;
+
+  const exam = useSelector(state => state.exam);
+  const { exam: examData, questions_list } = exam;
+  const time = examData.time_limit;
+  const questionType = examData.type;
 
   return (
     <div className="px-5 w-full ">
@@ -26,10 +30,13 @@ export default function ExamOnGoingPage() {
       </Card>
 
       <div className="text-center">
-        {questionType === "mcq" && <McqExamPage filteredQues={filteredQues} />}
+        {questionType === "mcq" && <McqExamPage filteredQues={questions_list} />}
         {questionType === "normal" && <NormalExamPage />}
         {questionType === "creative" && <CreativeExamPage />}
-        <Button className="w-full " >Submit</Button>
+
+        <Button className="w-full">
+          Submit
+        </Button>
       </div>
     </div>
   )

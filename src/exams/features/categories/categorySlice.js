@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// initial state
 const initialState = {
     categories: {},
     isLoading: false,
@@ -12,7 +11,8 @@ const initialState = {
 export const fetchCategoryData = createAsyncThunk(
     "category/fetchCategoryData",
     async (category, { getState }) => {
-        const baseURL = import.meta.env.VITE_SERVER_BASE_URL_2;
+        // const baseURL = import.meta.env.VITE_SERVER_BASE_URL_2;
+         const baseURL = "https://loopsexam.xyz/api/v1/admin";
 
         const storedAuth = localStorage.getItem("auth");
         const auth = storedAuth ? JSON.parse(storedAuth) : null;
