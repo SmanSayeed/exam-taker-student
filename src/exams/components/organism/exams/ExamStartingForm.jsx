@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useStartExamMutation } from "@/exams/features/questions/examsApi";
+import { useStartExamMutation } from "@/exams/features/exams/examsApi";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

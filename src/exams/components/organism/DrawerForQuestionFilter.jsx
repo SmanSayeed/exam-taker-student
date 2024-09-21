@@ -45,7 +45,6 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
             <Drawer open={isOpen} onOpenChange={setIsOpen}>
                 <DrawerTrigger asChild>
                     <Button variant="outline" className="tracking-wide" >Filter Your Questions</Button>
-                    <Button variant="outline" className="tracking-wide" >Filter Your Questions</Button>
                 </DrawerTrigger>
                 <DrawerContent>
 

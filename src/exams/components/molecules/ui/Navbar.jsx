@@ -1,3 +1,4 @@
+import useAuth from '@/exams/hooks/useAuth';
 import { AlignJustify, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,8 +12,8 @@ import { NavLinks } from './NavLinks';
 
 export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
 
-    const checkingUser = localStorage.getItem("auth")
-    const navigate = useNavigate()
+    const checkingUser = useAuth();
+    const navigate = useNavigate();
 
     const handleNavigating = () => {
         navigate("/login")
@@ -27,8 +28,6 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
             document.body.classList.remove('overflow-hidden')
         }
     }, [navOpened]);
-
-
 
     return (
         <nav className='flex items-center justify-between   '>

@@ -16,7 +16,7 @@ const examSlice = createSlice({
         clearExamInfo: (state) => {
             state.exam = {};
             state.questions_list = [];
-        },
+        }, 
     },
 });
 
