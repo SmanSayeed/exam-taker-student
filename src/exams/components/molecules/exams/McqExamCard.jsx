@@ -13,44 +13,40 @@ const parseHtmlContent = (htmlContent) => {
     );
 };
 
-const McqExamCard = ({ queIndex, question }) => {
+const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
 
     const { id: question_id, title, mcq_questions } = question || {};
 
     const [selectedOption, setSelectedOption] = useState(null);
     const [submittedOption, setSubmittedOption] = useState(null);
-    // const [isSubmitting, setIsSubmitting] = useState(false);
 
-    console.log("selectedOption", selectedOption)
+    const handleOptionClick = (optionId, index) => {
+        const optionLetter = String.fromCharCode(65 + index); // Convert index to letter (e.g., 0 -> A, 1 -> B)
 
-    const handleOptionClick = (index) => {
-        setSelectedOption(index);
+        setSelectedOption(optionId);
+
+        setMcqAnswers((prevAnswers) => {
+            const existingAnswerIndex = prevAnswers.findIndex(
+                (answer) => answer.question_id === question_id
+            );
+
+            const newAnswer = {
+                question_id: question_id,
+                mcq_question_id: optionId,
+                submitted_mcq_option: optionLetter
+            };
+
+            if (existingAnswerIndex !== -1) {
+                const updatedAnswers = [...prevAnswers];
+                updatedAnswers[existingAnswerIndex] = newAnswer;
+                return updatedAnswers;
+            } else {
+                return [...prevAnswers, newAnswer];
+            }
+        });
+
+        setSubmittedOption(optionId);
     };
-
-    // Handle submission of the selected answer
-    // const handleSubmit = () => {
-    //     if (selectedOption === null || isSubmitting) return; // Don't submit if nothing is selected or already submitting
-
-    //     const selectedMcqQuestion = mcq_questions[selectedOption];
-    //     const payload = {
-    //         mcq_answers: [
-    //             {
-    //                 question_id,
-    //                 mcq_question_id: selectedMcqQuestion.id,
-    //                 submitted_mcq_option: selectedMcqQuestion.option_label, // e.g., "A", "B"
-    //             },
-    //         ],
-    //     };
-
-    //     setIsSubmitting(true); // Start submission
-    //     axios.post("/api/submit-answer", payload)
-    //         .then(() => {
-    //             setSubmittedOption(selectedOption); // Set the submitted option after successful submission
-    //         })
-    //         .finally(() => {
-    //             setIsSubmitting(false); // Reset submission state
-    //         });
-    // };
 
     return (
         <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg duration-500">
@@ -71,11 +67,11 @@ const McqExamCard = ({ queIndex, question }) => {
                     mcq_questions?.map((option, index) => (
                         <div
                             key={index}
-                            onClick={() => handleOptionClick(index)}
+                            onClick={() => handleOptionClick(option?.id, index)}
                             className={`flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2 
-                            ${submittedOption === index
+                            ${submittedOption === option?.id
                                     ? 'bg-green-100 border-green-500'
-                                    : selectedOption === index
+                                    : selectedOption === option?.id
                                         ? 'bg-blue-100'
                                         : ''
                                 }`}
@@ -91,14 +87,6 @@ const McqExamCard = ({ queIndex, question }) => {
                 }
             </div>
 
-            {/* <button
-                onClick={handleSubmit}
-                className={`mt-4 p-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 duration-300 
-                    ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`} // Disable button while submitting
-                disabled={isSubmitting || selectedOption === null} // Disable if no option is selected
-            >
-                {isSubmitting ? 'Submitting...' : 'Submit Answer'}
-            </button> */}
         </Card>
     )
 }

@@ -1,22 +1,35 @@
 import { apiSlice } from "@/exams/features/api/apiSlice";
 import authSliceReducer from "@/exams/features/auth/authSlice";
 import categorySliceReducer from "@/exams/features/categories/categorySlice";
-import examSliceReducer from "@/exams/features/questions/examSlice";
+import examSliceReducer from "@/exams/features/exams/examSlice";
+import submittedExamSliceReducer from "@/exams/features/exams/submittedExamSlice";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE
+} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   auth: authSliceReducer,
   category: categorySliceReducer,
-  exam: examSliceReducer
+  exam: examSliceReducer,
+  submittedExam: submittedExamSliceReducer,
 })
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['exam', 'auth'], // Specify the reducers you want to persist
+  version: 1,
+  whitelist: ['auth', 'exam', 'submittedExam'],
+  blacklist: [apiSlice.reducerPath],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -24,7 +37,11 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(apiSlice.middleware),
 });
 
 export const persistor = persistStore(store);

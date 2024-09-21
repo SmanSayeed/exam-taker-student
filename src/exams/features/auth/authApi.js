@@ -23,16 +23,6 @@ export const authApi = apiSlice.injectEndpoints({
 
           const { status, message, data } = result.data;
 
-          localStorage.setItem(
-            "auth",
-            JSON.stringify({
-              status,
-              message,
-              token: data?.token,
-              student: data?.student,
-            })
-          );
-
           dispatch(
             loggedIn({
               status,
@@ -54,7 +44,6 @@ export const authApi = apiSlice.injectEndpoints({
 
       async onQueryStarted(arg, { dispatch }) {
         try {
-          localStorage.clear();
 
           dispatch(
             loggedOut({
