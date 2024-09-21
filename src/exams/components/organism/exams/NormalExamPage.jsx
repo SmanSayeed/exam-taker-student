@@ -17,7 +17,7 @@ import { ResultShowingModal } from "../../molecules/ui/ResultShowingModal";
 export default function NormalExamPage() {
     // { data: questionData }
     // const { id, title, description, is_paid, is_featured, type, mark } =
-    //     questionData  {};
+    //     questionData || {};
 
     // const [deleteQuestion, { error }] = useDeleteQuestionMutation();
 
@@ -25,7 +25,7 @@ export default function NormalExamPage() {
     //     if (id) {
     //         try {
     //             const response = await deleteQuestion(id).unwrap();
-    //             toast.success(response?.message  "Data deleted successfully");
+    //             toast.success(response?.message || "Data deleted successfully");
     //         } catch (err) {
     //             toast.error(err?.data?.message || "An error occurred");
     //         }
@@ -56,7 +56,7 @@ export default function NormalExamPage() {
                     Featured
                 </p>
                 <p className="border-l border-gray-500  pl-2"> <span
-                // className={${type === "mcq" ? "uppercase" : "capitalize"}}
+                // className={`${type === "mcq" ? "uppercase" : "capitalize"}`}
                 >
                     {/* {type} */}
                 </span>Question</p>

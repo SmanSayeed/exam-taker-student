@@ -16,7 +16,7 @@ import McqExamCard from "../../molecules/exams/McqExamCard";
 export default function McqExamPage({ filteredQues }) {
     // { data: questionData }
     // const { id, title, description, is_paid, is_featured, type, mark } =
-    //     questionData  {};
+    //     questionData || {};
 
     // const [deleteQuestion, { error }] = useDeleteQuestionMutation();
 
@@ -24,7 +24,7 @@ export default function McqExamPage({ filteredQues }) {
     //     if (id) {
     //         try {
     //             const response = await deleteQuestion(id).unwrap();
-    //             toast.success(response?.message  "Data deleted successfully");
+    //             toast.success(response?.message || "Data deleted successfully");
     //         } catch (err) {
     //             toast.error(err?.data?.message || "An error occurred");
     //         }

@@ -1,10 +1,14 @@
+import { Outlet } from "react-router-dom";
 import "./App.css";
-import MainLayout from './exams/layout/MainLayout';
+import Footer from "./exams/components/molecules/ui/Footer";
+import Navbar from "./exams/components/molecules/ui/Navbar";
 
 function App() {
   return (
     <div className="min-h-screen relative pb-16 ">
-      <MainLayout></MainLayout>
+      <Navbar />
+      <Outlet />
+      <Footer />
     </div>
   );
 }

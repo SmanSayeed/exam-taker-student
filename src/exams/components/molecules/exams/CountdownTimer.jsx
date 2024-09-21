@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function CountdownTimer({ minutes }) {
   const [timeLeft, setTimeLeft] = useState(minutes * 60);
@@ -7,10 +7,10 @@ function CountdownTimer({ minutes }) {
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
-          clearInterval(timer); 
+          clearInterval(timer);
           return 0;
         }
-        return prevTime - 1; 
+        return prevTime - 1;
       });
     }, 1000);
     return () => clearInterval(timer);
@@ -19,7 +19,7 @@ function CountdownTimer({ minutes }) {
   const formatTime = () => {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`; 
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
