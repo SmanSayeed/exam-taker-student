@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomPage from "../pages/HomPage";
+import App from "../../App";
 import ErrorPage from '../../ErrorPage';
 import NotFoundPage from "../../NotFoundPage";
-import App from "../../App";
+import ExamOnGoingPage from "../pages/ExamOnGoingPage";
+import HomPage from "../pages/HomPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ExamStartingPage from './../pages/ExamStartingPage';
-import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 
 const Routes = createBrowserRouter([
     {
@@ -16,27 +16,27 @@ const Routes = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element:<HomPage />
+                element: <HomPage />
             },
             {
                 path: "/exams-starting",
-                element:<ExamStartingPage />
+                element: <ExamStartingPage />
             },
             {
                 path: "/exam-on-going",
-                element:<ExamOnGoingPage />
+                element: <ExamOnGoingPage />
             },
             {
                 path: "/exams",
-                element:<ExamStartingPage />
+                element: <ExamStartingPage />
             },
             {
                 path: "/login",
-                element:<LoginPage />
+                element: <LoginPage />
             },
             {
                 path: "/registration",
-                element:<RegisterPage />
+                element: <RegisterPage />
             },
         ]
     },

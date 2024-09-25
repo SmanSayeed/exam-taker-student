@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const MultiSelectCategory = ({ options, label, onChange }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,7 @@ const MultiSelectCategory = ({ options, label, onChange }) => {
 
     useEffect(() => {
         onChange(selectedOptions);
-    }, ); 
+    },);
 
     // Handle clicks outside the dropdown
     useEffect(() => {
