@@ -19,10 +19,6 @@ const submittedExamSlice = createSlice({
             state.creative_answers = action.payload.creative_answers;
             state.normal_answers = action.payload.normal_answers;
         },
-        // clearExamInfo: (state) => {
-        //     state.exam = {};
-        //     state.questions_list = [];
-        // }, 
     },
 });
 

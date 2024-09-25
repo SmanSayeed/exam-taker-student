@@ -1,5 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
-import { saveExamInfo } from "./examSlice";
+import { clearExamInfo, saveExamInfo } from "./examSlice";
 import { submittedExamInfo } from "./submittedExamSlice";
 
 export const examsApi = apiSlice.injectEndpoints({
@@ -42,6 +42,13 @@ export const examsApi = apiSlice.injectEndpoints({
                     const {examination, student, mcq_answers, creative_answers, normal_answers} = result.data;
 
                     dispatch(
+                        clearExamInfo({
+                            exam: {},
+                            questions_list: []
+                        })
+                    );
+
+                    dispatch(
                         submittedExamInfo({
                             examination,
                             student,
@@ -55,10 +62,14 @@ export const examsApi = apiSlice.injectEndpoints({
                 }
             },
         }),
+        getExamById: builder.query({
+            query: (id) => `/exam-details/${id}`
+        })
     }),
 });
 
 export const {
     useStartExamMutation,
-    useFinishExamMutation
+    useFinishExamMutation,
+    useGetExamByIdQuery
 } = examsApi;
