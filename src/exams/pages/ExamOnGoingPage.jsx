@@ -15,9 +15,6 @@ export default function ExamOnGoingPage() {
 
   return (
     <div className="px-5 w-full ">
-
-      
-
       <Card className="text-center p-4 relative ">
         <div  className="z-50 fixed right-10 border px-4 py-2 rounded-md flex items-center justify-center  " >
           <CountdownTimer minutes={time} />
