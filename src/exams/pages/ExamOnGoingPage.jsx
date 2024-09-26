@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import CountdownTimer from "../components/molecules/exams/CountdownTimer";
 import CreativeExamPage from "../components/organism/exams/CreativeExamPage";
@@ -10,11 +11,36 @@ import NormalExamPage from "../components/organism/exams/NormalExamPage";
 import { useFinishExamMutation } from "../features/exams/examsApi";
 
 export default function ExamOnGoingPage() {
+  const naviagte = useNavigate();
   const exam = useSelector(state => state.exam);
 
   const { exam: examData, questions_list } = exam;
   const time = examData.time_limit;
   const questionType = examData.type;
+
+  const [isTimeUp, setIsTimeUp] = useState(false);
+
+  // Function to check if current time is greater than or equal to end_time
+  const checkTimeUp = () => {
+    const currentTime = new Date().toISOString();
+    const endTime = new Date(examData.end_time).toISOString();
+
+    if (currentTime >= endTime) {
+      setIsTimeUp(true);
+    }
+  };
+
+  useEffect(() => {
+    if (examData.end_time) {
+      // Check the time immediately when the component mounts
+      checkTimeUp();
+
+      // Set interval to check the time every second
+      const timer = setInterval(checkTimeUp, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [examData.end_time]);
 
   const [mcqAnswers, setMcqAnswers] = useState([]);
 
@@ -43,12 +69,10 @@ export default function ExamOnGoingPage() {
       // ]
     }
 
-    console.log(payload)
-
     try {
       const response = await finishExam(payload).unwrap();
       console.log("response", response);
-
+      naviagte("/exam-result");
     } catch (err) {
       toast.error(err?.data?.message || "An error occurred");
     }
@@ -80,7 +104,7 @@ export default function ExamOnGoingPage() {
         <Button
           onClick={handleSubmit}
           className="w-full"
-          disabled={isExamFinishing}
+          disabled={isExamFinishing || isTimeUp}
         >
           {isExamFinishing ? "Submitting" : "Submit"}
         </Button>

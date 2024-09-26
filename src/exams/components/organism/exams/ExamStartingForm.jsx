@@ -48,9 +48,10 @@ const ExamStartingForm = ({ filteredQuestions }) => {
 
         try {
             const response = await startExam(payload).unwrap();
-            console.log("response", response);
 
-            navigate("/exam-on-going");
+            if (response.exam && response.questions_list) {
+                navigate("/exam-on-going");
+            }
         } catch (err) {
             toast.error(err?.data?.message || "An error occurred");
         }
