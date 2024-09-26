@@ -69,7 +69,7 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
                 </div>
             </CardTitle>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {
                     mcq_questions?.map((option, index) => {
                         // console.log("Option", index + 1, "data:", option);
@@ -77,16 +77,14 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
                             <div
                                 key={index}
                                 onClick={() => handleOptionClick(option?.id, index, option?.mcq_option_serial)}
-                                className={`flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2 
-                            ${submittedOption === option?.id
-                                        ? 'bg-green-100 border-green-500'
-                                        : selectedOption === option?.id
-                                            ? 'bg-blue-100'
-                                            : ''
-                                    }`}
+                                // className={`flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2 ${submittedOption === option?.id ? 'bg-green-100 border-green-500'
+                                //     : selectedOption === option?.id
+                                //         ? 'bg-blue-100'
+                                //         : ''}`}
+                                className="flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2"
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
-                                    <p className="border rounded-full h-6 w-6 p-2 flex items-center justify-center">
+                                    <p className={`border ${selectedOption === option?.id && 'bg-green-600'} rounded-full h-6 w-6 p-2 flex items-center justify-center`}>
                                         {index + 1}
                                     </p>
                                     <h1>{parseHtmlContent(option?.mcq_question_text)}</h1>
