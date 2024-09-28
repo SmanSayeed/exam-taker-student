@@ -28,7 +28,7 @@ function CountdownTimer({ minutes }) {
   return (
     <div>
       <h1 className="font-semibold">Time Left: {formatTime()}</h1>
-      
+
       {showWarning && (
         <p className="text-red-500 font-semibold">
           Your exam will end soon!

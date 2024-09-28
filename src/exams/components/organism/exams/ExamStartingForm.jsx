@@ -11,7 +11,6 @@ const ExamStartingForm = ({ filteredQuestions }) => {
     const auth = useSelector((state) => state.auth);
 
     const {
-        control,
         register,
         handleSubmit,
         formState: { errors },
