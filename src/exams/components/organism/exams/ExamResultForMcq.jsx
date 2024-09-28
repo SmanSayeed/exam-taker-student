@@ -1,11 +1,11 @@
 import { ExamResultForMcqCard } from "../../molecules/exams/ExamResultForMcqCard";
 
-export default function ExamResultForMcq({ filteredQues }) {
+export default function ExamResultForMcq({ submittedQues }) {
 
     return (
         <div>
             {
-                filteredQues?.map((que, index) => (
+                submittedQues?.map((que, index) => (
                     <ExamResultForMcqCard
                         key={que?.id}
                         queIndex={index}
