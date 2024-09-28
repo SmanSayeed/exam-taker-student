@@ -25,6 +25,10 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
     const submittedMcqOption = submittedAnswer?.submitted_mcq_option;
     const isSubmittedAnsCorrect = submittedAnswer?.is_correct;
 
+    console.log(1, submittedAnswer)
+    console.log( 2, submittedMcqOption)
+    console.log( 3, isSubmittedAnsCorrect)
+
     return (
         <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg duration-500">
             <CardTitle>
@@ -57,8 +61,6 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
                         return (
                             <div
                                 key={index}
-                                // className={`flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2 ${option?.is_correct || isSubmittedAnsCorrect ? 'bg-green-100 border-green-500' : "bg-red-400"}`}
-                                // className={`flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2 ${bgColor}`}
                                 className="flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2"
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
