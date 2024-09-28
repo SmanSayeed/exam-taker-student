@@ -7,33 +7,10 @@ const ExamResultPage = () => {
     const submittedExam = useSelector(state => state.submittedExam);
     const { examination, mcq_answers } = submittedExam;
 
-    // const calculateResults = (mcq_answers) => {
-    //     let correct = 0;
-    //     let incorrect = 0;
-    //     let skipped = 0;
-
-    //     mcq_answers.forEach(answer => {
-    //         if (answer.submitted_mcq_option === null) {
-    //             skipped++;
-    //         } else if (answer.is_correct) {
-    //             correct++;
-    //         } else {
-    //             incorrect++;
-    //         }
-    //     });
-
-    //     return {
-    //         correct,
-    //         incorrect,
-    //         skipped
-    //     };
-    // };
-    // const results = calculateResults(mcq_answers);
-
     const results = mcq_answers.reduce((acc, answer) => {
         if (answer.submitted_mcq_option === null) {
             acc.skipped++;
-        } else if (answer.is_correct) {
+        } else if (answer.is_submitted_correct) {
             acc.correct++;
         } else {
             acc.incorrect++;
@@ -41,14 +18,13 @@ const ExamResultPage = () => {
         return acc;
     }, { correct: 0, incorrect: 0, skipped: 0 });
 
-    console.log(results);
-
     const { data: examData } = useGetExamByIdQuery(examination.id);
 
     return (
         <div className="px-5 w-full ">
             <Card className="text-center p-4 relative">
                 <CardTitle> Mock Exam </CardTitle>
+                <p className="mt-4">Total marks: 10</p>
                 <div className="mt-6 flex items-center justify-center gap-4">
                     <p>{results.correct} Correct</p>
                     <p>{results.skipped} Skipped</p>
@@ -62,7 +38,7 @@ const ExamResultPage = () => {
             <div className="text-center">
                 {examData?.exam?.type === "mcq" && (
                     <ExamResultForMcq
-                        filteredQues={examData?.questions_list}
+                        submittedQues={examData?.questions_list}
                     />
                 )}
                 {/* {examData.type === "normal" && <NormalExamPage />}

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     exam: {},
-    questions_list: []
+    questions_list: [],
 };
 
 const examSlice = createSlice({
