@@ -21,7 +21,6 @@ export const examsApi = apiSlice.injectEndpoints({
                         saveExamInfo({
                             exam,
                             questions_list,
-                            // time_limit: exam.time_limit
                         })
                     );
                 } catch (err) {
@@ -46,7 +45,6 @@ export const examsApi = apiSlice.injectEndpoints({
                         clearExamInfo({
                             exam: {},
                             questions_list: [],
-                            // time_limit: null
                         })
                     );
 
