@@ -13,6 +13,7 @@ const examSlice = createSlice({
         saveExamInfo: (state, action) => {
             state.exam = action.payload.exam;
             state.questions_list = action.payload.questions_list;
+            state.time_count = action.payload.time_count
         },
         clearExamInfo: (state) => {
             state.exam = {};
