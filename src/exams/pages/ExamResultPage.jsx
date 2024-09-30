@@ -1,5 +1,6 @@
 import { Card, CardTitle } from "@/components/ui/card";
 import { useSelector } from "react-redux";
+import Loading from "../components/atoms/Loading";
 import ExamResultForMcq from "../components/organism/exams/ExamResultForMcq";
 import { useGetExamByIdQuery } from "../features/exams/examsApi";
 
@@ -18,7 +19,11 @@ const ExamResultPage = () => {
         return acc;
     }, { correct: 0, incorrect: 0, skipped: 0 });
 
-    const { data: examData } = useGetExamByIdQuery(examination.id);
+    const { data: examData, isLoading: isExamResultLoading } = useGetExamByIdQuery(examination.id);
+
+    if (isExamResultLoading) {
+        return <Loading />
+    }
 
     return (
         <div className="px-5 w-full ">
