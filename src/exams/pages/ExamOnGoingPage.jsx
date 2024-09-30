@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -9,11 +9,18 @@ import McqExamPage from "../components/organism/exams/McqExamPage";
 import NormalExamPage from "../components/organism/exams/NormalExamPage";
 import { useFinishExamMutation } from "../features/exams/examsApi";
 
-import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from "@/components/ui/alert-dialog";
 import ExamTimer from "../components/molecules/exams/ExamTimer";
 
 export default function ExamOnGoingPage() {
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   const exam = useSelector(state => state.exam);
 
   const { exam: examData, questions_list } = exam;
@@ -73,12 +80,16 @@ export default function ExamOnGoingPage() {
       const response = await finishExam(payload).unwrap();
 
       if (response.examination && response.mcq_answers) {
-        naviagte("/exam-result");
+        navigate("/exam-result");
       }
     } catch (err) {
       toast.error(err?.data?.message || "An error occurred");
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="px-5 w-full">

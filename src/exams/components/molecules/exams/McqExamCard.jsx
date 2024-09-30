@@ -44,10 +44,10 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
     return (
         <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg duration-500">
             <CardTitle>
-                <div className="mb-4 flex items-center justify-between gap-2 ">
+                <div className="mb-4 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                         <p>{queIndex + 1}. </p>
-                        <p>{parseHtmlContent(title)} </p>
+                        <p className="text-left">{parseHtmlContent(title)} </p>
                     </div>
                     <div>
                         <BookmarkPlus size={20} className="cursor-pointer" />
