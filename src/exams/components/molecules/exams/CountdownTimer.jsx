@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-function CountdownTimer({ minutes }) {
+function CountdownTimer() {
+  const { exam } = useSelector(state => state.exam);
+  const minutes = exam.time_limit;
+
   const [timeLeft, setTimeLeft] = useState(minutes * 60);
 
   useEffect(() => {

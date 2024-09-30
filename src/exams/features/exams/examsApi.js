@@ -20,7 +20,8 @@ export const examsApi = apiSlice.injectEndpoints({
                     dispatch(
                         saveExamInfo({
                             exam,
-                            questions_list
+                            questions_list,
+                            // time_limit: exam.time_limit
                         })
                     );
                 } catch (err) {
@@ -44,7 +45,8 @@ export const examsApi = apiSlice.injectEndpoints({
                     dispatch(
                         clearExamInfo({
                             exam: {},
-                            questions_list: []
+                            questions_list: [],
+                            // time_limit: null
                         })
                     );
 
