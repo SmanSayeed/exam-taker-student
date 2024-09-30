@@ -47,7 +47,7 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
                 <div className="mb-4 flex items-center justify-between gap-2 ">
                     <div className="flex items-center gap-2">
                         <p>{queIndex + 1}. </p>
-                        <p>{parseHtmlContent(title)} </p>
+                        <p className="text-left" >{parseHtmlContent(title)} </p>
                     </div>
                     <div>
                         <BookmarkPlus size={20} className="cursor-pointer" />
