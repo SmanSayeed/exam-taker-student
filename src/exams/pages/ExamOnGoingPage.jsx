@@ -179,7 +179,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import CountdownTimer from "../components/molecules/exams/CountdownTimer";
 import CreativeExamPage from "../components/organism/exams/CreativeExamPage";
 import McqExamPage from "../components/organism/exams/McqExamPage";
 import NormalExamPage from "../components/organism/exams/NormalExamPage";
@@ -191,18 +190,17 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialogTitle
 } from "@/components/ui/alert-dialog";
+import ExamTimer from "../components/molecules/exams/ExamTimer";
 
 export default function ExamOnGoingPage() {
-  const navigate = useNavigate(); // Fixed typo
-  const exam = useSelector((state) => state.exam);
+  const navigate = useNavigate();
+  const exam = useSelector(state => state.exam);
 
   const { exam: examData, questions_list, time_count } = exam;
   const questionType = examData.type;
-  
 
-  const [isTimeUp, setIsTimeUp] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
 
@@ -218,32 +216,8 @@ export default function ExamOnGoingPage() {
     })
   );
 
-
-
-  // side effect for render this page from the top
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  // Optimized time-up check using timestamps
-  useEffect(() => {
-    if (examData.end_time) {
-      const endTime = new Date(examData.end_time).getTime();
-      const currentTime = new Date().getTime();
-      const timeRemaining = endTime - currentTime;
-
-      if (timeRemaining > 0) {
-        const timer = setTimeout(() => setIsTimeUp(true), timeRemaining);
-        return () => clearTimeout(timer);
-      } else {
-        setIsTimeUp(true);
-      }
-    }
-  }, [examData.end_time]);
-
   const [finishExam, { isLoading: isExamFinishing }] = useFinishExamMutation();
 
-  // Handle submit logic
   const handleSubmit = () => {
     const skippedQuestions = mcqAnswers.filter(
       (answer) => answer.submitted_mcq_option === null
@@ -256,13 +230,26 @@ export default function ExamOnGoingPage() {
     }
   };
 
-  // Function to submit the exam
   const submitExam = async () => {
     const payload = {
-      examination_id: examData.id,
-      student_id: examData.created_by,
-      type: questionType,
-      mcq_answers: mcqAnswers,
+      "examination_id": examData.id,
+      "student_id": examData.created_by,
+      "type": questionType,
+      "mcq_answers": mcqAnswers,
+      // "creative_answers": [
+      //   {
+      //     "question_id": 20,
+      //     "creative_question_id": 201,
+      //     "creative_question_option": "Option A",
+      //     "creative_question_text": "This is the creative answer text."
+      //   }
+      // ],
+      // "normal_answers": [
+      //   {
+      //     "question_id": 30,
+      //     "normal_answer_text": "This is a normal answer text."
+      //   }
+      // ]
     };
 
     try {
@@ -270,17 +257,22 @@ export default function ExamOnGoingPage() {
 
       if (response.examination && response.mcq_answers) {
         navigate("/exam-result");
+        navigate("/exam-result");
       }
     } catch (err) {
       toast.error(err?.data?.message || "An error occurred");
     }
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="px-5 w-full">
       <Card className="text-center p-4 relative">
-        <div className="z-50 fixed right-0 top-0 md:right-10 md:top-24 border px-4 py-2 rounded-md flex items-center justify-center">
-          <CountdownTimer minutes={time_count} />
+        <div className="z-50 fixed right-10 border px-4 py-2 rounded-md flex items-center justify-center">
+          <ExamTimer submitExam={submitExam} />
         </div>
         <CardTitle> Mock Exam </CardTitle>
         <p className="mt-3">Time: {time_count} minutes </p>
@@ -299,8 +291,8 @@ export default function ExamOnGoingPage() {
 
         <Button
           onClick={handleSubmit}
-          disabled={isExamFinishing || isTimeUp}
-          className={`w-full  ${isTimeUp ? "cursor-not-allowed" : "cursor-pointer "}`}
+          className="w-full"
+          disabled={isExamFinishing}
         >
           {isExamFinishing ? "Submitting" : "Submit"}
         </Button>
