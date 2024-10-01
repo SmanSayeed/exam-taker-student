@@ -26,8 +26,6 @@ if (authObject && authObject?.student && authObject?.student?.email) {
 
 
 const UserNav = () => {
-
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
