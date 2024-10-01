@@ -139,7 +139,7 @@ export default function ExamOnGoingPage() {
   return (
     <div className="px-5 w-full">
       <Card className="text-center p-4 relative">
-        <div className="z-50 fixed right-10 border px-4 py-2 rounded-md flex items-center justify-center">
+        <div className="z-50 fixed right-1/4 left1/2 top-2 md:right-28 md:top-4 w-fit mx-auto px-4 py-2 rounded-md flex items-center justify-center">
           <ExamTimer submitExam={submitExam} />
         </div>
         <CardTitle> Mock Exam </CardTitle>
@@ -160,7 +160,7 @@ export default function ExamOnGoingPage() {
 
         <Button
           onClick={handleSubmit}
-          className="w-full"
+          className="w-full fixed bottom-[.2rem] left-4 right-4 "
           disabled={isExamFinishing}
         >
           {isExamFinishing ? "Submitting" : "Submit"}
