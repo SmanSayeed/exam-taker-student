@@ -44,12 +44,57 @@ export default function ExamOnGoingPage() {
 
   const [finishExam, { isLoading: isExamFinishing }] = useFinishExamMutation();
 
+  // const handleSubmit = async () => {
+
+  //   // Find unanswered questions (where submitted_mcq_option is null)
+  //   const skippedQuestions = mcqAnswers.filter(answer => answer.submitted_mcq_option === null);
+
+  //   if (skippedQuestions.length > 0) {
+  //     // Show error notification for skipped questions
+  //     toast.error(`You have skipped ${skippedQuestions.length} question(s). They will be marked as unanswered.`);
+  //   }
+
+  //   const payload = {
+  //     "examination_id": examData.id,
+  //     "student_id": examData.created_by,
+  //     "type": questionType,
+  //     "mcq_answers": mcqAnswers,
+  //     // "creative_answers": [
+  //     //   {
+  //     //     "question_id": 20,
+  //     //     "creative_question_id": 201,
+  //     //     "creative_question_option": "Option A",
+  //     //     "creative_question_text": "This is the creative answer text."
+  //     //   }
+  //     // ],
+  //     // "normal_answers": [
+  //     //   {
+  //     //     "question_id": 30,
+  //     //     "normal_answer_text": "This is a normal answer text."
+  //     //   }
+  //     // ]
+  //   }
+
+  //   try {
+  //     const response = await finishExam(payload).unwrap();
+
+  //     if (response.examination && response.mcq_answers) {
+  //       naviagte("/exam-result");
+  //     }
+  //   } catch (err) {
+  //     toast.error(err?.data?.message || "An error occurred");
+  //   }
+
+  // }
+
   const handleSubmit = () => {
     const skippedQuestions = mcqAnswers.filter(answer => answer.submitted_mcq_option === null);
 
     if (skippedQuestions.length > 0) {
+      // Show confirmation dialog if there are skipped questions
       setIsAlertOpen(true);
     } else {
+      // Show confirmation for full submission
       setIsFullSubmitAlertOpen(true);
     }
   };
@@ -80,7 +125,7 @@ export default function ExamOnGoingPage() {
       const response = await finishExam(payload).unwrap();
 
       if (response.examination && response.mcq_answers) {
-        navigate("/exam-result");
+        naviagte("/exam-result");
       }
     } catch (err) {
       toast.error(err?.data?.message || "An error occurred");
@@ -94,7 +139,7 @@ export default function ExamOnGoingPage() {
   return (
     <div className="px-5 w-full">
       <Card className="text-center p-4 relative">
-        <div className="z-50 fixed right-10 border px-4 py-2 rounded-md flex items-center justify-center">
+        <div className="z-50 fixed right-1/4 left1/2 top-2 md:right-28 md:top-4 w-fit mx-auto px-4 py-2 rounded-md flex items-center justify-center">
           <ExamTimer submitExam={submitExam} />
         </div>
         <CardTitle> Mock Exam </CardTitle>
@@ -115,7 +160,7 @@ export default function ExamOnGoingPage() {
 
         <Button
           onClick={handleSubmit}
-          className="w-full"
+          className="w-full fixed bottom-[.2rem] left-4 right-4 "
           disabled={isExamFinishing}
         >
           {isExamFinishing ? "Submitting" : "Submit"}
