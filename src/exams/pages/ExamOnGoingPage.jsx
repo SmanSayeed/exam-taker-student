@@ -17,6 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
+import { ArrowDownNarrowWideIcon } from "lucide-react";
 import ExamTimer from "../components/molecules/exams/ExamTimer";
 
 export default function ExamOnGoingPage() {
@@ -32,7 +33,7 @@ export default function ExamOnGoingPage() {
 
   const [mcqAnswers, setMcqAnswers] = useState(
     questions_list.map((question) => {
-      const firstMcqQuestionId = question.mcq_questions?.[0]?.id || null;
+      const firstMcqQuestionId = question?.mcq_questions?.[0]?.id || null;
 
       return {
         question_id: question.id,
@@ -45,9 +46,9 @@ export default function ExamOnGoingPage() {
   const [finishExam, { isLoading: isExamFinishing }] = useFinishExamMutation();
 
   const handleSubmit = () => {
-    const skippedQuestions = mcqAnswers.filter(answer => answer.submitted_mcq_option === null);
+    const skippedQuestions = mcqAnswers?.filter(answer => answer.submitted_mcq_option === null);
 
-    if (skippedQuestions.length > 0) {
+    if (skippedQuestions?.length > 0) {
       setIsAlertOpen(true);
     } else {
       setIsFullSubmitAlertOpen(true);
@@ -94,8 +95,11 @@ export default function ExamOnGoingPage() {
   return (
     <div className="px-5 w-full">
       <Card className="text-center p-4 relative">
-        <div className="z-50 fixed right-10 border px-4 py-2 rounded-md flex items-center justify-center">
+        <div className="z-50 fixed right-20 top-2 md:right-28 md:top-4 px-4 py-2 rounded-md flex items-center justify-center gap-2">
           <ExamTimer submitExam={submitExam} />
+          <a href="#exam_submit" title="Got to submit">
+            <ArrowDownNarrowWideIcon />
+          </a>
         </div>
         <CardTitle> Mock Exam </CardTitle>
         <p className="mt-3" >Time: {time} minutes </p>
@@ -114,6 +118,7 @@ export default function ExamOnGoingPage() {
         {questionType === "creative" && <CreativeExamPage />}
 
         <Button
+          id="exam_submit"
           onClick={handleSubmit}
           className="w-full"
           disabled={isExamFinishing}

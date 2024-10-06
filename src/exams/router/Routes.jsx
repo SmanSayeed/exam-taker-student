@@ -25,7 +25,8 @@ const Routes = createBrowserRouter([
             },
             {
                 path: "/exam-on-going",
-                element: <ExamOnGoingPage />
+                element: <ExamOnGoingPage />,
+                // element: <ExamTest />,
             },
             {
                 path: "/exam-result",

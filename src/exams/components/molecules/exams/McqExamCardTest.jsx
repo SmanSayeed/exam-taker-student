@@ -1,7 +1,9 @@
 import { Card, CardTitle } from "@/components/ui/card";
+import { updateMcqAnswer } from "@/exams/features/exams/examSlice";
 import DOMPurify from "dompurify";
 import { BookmarkPlus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const parseHtmlContent = (htmlContent) => {
     return (
@@ -13,11 +15,27 @@ const parseHtmlContent = (htmlContent) => {
     );
 };
 
-const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
+const McqExamCardTest = ({ queIndex, question }) => {
 
     const { id: question_id, title, mcq_questions } = question || {};
 
+    // Get the persisted answers from Redux
+    const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
+
+    // Find the persisted answer for the current question
+    const persistedAnswer = mcqAnswers?.find((answer) => answer?.question_id === question_id);
+
+    // Local state to track the selected option
     const [selectedOption, setSelectedOption] = useState(null);
+
+    // When the component mounts, set the selected option based on persisted answer
+    useEffect(() => {
+        if (persistedAnswer && persistedAnswer?.mcq_question_id) {
+            setSelectedOption(persistedAnswer?.mcq_question_id);
+        }
+    }, [persistedAnswer]);
+
+    const dispatch = useDispatch();
 
     const handleOptionClick = (optionId, optionSerial) => {
         if (!optionSerial) {
@@ -25,20 +43,15 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
             return;
         }
 
+        // Update the local state to show which option was selected
         setSelectedOption(optionId);
 
-        setMcqAnswers((prevAnswers) => {
-            const updatedAnswers = prevAnswers.map((answer) =>
-                answer.question_id === question_id
-                    ? {
-                        ...answer,
-                        mcq_question_id: optionId,
-                        submitted_mcq_option: optionSerial,
-                    }
-                    : answer
-            );
-            return updatedAnswers;
-        });
+        // Dispatch the action to update the Redux store
+        dispatch(updateMcqAnswer({
+            question_id,
+            mcq_question_id: optionId,
+            submitted_mcq_option: optionSerial
+        }));
     };
 
     return (
@@ -80,4 +93,4 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
     )
 }
 
-export default McqExamCard;
+export default McqExamCardTest;

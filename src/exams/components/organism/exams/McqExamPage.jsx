@@ -12,6 +12,12 @@ export default function McqExamPage({ filteredQues, setMcqAnswers }) {
                         question={que}
                         setMcqAnswers={setMcqAnswers}
                     />
+
+                    // <McqExamCardTest
+                    //     key={que?.id}
+                    //     queIndex={index}
+                    //     question={que}
+                    // />
                 ))
             }
         </div>
