@@ -30,8 +30,8 @@ const McqExamCardTest = ({ queIndex, question }) => {
 
     // When the component mounts, set the selected option based on persisted answer
     useEffect(() => {
-        if (persistedAnswer && persistedAnswer?.mcq_question_id) {
-            setSelectedOption(persistedAnswer?.mcq_question_id);
+        if (persistedAnswer && persistedAnswer?.submitted_mcq_option) {
+            setSelectedOption(persistedAnswer?.submitted_mcq_option);
         }
     }, [persistedAnswer]);
 
@@ -44,7 +44,7 @@ const McqExamCardTest = ({ queIndex, question }) => {
         }
 
         // Update the local state to show which option was selected
-        setSelectedOption(optionId);
+        // setSelectedOption(optionId);
 
         // Dispatch the action to update the Redux store
         dispatch(updateMcqAnswer({
@@ -78,7 +78,7 @@ const McqExamCardTest = ({ queIndex, question }) => {
                                 className="flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2"
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
-                                    <p className={`border ${selectedOption === option?.id && 'bg-green-600'} rounded-full h-6 w-6 p-2 flex items-center justify-center`}>
+                                    <p className={`border ${selectedOption === option?.mcq_option_serial && selectedOption !== null && 'bg-green-600'} rounded-full h-6 w-6 p-2 flex items-center justify-center`}>
                                         {index + 1}
                                     </p>
                                     <h1>{parseHtmlContent(option?.mcq_question_text)}</h1>
