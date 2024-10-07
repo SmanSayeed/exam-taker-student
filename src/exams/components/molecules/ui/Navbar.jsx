@@ -30,7 +30,7 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
     }, [navOpened]);
 
     return (
-        <nav className='flex items-center justify-between sticky top-0 z-50 '>
+        <nav className='flex items-center justify-between sticky top-0 z-50'>
 
             {/* Overlay in mobile */}
             <div
