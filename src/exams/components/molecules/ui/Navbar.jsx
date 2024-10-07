@@ -47,7 +47,7 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
             </div>
 
 
-            <Layout fixed className={` ${navOpened ? 'h-svh' : ''} w-full flex flex-co items-center justify-between md:flex-row `}>
+            <Layout fixed className={` ${navOpened ? 'h-svh' : ''} w-full flex flex-co items-center justify-between md:flex-row shadow`}>
                 <Layout.Header
                     sticky
                     className='z-50 w-full flex justify-between shadow-sm py-3 px-3 md:px-6  '

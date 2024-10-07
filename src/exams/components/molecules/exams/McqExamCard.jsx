@@ -61,7 +61,7 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
                         return (
                             <div
                                 key={index}
-                                onClick={() => handleOptionClick(option?.id, option?.mcq_option_serial.toString())}
+                                onClick={() => handleOptionClick(option?.id, option?.mcq_option_serial?.toString())}
                                 className="flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2"
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
