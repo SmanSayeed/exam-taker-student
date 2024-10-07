@@ -26,9 +26,6 @@ export default function ExamTest() {
 
     const { exam: examData, questions_list } = exam;
     const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
-    useEffect(() => {
-        console.log("mcqanswers", mcqAnswers)
-    }, [mcqAnswers]);
 
     const time = examData.time_limit;
     const questionType = examData.type;

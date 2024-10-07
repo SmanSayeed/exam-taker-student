@@ -1,19 +1,12 @@
-import McqExamCardTest from "../../molecules/exams/McqExamCardTest";
+import McqExamCard from "../../molecules/exams/McqExamCard";
 
-export default function McqExamPage({ filteredQues, setMcqAnswers }) {
+export default function McqExamPage({ filteredQues }) {
 
     return (
         <div>
             {
                 filteredQues?.map((que, index) => (
-                    // <McqExamCard
-                    //     key={que?.id}
-                    //     queIndex={index}
-                    //     question={que}
-                    //     setMcqAnswers={setMcqAnswers}
-                    // />
-
-                    <McqExamCardTest
+                    <McqExamCard
                         key={que?.id}
                         queIndex={index}
                         question={que}

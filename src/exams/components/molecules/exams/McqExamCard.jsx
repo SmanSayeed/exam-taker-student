@@ -1,7 +1,9 @@
 import { Card, CardTitle } from "@/components/ui/card";
+import { updateMcqAnswer } from "@/exams/features/exams/examSlice";
 import DOMPurify from "dompurify";
 import { BookmarkPlus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const parseHtmlContent = (htmlContent) => {
     return (
@@ -13,11 +15,20 @@ const parseHtmlContent = (htmlContent) => {
     );
 };
 
-const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
+export default function McqExamCard({ queIndex, question }) {
+    const dispatch = useDispatch();
+    const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
 
     const { id: question_id, title, mcq_questions } = question || {};
 
+    const persistedAnswer = mcqAnswers?.find((answer) => answer?.question_id === question_id);
     const [selectedOption, setSelectedOption] = useState(null);
+
+    useEffect(() => {
+        if (persistedAnswer && persistedAnswer?.submitted_mcq_option) {
+            setSelectedOption(persistedAnswer?.submitted_mcq_option);
+        }
+    }, [persistedAnswer]);
 
     const handleOptionClick = (optionId, optionSerial) => {
         if (!optionSerial) {
@@ -25,20 +36,11 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
             return;
         }
 
-        setSelectedOption(optionId);
-
-        setMcqAnswers((prevAnswers) => {
-            const updatedAnswers = prevAnswers.map((answer) =>
-                answer.question_id === question_id
-                    ? {
-                        ...answer,
-                        mcq_question_id: optionId,
-                        submitted_mcq_option: optionSerial,
-                    }
-                    : answer
-            );
-            return updatedAnswers;
-        });
+        dispatch(updateMcqAnswer({
+            question_id,
+            mcq_question_id: optionId,
+            submitted_mcq_option: optionSerial
+        }));
     };
 
     return (
@@ -61,11 +63,11 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
                         return (
                             <div
                                 key={index}
-                                onClick={() => handleOptionClick(option?.id, option?.mcq_option_serial?.toString())}
+                                onClick={() => handleOptionClick(option?.id, option?.mcq_option_serial.toString())}
                                 className="flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2"
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
-                                    <p className={`border ${selectedOption === option?.id && 'bg-green-600'} rounded-full h-6 w-6 p-2 flex items-center justify-center`}>
+                                    <p className={`border ${selectedOption === option?.mcq_option_serial && selectedOption !== null && 'bg-green-600'} rounded-full h-6 w-6 p-2 flex items-center justify-center`}>
                                         {index + 1}
                                     </p>
                                     <h1>{parseHtmlContent(option?.mcq_question_text)}</h1>
@@ -79,5 +81,3 @@ const McqExamCard = ({ queIndex, question, setMcqAnswers }) => {
         </Card>
     )
 }
-
-export default McqExamCard;

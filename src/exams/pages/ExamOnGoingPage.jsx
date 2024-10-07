@@ -27,66 +27,12 @@ export default function ExamOnGoingPage() {
   const { exam: examData, questions_list } = exam;
   const time = examData.time_limit;
   const questionType = examData.type;
+  const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
 
-  const [mcqAnswers, setMcqAnswers] = useState(
-    questions_list.map((question) => {
-      const firstMcqQuestionId = question?.mcq_questions?.[0]?.id || null;
-
-      return {
-        question_id: question.id,
-        mcq_question_id: firstMcqQuestionId,
-        submitted_mcq_option: null
-      };
-    })
-  );
-
   const [finishExam, { isLoading: isExamFinishing }] = useFinishExamMutation();
-
-  // const handleSubmit = async () => {
-
-  //   // Find unanswered questions (where submitted_mcq_option is null)
-  //   const skippedQuestions = mcqAnswers.filter(answer => answer.submitted_mcq_option === null);
-
-  //   if (skippedQuestions.length > 0) {
-  //     // Show error notification for skipped questions
-  //     toast.error(`You have skipped ${skippedQuestions.length} question(s). They will be marked as unanswered.`);
-  //   }
-
-  //   const payload = {
-  //     "examination_id": examData.id,
-  //     "student_id": examData.created_by,
-  //     "type": questionType,
-  //     "mcq_answers": mcqAnswers,
-  //     // "creative_answers": [
-  //     //   {
-  //     //     "question_id": 20,
-  //     //     "creative_question_id": 201,
-  //     //     "creative_question_option": "Option A",
-  //     //     "creative_question_text": "This is the creative answer text."
-  //     //   }
-  //     // ],
-  //     // "normal_answers": [
-  //     //   {
-  //     //     "question_id": 30,
-  //     //     "normal_answer_text": "This is a normal answer text."
-  //     //   }
-  //     // ]
-  //   }
-
-  //   try {
-  //     const response = await finishExam(payload).unwrap();
-
-  //     if (response.examination && response.mcq_answers) {
-  //       naviagte("/exam-result");
-  //     }
-  //   } catch (err) {
-  //     toast.error(err?.data?.message || "An error occurred");
-  //   }
-
-  // }
 
   const handleSubmit = () => {
     const skippedQuestions = mcqAnswers?.filter(answer => answer.submitted_mcq_option === null);
@@ -94,7 +40,6 @@ export default function ExamOnGoingPage() {
     if (skippedQuestions?.length > 0) {
       setIsAlertOpen(true);
     } else {
-      // Show confirmation for full submission
       setIsFullSubmitAlertOpen(true);
     }
   };
@@ -125,7 +70,7 @@ export default function ExamOnGoingPage() {
       const response = await finishExam(payload).unwrap();
 
       if (response.examination && response.mcq_answers) {
-        naviagte("/exam-result");
+        navigate("/exam-result");
       }
     } catch (err) {
       toast.error(err?.data?.message || "An error occurred");
@@ -155,7 +100,6 @@ export default function ExamOnGoingPage() {
         {questionType === "mcq" && (
           <McqExamPage
             filteredQues={questions_list}
-            setMcqAnswers={setMcqAnswers}
           />
         )}
         {questionType === "normal" && <NormalExamPage />}
