@@ -111,7 +111,7 @@ export function MultipleSelector({
                                                         key={item.id}
                                                         value={item.id}
                                                         onSelect={() => {
-                                                            console.log("selectedid", item.id)
+                                                            console.log("selected id", item.id)
                                                             handleSetValue(item.id)
                                                         }}
                                                     >
@@ -137,4 +137,3 @@ export function MultipleSelector({
         </div>
     );
 }
-
