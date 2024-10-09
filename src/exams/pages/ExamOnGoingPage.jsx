@@ -257,28 +257,17 @@ export default function ExamOnGoingPage() {
   const { exam: examData, questions_list } = exam;
   const time = examData.time_limit;
   const questionType = examData.type;
+  const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
 
-  const [mcqAnswers, setMcqAnswers] = useState(
-    questions_list.map((question) => {
-      const firstMcqQuestionId = question.mcq_questions?.[0]?.id || null;
-
-      return {
-        question_id: question.id,
-        mcq_question_id: firstMcqQuestionId,
-        submitted_mcq_option: null
-      };
-    })
-  );
-
   const [finishExam, { isLoading: isExamFinishing }] = useFinishExamMutation();
 
   const handleSubmit = () => {
-    const skippedQuestions = mcqAnswers.filter(answer => answer.submitted_mcq_option === null);
+    const skippedQuestions = mcqAnswers?.filter(answer => answer.submitted_mcq_option === null);
 
-    if (skippedQuestions.length > 0) {
+    if (skippedQuestions?.length > 0) {
       setIsAlertOpen(true);
     } else {
       setIsFullSubmitAlertOpen(true);
@@ -341,7 +330,6 @@ export default function ExamOnGoingPage() {
         {questionType === "mcq" && (
           <McqExamPage
             filteredQues={questions_list}
-            setMcqAnswers={setMcqAnswers}
           />
         )}
         {questionType === "normal" && <NormalExamPage />}
