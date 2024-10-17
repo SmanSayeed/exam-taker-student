@@ -7,15 +7,12 @@ const initialState = {
     error: null,
 }
 
-// Thunk for fetching category data
 export const fetchCategoryData = createAsyncThunk(
     "category/fetchCategoryData",
     async (category, { getState }) => {
-        // const baseURL = import.meta.env.VITE_SERVER_BASE_URL_2;
          const baseURL = "https://loopsexam.xyz/api/v1/admin";
 
-        const storedAuth = localStorage.getItem("auth");
-        const auth = storedAuth ? JSON.parse(storedAuth) : null;
+        const auth = getState().auth;
         const token = auth?.token;
 
         if (!token) {
