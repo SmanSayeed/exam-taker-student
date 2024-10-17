@@ -53,6 +53,8 @@ export function MultipleSelector({
             updatedValues = [...selectedValues, val];
         }
 
+        console.log("updatedvalues", updatedValues)
+
         setSelectedValues(updatedValues);
 
         if (onChange) {
@@ -83,7 +85,10 @@ export function MultipleSelector({
                                             selectedValues?.length ?
                                                 selectedValues.map((val, i) => (
                                                     <div key={i} className="px-2 py-1 rounded-xl border bg-slate-200 text-xs font-medium">
-                                                        {options?.find((item) => item.id === val)?.title}
+                                                        {options?.find((item) => {
+                                                            console.log("val id type", typeof item?.id)
+                                                            return item?.id === val
+                                                        })?.title}
                                                     </div>
                                                 ))
                                                 : `Select ${label}...`
@@ -101,7 +106,9 @@ export function MultipleSelector({
                                 //     if (onChange) onChange(val)
                                 // }}
                                 >
-                                    <CommandInput placeholder={placeholder} />
+                                    <CommandInput
+                                        placeholder={placeholder}
+                                    />
                                     <CommandEmpty>No {label} found.</CommandEmpty>
                                     <CommandGroup>
                                         <CommandList>
@@ -111,7 +118,6 @@ export function MultipleSelector({
                                                         key={item.id}
                                                         value={item.id}
                                                         onSelect={() => {
-                                                            console.log("selectedid", item.id)
                                                             handleSetValue(item.id)
                                                         }}
                                                     >
