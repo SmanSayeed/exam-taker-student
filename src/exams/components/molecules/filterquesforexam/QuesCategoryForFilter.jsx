@@ -4,7 +4,6 @@ import { useCategoryData } from "./useCategoryData";
 export default function QuesCategoryForFilter({ control, setValue }) {
 
     const { categories: sections, isLoading, error, categoryData: sectionData, setCategoryData: setSectionData } = useCategoryData("sections");
-    console.log("sectionData", sectionData)
     const { categories: examTypes, categoryData: examTypeData, setCategoryData: setExamTypeData } = useCategoryData("exam-types");
     const { categories: groups, categoryData: groupData, setCategoryData: setGroupData } = useCategoryData("groups");
     const { categories: levels, categoryData: levelData, setCategoryData: setLevelData } = useCategoryData("levels");
@@ -15,9 +14,7 @@ export default function QuesCategoryForFilter({ control, setValue }) {
 
     const handleSectionChange = (ids) => {
         if (sections) {
-            console.log("sections", sections)
             const foundData = ids.map(id => sections.find(item => item.id === id)).filter(Boolean);
-            console.log("foundData", foundData)
             setSectionData(foundData || null);
 
             const allExamTypes = foundData.flatMap(section => section.exam_types || []);
@@ -126,11 +123,11 @@ export default function QuesCategoryForFilter({ control, setValue }) {
     };
 
     if (isLoading) {
-        return <div>Loading sections...</div>;
+        return <div>Loading Categories...</div>;
     }
 
     if (error) {
-        return <div>Error loading sections: {error.message}</div>;
+        return <div>Error loading Categories: {error.message}</div>;
     }
 
     const renderSelectField = ({ label, name, options, onChange, defaultValue, rules, disabled }) => (

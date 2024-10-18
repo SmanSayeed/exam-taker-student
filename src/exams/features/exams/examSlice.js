@@ -14,7 +14,6 @@ const examSlice = createSlice({
         saveExamInfo: (state, action) => {
             state.exam = action.payload.exam;
             state.questions_list = action.payload.questions_list;
-            // Initialize mcqAnswers when exam data is saved
             state.mcqAnswers = action.payload.questions_list.map(question => {
                 const firstMcqQuestionId = question?.mcq_questions?.[0]?.id || null;
 

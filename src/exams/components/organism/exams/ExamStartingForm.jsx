@@ -19,10 +19,12 @@ const ExamStartingForm = ({ filteredQuestions }) => {
     const [startExam, { isLoading: isExamStarting }] = useStartExamMutation();
 
     const handleStartExam = async (formData) => {
-        // if (filteredQuestions.length === 0) {
-        //   toast.warning("Please filter your questions first.");
-        //   return;
-        // }
+        if (!auth?.student) navigate("/login");
+
+        if (!filteredQuestions || !filteredQuestions.questionType) {
+            toast.warning("Please filter your questions first.");
+            return;
+        }
 
         const payload = {
             title: "Math Final Exam",
