@@ -19,7 +19,6 @@ const ExamStartingForm = ({ filteredQuestions }) => {
     const [startExam, { isLoading: isExamStarting }] = useStartExamMutation();
 
     const handleStartExam = async (formData) => {
-
         if (!auth?.student) navigate("/login");
 
         if (!filteredQuestions || !filteredQuestions.questionType) {
@@ -37,15 +36,15 @@ const ExamStartingForm = ({ filteredQuestions }) => {
             time_limit: formData.timeCount,
             is_negative_mark_applicable: true,
             questions_limit: formData.numberOfQuestion,
-            // section_categories: filteredQuestions.section || [],
-            // exam_type_categories: filteredQuestions.exam_type || [],
-            // exam_sub_type_categories: filteredQuestions.exam_sub_type || [],
-            // group_categories: filteredQuestions.group || [],
-            // level_categories: filteredQuestions.level || [],
-            // lesson_categories: filteredQuestions.lesson || [],
-            // topic_categories: filteredQuestions.topic || [],
-            // sub_topic_categories: filteredQuestions.sub_topic || [],
-            // year_categories: filteredQuestions.year || [],
+            section_categories: filteredQuestions.section || [],
+            exam_type_categories: filteredQuestions.exam_type || [],
+            exam_sub_type_categories: filteredQuestions.exam_sub_type || [],
+            group_categories: filteredQuestions.group || [],
+            level_categories: filteredQuestions.level || [],
+            lesson_categories: filteredQuestions.lesson || [],
+            topic_categories: filteredQuestions.topic || [],
+            sub_topic_categories: filteredQuestions.sub_topic || [],
+            year_categories: filteredQuestions.year || [],
         };
 
         try {

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import QuesCategoryForFilter from "../molecules/filterquesforexam/QuesCategoryForFilter";
 
 export function DrawerForQuestionFilter({ onFilterQuestions }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -109,10 +110,10 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                                 />
                             </div>
 
-                            {/* <QuesCategoryForFilter
+                            <QuesCategoryForFilter
                                 control={control}
                                 setValue={setValue}
-                            /> */}
+                            />
 
                             <DrawerFooter className="w-full md:w-3/5 mx-auto">
                                 <Button type="submit">Submit</Button>
