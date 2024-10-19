@@ -20,6 +20,7 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
     }
 
     const [navOpened, setNavOpened] = useState(false);
+
     /* Make body not scrollable when navBar is opened */
     useEffect(() => {
         if (navOpened) {
@@ -46,7 +47,6 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
                 />
             </div>
 
-
             <Layout fixed className={` ${navOpened ? 'h-svh' : ''} w-full flex flex-co items-center justify-between md:flex-row shadow`}>
                 <Layout.Header
                     sticky
@@ -58,12 +58,11 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
 
                     <Nav
                         id='sidebar-menu'
-                        className={`z-40 h-full hidden md:flex flex-row  overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen'}`}
+                        className={`z-40 h-full hidden md:flex flex-row overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen'}`}
                         closeNav={() => setNavOpened(false)}
                         isCollapsed={isCollapsed}
                         links={NavLinks}
                     />
-
 
                     <div className='hidden md:flex items-center gap-3'>
                         <ThemeSwitch />
@@ -71,7 +70,6 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
                             checkingUser ? <UserNav /> : <Button onClick={handleNavigating} >Login</Button>
                         }
                     </div>
-
 
                     <div className='flex items-center md:hidden '>
                         <div>
