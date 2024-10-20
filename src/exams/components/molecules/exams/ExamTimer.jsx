@@ -8,13 +8,33 @@ function ExamTimer({ submitExam }) {
     const { exam } = useSelector((state) => state.exam);
     const persistedTimeLeft = useSelector((state) => state.exam.timeLeft);
 
-    const endTime = parseISO(exam.end_time);
+    const endTime = exam ? parseISO(exam?.end_time) : null;
     const now = new Date();
 
     const initialTimeLeft = Math.max(differenceInSeconds(endTime, now), 0);
     const [timeLeft, setTimeLeft] = useState(persistedTimeLeft || initialTimeLeft);
 
+    const [examSubmitted, setExamSubmitted] = useState(false); // Track if the exam is submitted
+
+    // Memoize the submitExam function to avoid unnecessary re-renders
+    // const handleSubmitExam = useCallback(() => {
+    //     if (!examSubmitted && timeLeft === 0) {
+    //         try {
+    //             submitExam();
+    //             setExamSubmitted(true);
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     }
+    // }, [submitExam, examSubmitted, timeLeft]);
+
     useEffect(() => {
+        if (timeLeft <= 2 && !examSubmitted) {
+            submitExam(); // Submit the exam when time reaches 0
+            setExamSubmitted(true); // Ensure it only happens once
+            return;
+        }
+
         const timer = setInterval(() => {
             setTimeLeft((prevTime) => {
                 const updatedTimeLeft = Math.max(prevTime - 1, 0);
@@ -23,14 +43,15 @@ function ExamTimer({ submitExam }) {
 
                 if (updatedTimeLeft === 0) {
                     clearInterval(timer);
-                    submitExam();
+                    // handleSubmitExam();
                 }
+
                 return updatedTimeLeft;
             });
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [dispatch, submitExam]);
+    }, [dispatch, submitExam, examSubmitted, timeLeft]);
 
     const formatTime = () => {
         const minutes = Math.floor(timeLeft / 60);
@@ -40,6 +61,10 @@ function ExamTimer({ submitExam }) {
 
     const showWarning = timeLeft <= 120 && timeLeft > 0;
     const timeFinished = timeLeft === 0;
+
+    if (!exam || !exam.end_time) {
+        return <p>Loading exam details...</p>;
+    }
 
     return (
         <div>

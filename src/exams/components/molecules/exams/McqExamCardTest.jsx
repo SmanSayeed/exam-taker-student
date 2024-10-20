@@ -15,20 +15,27 @@ const parseHtmlContent = (htmlContent) => {
     );
 };
 
-export default function McqExamCard({ queIndex, question }) {
-    const dispatch = useDispatch();
-    const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
+const McqExamCardTest = ({ queIndex, question }) => {
 
     const { id: question_id, title, mcq_questions } = question || {};
 
+    // Get the persisted answers from Redux
+    const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
+
+    // Find the persisted answer for the current question
     const persistedAnswer = mcqAnswers?.find((answer) => answer?.question_id === question_id);
+
+    // Local state to track the selected option
     const [selectedOption, setSelectedOption] = useState(null);
 
+    // When the component mounts, set the selected option based on persisted answer
     useEffect(() => {
         if (persistedAnswer && persistedAnswer?.submitted_mcq_option) {
             setSelectedOption(persistedAnswer?.submitted_mcq_option);
         }
     }, [persistedAnswer]);
+
+    const dispatch = useDispatch();
 
     const handleOptionClick = (optionId, optionSerial) => {
         if (!optionSerial) {
@@ -36,6 +43,10 @@ export default function McqExamCard({ queIndex, question }) {
             return;
         }
 
+        // Update the local state to show which option was selected
+        // setSelectedOption(optionId);
+
+        // Dispatch the action to update the Redux store
         dispatch(updateMcqAnswer({
             question_id,
             mcq_question_id: optionId,
@@ -81,3 +92,5 @@ export default function McqExamCard({ queIndex, question }) {
         </Card>
     )
 }
+
+export default McqExamCardTest;
