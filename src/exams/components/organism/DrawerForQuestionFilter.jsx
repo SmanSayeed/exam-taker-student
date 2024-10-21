@@ -23,7 +23,6 @@ import QuesCategoryForFilter from "../molecules/filterquesforexam/QuesCategoryFo
 
 export function DrawerForQuestionFilter({ onFilterQuestions }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [popoverOpen, setPopoverOpen] = useState(false);
 
     const {
         control,
@@ -74,37 +73,6 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                                                     <SelectItem value="creative">Creative</SelectItem>
                                                 </SelectContent>
                                             </Select>
-
-                                            {/* <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-                                                <PopoverTrigger asChild>
-                                                    <Button variant="outline" className="w-full justify-start">
-                                                        {field.value
-                                                            ? field.value.charAt(0).toUpperCase() + field.value.slice(1)
-                                                            : "Select question type"}
-                                                    </Button>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-full p-0">
-                                                    <Command>
-                                                        <CommandInput placeholder="Search question type..." />
-                                                        <CommandList>
-                                                            <CommandEmpty>No results found.</CommandEmpty>
-                                                            <CommandGroup>
-                                                                {["normal", "mcq", "creative"].map((type) => (
-                                                                    <CommandItem
-                                                                        key={type}
-                                                                        onSelect={() => {
-                                                                            field.onChange(type);
-                                                                            setPopoverOpen(false);
-                                                                        }}
-                                                                    >
-                                                                        {type.charAt(0).toUpperCase() + type.slice(1)}
-                                                                    </CommandItem>
-                                                                ))}
-                                                            </CommandGroup>
-                                                        </CommandList>
-                                                    </Command>
-                                                </PopoverContent>
-                                            </Popover> */}
                                         </>
                                     )}
                                 />

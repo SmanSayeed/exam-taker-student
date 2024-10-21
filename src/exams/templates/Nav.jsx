@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
     Collapsible,
@@ -19,11 +20,13 @@ import {
     TooltipTrigger
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Logout from "../components/molecules/auth/Logout";
 import useCheckActiveNav from "../hooks/useCheckActiveNav";
 
-export default function Nav({ links, isCollapsed, className, closeNav }) {
+export default function Nav({ links, isCollapsed, className, closeNav, checkingUser, handleNavigating, fromMobile = false }) {
     const renderLink = ({ sub, ...rest }) => {
         const key = `${rest.title}-${rest.href}`;
 
@@ -48,6 +51,61 @@ export default function Nav({ links, isCollapsed, className, closeNav }) {
         return <NavLink {...rest} key={key} closeNav={closeNav} />
     }
 
+    let mobileNav;
+
+    if (fromMobile && !checkingUser) {
+        mobileNav = (
+            <NavLink title={"Login"} href={"/login"} />
+        )
+    }
+
+    const auth = useSelector(state => state.auth);
+
+    if (fromMobile && checkingUser) {
+        mobileNav = (
+            <div className="flex flex-col">
+                <div className="flex items-center gap-4 px-8 py-4">
+                    <Button variant='ghost' className='relative h-10 w-10 rounded-full'>
+                        <Avatar className='h-8 w-8'>
+                            <AvatarImage src='/avatars/01.png' alt='@shadcn' />
+                            <AvatarFallback>
+                                {
+                                    auth?.student?.profile_image ? (
+                                        <img src={auth?.student?.profile_image} alt="user image" />
+                                    ) : (
+                                        <span>{auth?.student?.name.charAt(0)}</span>
+                                    )
+                                }
+                            </AvatarFallback>
+                        </Avatar>
+                    </Button>
+                    <div className="flex flex-col gap-2">
+                        <p className='leading-none text-muted-foreground'>
+                            {auth?.student?.name}
+                        </p>
+                        <p className='text-sm leading-none text-muted-foreground'>
+                            {auth?.student?.email}
+                        </p>
+                    </div>
+                </div>
+
+                <NavLink title={"Profile"} />
+
+                <div
+                    className={cn(
+                        buttonVariants({
+                            variant: "ghost",
+                            size: "sm"
+                        }),
+                        "h-12 flex justify-start text-wrap px-8 rounded-md",
+                    )}
+                >
+                    <Logout />
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div
             data-collapsed={isCollapsed}
@@ -57,8 +115,12 @@ export default function Nav({ links, isCollapsed, className, closeNav }) {
             )}
         >
             <TooltipProvider delayDuration={0}>
-                <nav className="flex flex-col md:flex-row gap-1 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
+                <nav className="flex w-full mx-2 flex-col md:flex-row gap-1 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
                     {links.map(renderLink)}
+
+                    <div className="border-t-[1px] mb-2" />
+
+                    {mobileNav}
                 </nav>
             </TooltipProvider>
         </div>
@@ -77,7 +139,7 @@ function NavLink({ title, icon, label, href, closeNav, subLink = false }) {
                     variant: checkActiveNav(href) ? "secondary" : "ghost",
                     size: "sm"
                 }),
-                "h-12 flex justify-start text-wrap rounded-none px-6",
+                "h-12 flex justify-start text-wrap px-6 rounded-md",
                 subLink && "h-10 w-full border-l border-l-slate-500 px-2"
             )}
             aria-current={checkActiveNav(href) ? "page" : undefined}
