@@ -59,13 +59,13 @@ export function MultipleSelector({
                                     variant="outline"
                                     role="combobox"
                                     aria-expanded={open}
-                                    className="w-[480px] justify-between"
+                                    className="w-[480px] sm:w-[300px] md:w-[400px] h-auto justify-between"
                                 >
-                                    <div className="flex gap-2 justify-start">
+                                    <div className="flex gap-2 justify-start flex-wrap">
                                         {
                                             selectedValues.length ?
                                                 selectedValues.map((val) => (
-                                                    <div key={val} className="px-2 py-1 rounded-xl border bg-slate-200 text-xs font-medium">
+                                                    <div key={val} className="px-2 py-1 rounded-xl border dark:text-gray-800 bg-slate-200 text-xs font-medium">
                                                         {options.find((item) => item.id === val)?.title || "Unknown"}
                                                     </div>
                                                 ))
