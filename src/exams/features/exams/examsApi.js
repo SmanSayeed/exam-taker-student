@@ -1,3 +1,4 @@
+import { persistor } from "@/app/store";
 import { apiSlice } from "../api/apiSlice";
 import { clearExamInfo, saveExamInfo } from "./examSlice";
 import { submittedExamInfo } from "./submittedExamSlice";
@@ -51,6 +52,8 @@ export const examsApi = apiSlice.injectEndpoints({
                             timeLeft: null
                         })
                     );
+
+                    persistor.purge(['exam']);
 
                     dispatch(
                         submittedExamInfo({
