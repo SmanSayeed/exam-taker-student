@@ -1,8 +1,4 @@
 export const NavLinks = [
-    // {
-    //     title: "Questions",
-    //     href: "/questions",
-    // },
     {
         title: "Class",
         href: "/class",

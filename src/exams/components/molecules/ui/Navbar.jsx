@@ -36,7 +36,7 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
             {/* Overlay in mobile */}
             <div
                 onClick={() => setNavOpened(false)}
-                className={`absolute top-10 inset-0 transition-[opacity] delay-100 duration-700 z-50 ${navOpened ? 'h-svh opacity-100' : 'h-0 opacity-0'} w-full bg-black md:hidden`}
+                className={`absolute top-14 inset-0 transition-[opacity] delay-100 duration-700 z-50 ${navOpened ? 'h-svh opacity-100' : 'h-0 opacity-0'} w-full bg-black md:hidden`}
             >
                 <Nav
                     id='sidebar-menu'
@@ -44,6 +44,8 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
                     closeNav={() => setNavOpened(false)}
                     isCollapsed={isCollapsed}
                     links={NavLinks}
+                    checkingUser={checkingUser}
+                    fromMobile={true}
                 />
             </div>
 

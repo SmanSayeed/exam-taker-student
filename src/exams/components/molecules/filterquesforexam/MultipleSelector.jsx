@@ -63,7 +63,7 @@ export function MultipleSelector({
                                     variant="outline"
                                     role="combobox"
                                     aria-expanded={open}
-                                    className="w-[480px] sm:w-[300px] md:w-[400px] h-auto justify-between"
+                                    className="w-full sm:w-[300px] md:w-[400px] h-auto justify-between"
                                 >
                                     <div className="flex gap-2 justify-start flex-wrap">
                                         {
