@@ -38,10 +38,10 @@ export function MultipleSelector({
 
     setSelectedValues(updatedValues);
 
-    if (onChange) {
-      onChange(updatedValues); // Pass the updated array back to parent
-    }
-  };
+        if (onChange) {
+            onChange(updatedValues); // Pass the updated array back to parent
+        }
+    };
 
     return (
         <div className="space-y-1 min-w-full text-left">
@@ -65,7 +65,7 @@ export function MultipleSelector({
                                         {
                                             selectedValues.length ?
                                                 selectedValues.map((val) => (
-                                                    <div key={val} className="px-2 my-1 p-1 text-wrap rounded bg-slate-200 dark:bg-slate-800 text-sm font-medium">
+                                                    <div key={val} className="px-2 my-1 p-1 rounded bg-slate-200 dark:bg-slate-800 text-sm font-medium text-wrap">
                                                         {options.find((item) => item.id === val)?.title || "Unknown"}
                                                     </div>
                                                 ))

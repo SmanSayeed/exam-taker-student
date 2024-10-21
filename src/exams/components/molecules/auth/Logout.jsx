@@ -9,11 +9,10 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { useLoggedOutMutation } from "./../../../features/auth/authApi";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useLoggedOutMutation } from "./../../../features/auth/authApi";
 
 const Logout = () => {
     const navigate = useNavigate();
@@ -24,23 +23,21 @@ const Logout = () => {
         setOpen(true)
     };
 
-    const [logout, { isError, isSuccess, error }] = useLoggedOutMutation();
-    const handleLogout = () => {
-        logout();
-    }
+    const [logout, { error }] = useLoggedOutMutation();
 
-    useEffect(() => {
-        if (isError) {
-            toast.error(error?.data?.message);
-        }
+    const handleLogout = async () => {
+        try {
+            const response = await logout().unwrap();
+            console.log(response)
 
-        if (isSuccess) {
             setOpen(false);
-            toast.success("Logout Succes!");
+            toast.success(response?.message);
             navigate("/login");
-            console.log("heaa, logout hoiche")
+        } catch (err) {
+            console.error(err);
+            toast.error(error?.data?.message || "Something went wrong");
         }
-    }, [isSuccess, navigate, isError, error]);
+    }
 
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>
@@ -56,10 +53,8 @@ const Logout = () => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>
-                        <form onSubmit={handleLogout} >
-                            <Button type="submit">Yes</Button>
-                        </form>
+                    <AlertDialogAction onClick={handleLogout}>
+                        Yes
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

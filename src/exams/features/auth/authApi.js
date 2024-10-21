@@ -1,3 +1,4 @@
+import { persistor } from "@/app/store";
 import { apiSlice } from "../api/apiSlice";
 import { loggedIn, loggedOut } from "./authSlice";
 
@@ -53,6 +54,8 @@ export const authApi = apiSlice.injectEndpoints({
               student: null,
             })
           );
+
+          persistor.purge(['auth']);
         } catch (err) {
           console.log(err);
         }

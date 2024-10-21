@@ -1,6 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { useStartExamMutation } from "@/exams/features/exams/examsApi";
+import { Label } from "@radix-ui/react-dropdown-menu";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -69,6 +77,7 @@ const ExamStartingForm = () => {
             <div className="grid gap-4">
                 <div className="flex items-start flex-col gap-1">
                     <div id="number-o-questions" className="w-full text-center">
+                        {/* ..... */}
                         <div>
                             {/* question types */}
                             <div className="space-y-1 ">
@@ -104,7 +113,7 @@ const ExamStartingForm = () => {
                                 setValue={setValue}
                             />
                         </div>
-                        {/* time and number of questions */}
+                        {/* ..... */}
                         <div className="flex flex-col md:flex-row gap-4 mb-4">
                             <div className="w-full text-start ">
                                 <Input
@@ -164,4 +173,5 @@ const ExamStartingForm = () => {
         </form>
     )
 }
-export default ExamStartingForm
+
+export default ExamStartingForm;
