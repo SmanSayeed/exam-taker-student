@@ -31,7 +31,6 @@ export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: async (args, api, extraOptions) => {
         let result = await baseQuery(args, api, extraOptions);
-        console.log("result in basequery", result)
 
         if (result?.error?.status_code === 401) {
             toast.warning("your access token is expired!");
@@ -54,7 +53,6 @@ export const apiSlice2 = createApi({
     reducerPath: "api2",
     baseQuery: async (args, api, extraOptions) => {
         let result = await baseQuery2(args, api, extraOptions);
-        console.log("result in basequery 2", result)
 
         if (result?.error?.status_code === 401) {
             toast.warning("your access token is expired!");

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
     Select,
     SelectContent,
@@ -8,7 +9,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useStartExamMutation } from "@/exams/features/exams/examsApi";
-import { Label } from "@radix-ui/react-dropdown-menu";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

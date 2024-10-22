@@ -5,6 +5,9 @@ import { submittedExamInfo } from "./submittedExamSlice";
 
 export const examsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        getAllExams: builder.query({
+            query: () => "/exams/all/0"
+        }),
         startExam: builder.mutation({
             query: (data) => ({
                 url: "/exam/start",
@@ -76,6 +79,7 @@ export const examsApi = apiSlice.injectEndpoints({
 });
 
 export const {
+    useGetAllExamsQuery,
     useStartExamMutation,
     useFinishExamMutation,
     useGetExamByIdQuery
