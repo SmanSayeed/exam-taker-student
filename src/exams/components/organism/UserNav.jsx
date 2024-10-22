@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Logout from './../molecules/auth/Logout';
 
 const UserNav = () => {
@@ -69,7 +70,7 @@ const UserNav = () => {
                         Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                        Settings
+                        <Link to="/exam-history">Exam History</Link>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

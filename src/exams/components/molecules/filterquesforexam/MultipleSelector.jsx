@@ -82,7 +82,7 @@ export function MultipleSelector({
                                     <CommandGroup>
                                         <CommandList>
                                             {
-                                                options.map((item) => (
+                                                options?.map((item) => (
                                                     <CommandItem
                                                         key={item.id}
                                                         value={item.id}
