@@ -23,7 +23,6 @@ import QuesCategoryForFilter from "../molecules/filterquesforexam/QuesCategoryFo
 
 export function DrawerForQuestionFilter({ onFilterQuestions }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [popoverOpen, setPopoverOpen] = useState(false);
 
     const {
         control,
@@ -43,17 +42,16 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                     <Button variant="outline" className="tracking-wide">Filter Your Questions</Button>
                 </DrawerTrigger>
                 <DrawerContent>
-
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="mx-auto h-full w-full flex items-center justify-center flex-col">
-                            <DrawerHeader className="text-center mt-10">
+                        <div className="mx-auto h-full w-full flex items-center justify-center flex-col ">
+                            <DrawerHeader className="text-center">
                                 <DrawerTitle>Set your desired destination</DrawerTitle>
                                 <DrawerDescription>It&apos;s quick and easy</DrawerDescription>
                             </DrawerHeader>
 
                             {/* select question type */}
-                            <div className="p-4 pb-0 w-1/2 space-y-2">
-                                <Label className="text-md font-bold">Question Type: </Label>
+                            <div className="w-[95%] mx-auto md:w-1/2 space-y-1 ">
+                                <Label className="text-md font-semibold">Question Type: </Label>
                                 <Controller
                                     name="questionType"
                                     control={control}
@@ -74,37 +72,6 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                                                     <SelectItem value="creative">Creative</SelectItem>
                                                 </SelectContent>
                                             </Select>
-
-                                            {/* <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-                                                <PopoverTrigger asChild>
-                                                    <Button variant="outline" className="w-full justify-start">
-                                                        {field.value
-                                                            ? field.value.charAt(0).toUpperCase() + field.value.slice(1)
-                                                            : "Select question type"}
-                                                    </Button>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-full p-0">
-                                                    <Command>
-                                                        <CommandInput placeholder="Search question type..." />
-                                                        <CommandList>
-                                                            <CommandEmpty>No results found.</CommandEmpty>
-                                                            <CommandGroup>
-                                                                {["normal", "mcq", "creative"].map((type) => (
-                                                                    <CommandItem
-                                                                        key={type}
-                                                                        onSelect={() => {
-                                                                            field.onChange(type);
-                                                                            setPopoverOpen(false);
-                                                                        }}
-                                                                    >
-                                                                        {type.charAt(0).toUpperCase() + type.slice(1)}
-                                                                    </CommandItem>
-                                                                ))}
-                                                            </CommandGroup>
-                                                        </CommandList>
-                                                    </Command>
-                                                </PopoverContent>
-                                            </Popover> */}
                                         </>
                                     )}
                                 />
@@ -123,7 +90,6 @@ export function DrawerForQuestionFilter({ onFilterQuestions }) {
                             </DrawerFooter>
                         </div>
                     </form>
-
                 </DrawerContent>
             </Drawer>
         </div>

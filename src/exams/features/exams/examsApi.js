@@ -1,9 +1,13 @@
+import { persistor } from "@/app/store";
 import { apiSlice } from "../api/apiSlice";
 import { clearExamInfo, saveExamInfo } from "./examSlice";
 import { submittedExamInfo } from "./submittedExamSlice";
 
 export const examsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        getAllExams: builder.query({
+            query: () => "/exams/all/0"
+        }),
         startExam: builder.mutation({
             query: (data) => ({
                 url: "/exam/start",
@@ -52,6 +56,8 @@ export const examsApi = apiSlice.injectEndpoints({
                         })
                     );
 
+                    persistor.purge(['exam']);
+
                     dispatch(
                         submittedExamInfo({
                             examination,
@@ -73,6 +79,7 @@ export const examsApi = apiSlice.injectEndpoints({
 });
 
 export const {
+    useGetAllExamsQuery,
     useStartExamMutation,
     useFinishExamMutation,
     useGetExamByIdQuery

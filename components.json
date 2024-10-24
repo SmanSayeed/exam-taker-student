@@ -4,11 +4,9 @@
   "rsc": false,
   "tsx": false,
   "tailwind": {
-    "config": "tailwind.config.\i8iiiiiiiiiiii]8ikk
-    ik
-    ijs",
+    "config": "tailwind.config.js",
     "css": "src/index.css",
-    "baseColor": "slate",
+    "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
   },

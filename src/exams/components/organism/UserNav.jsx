@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Logout from './../molecules/auth/Logout';
 
 const UserNav = () => {
@@ -20,7 +21,7 @@ const UserNav = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
+                <Button variant='ghost' className='relative h-10 w-10 rounded-full'>
                     <Avatar className='h-8 w-8'>
                         <AvatarImage src='/avatars/01.png' alt='@shadcn' />
                         <AvatarFallback>
@@ -37,18 +38,29 @@ const UserNav = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-56' align='end' forceMount>
                 <DropdownMenuLabel className='font-normal'>
-                    <div className='flex flex-col space-y-1'>
-                        <p className='text-sm font-medium leading-none'>Exam taking app</p>
-                        <p className='text-xs leading-none text-muted-foreground'>
-                            {auth?.student?.email}
-                        </p>
-                        {
-                            auth?.student?.profile_image ? (
-                                <img src={auth?.student?.profile_image} alt="user image" />
-                            ) : (
-                                <span>{auth?.student?.name.charAt(0)}</span>
-                            )
-                        }
+                    <div className="flex items-center gap-4">
+                        <Button variant='ghost' className='relative h-10 w-10 rounded-full'>
+                            <Avatar className='h-8 w-8'>
+                                <AvatarImage src='/avatars/01.png' alt='@shadcn' />
+                                <AvatarFallback>
+                                    {
+                                        auth?.student?.profile_image ? (
+                                            <img src={auth?.student?.profile_image} alt="user image" />
+                                        ) : (
+                                            <span>{auth?.student?.name.charAt(0)}</span>
+                                        )
+                                    }
+                                </AvatarFallback>
+                            </Avatar>
+                        </Button>
+                        <div className="flex flex-col gap-2">
+                            <p className='leading-none text-muted-foreground'>
+                                {auth?.student?.name}
+                            </p>
+                            <p className='text-sm leading-none text-muted-foreground'>
+                                {auth?.student?.email}
+                            </p>
+                        </div>
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -58,7 +70,7 @@ const UserNav = () => {
                         Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                        Settings
+                        <Link to="/exam-history">Exam History</Link>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../../App";
 import ErrorPage from '../../ErrorPage';
 import NotFoundPage from "../../NotFoundPage";
+import ExamAnswersPageForHistory from "../pages/ExamAnswersPageForHistory";
+import ExamHistoryPage from "../pages/ExamHistoryPage";
 import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 import ExamResultPage from "../pages/ExamResultPage";
 import HomPage from "../pages/HomPage";
@@ -34,6 +36,14 @@ const Routes = createBrowserRouter([
             {
                 path: "/exams",
                 element: <ExamStartingPage />
+            },
+            {
+                path: "/exam-history",
+                element: <ExamHistoryPage />
+            },
+            {
+                path: "/exam-history/:id",
+                element: <ExamAnswersPageForHistory />
             },
             {
                 path: "/login",

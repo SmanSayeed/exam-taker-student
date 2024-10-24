@@ -1,4 +1,4 @@
-import { apiSlice } from "@/exams/features/api/apiSlice";
+import { apiSlice, apiSlice2 } from "@/exams/features/api/apiSlice";
 import authSliceReducer from "@/exams/features/auth/authSlice";
 import categorySliceReducer from "@/exams/features/categories/categorySlice";
 import examSliceReducer from "@/exams/features/exams/examSlice";
@@ -18,6 +18,7 @@ import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
+  [apiSlice2.reducerPath]: apiSlice2.reducer,
   auth: authSliceReducer,
   category: categorySliceReducer,
   exam: examSliceReducer,
@@ -29,7 +30,7 @@ const persistConfig = {
   storage,
   version: 1,
   whitelist: ['auth', 'exam'],
-  blacklist: [apiSlice.reducerPath],
+  blacklist: [apiSlice.reducerPath, apiSlice2.reducerPath],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -41,7 +42,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(apiSlice.middleware),
+    })
+    .concat(apiSlice.middleware)
+    .concat(apiSlice2.middleware),
 });
 
 export const persistor = persistStore(store);
