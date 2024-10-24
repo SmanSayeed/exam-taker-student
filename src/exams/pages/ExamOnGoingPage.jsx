@@ -17,7 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
-import { ArrowDownNarrowWideIcon } from "lucide-react";
+import { ArrowDownNarrowWideIcon, Loader2 } from "lucide-react";
 import ExamTimer from "../components/molecules/exams/ExamTimer";
 
 export default function ExamOnGoingPage() {
@@ -109,11 +109,17 @@ export default function ExamOnGoingPage() {
         <Button
           id="exam_submit"
           onClick={handleSubmit}
-          // className="w-full fixed bottom-[.2rem] left-4 right-4 "
           className="w-full"
           disabled={isExamFinishing}
         >
-          {isExamFinishing ? "Submitting" : "Submit"}
+          {
+            isExamFinishing ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : "Submit"
+          }
         </Button>
       </div>
 

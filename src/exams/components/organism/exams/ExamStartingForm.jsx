@@ -9,6 +9,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useStartExamMutation } from "@/exams/features/exams/examsApi";
+import { Loader2 } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -156,8 +157,15 @@ const ExamStartingForm = () => {
                                 }
                             </div>
                         </div>
-                        <Button type="submit" disabled={isExamStarting} className="mt-2 w-full ">
-                            {isExamStarting ? "Starting" : "Start Exam"}
+                        <Button type="submit" disabled={isExamStarting} className="mt-2 w-full">
+                            {
+                                isExamStarting ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Please wait
+                                    </>
+                                ) : "Start Exam"
+                            }
                         </Button>
                     </div>
                 </div>
