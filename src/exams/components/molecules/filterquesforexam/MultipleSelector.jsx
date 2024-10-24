@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
 } from "@/components/ui/command";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -36,10 +36,10 @@ export function MultipleSelector({
             updatedValues = [...selectedValues, val];
         }
 
-    setSelectedValues(updatedValues);
+        setSelectedValues(updatedValues);
 
         if (onChange) {
-            onChange(updatedValues); // Pass the updated array back to parent
+            onChange(updatedValues);
         }
     };
 

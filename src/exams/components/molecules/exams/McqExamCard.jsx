@@ -60,10 +60,11 @@ export default function McqExamCard({ queIndex, question }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {
                     mcq_questions?.map((option, index) => {
+                        // console.log("option", option)
                         return (
                             <div
                                 key={index}
-                                onClick={() => handleOptionClick(option?.id, option?.mcq_option_serial.toString())}
+                                onClick={() => handleOptionClick(option?.id, option?.mcq_option_serial)}
                                 className="flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2"
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">

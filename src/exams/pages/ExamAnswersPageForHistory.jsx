@@ -8,7 +8,7 @@ const ExamAnswersPageForHistory = () => {
     const { data: examData } = useGetExamByIdQuery(id);
 
     useEffect(() => {
-        console.log("allexams", examData?.exam);
+        console.log("exam", examData?.exam);
     }, [examData?.exam]);
 
     const results = examData?.exam?.answers[0]?.mcq_answers.reduce((acc, answer) => {
