@@ -1,6 +1,6 @@
 import McqExamCard from "../../molecules/exams/McqExamCard";
 
-export default function McqExamPage({ filteredQues, setMcqAnswers }) {
+export default function McqExamPage({ filteredQues }) {
 
     return (
         <div>
@@ -10,7 +10,6 @@ export default function McqExamPage({ filteredQues, setMcqAnswers }) {
                         key={que?.id}
                         queIndex={index}
                         question={que}
-                        setMcqAnswers={setMcqAnswers}
                     />
                 ))
             }

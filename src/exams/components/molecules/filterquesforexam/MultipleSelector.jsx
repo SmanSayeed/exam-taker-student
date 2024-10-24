@@ -1,5 +1,3 @@
-import { Check, ChevronsUpDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
     Command,
@@ -16,6 +14,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 
@@ -27,22 +26,10 @@ export function MultipleSelector({
     control,
     placeholder,
     defaultValue,
-    rules,
-    disabled
+    rules
 }) {
-
     const [open, setOpen] = useState(false);
-    const [selectedValues, setSelectedValues] = useState([]);
-
-    // const handleSetValue = (val) => {
-    //     if (selectedValues.includes(val)) {
-    //         selectedValues.splice(selectedValues.indexOf(val), 1);
-    //         setSelectedValues(selectedValues.filter((item) => item !== val));
-    //         onChange(val);
-    //     } else {
-    //         setSelectedValues(prevValue => [...prevValue, val]);
-    //     }
-    // }
+    const [selectedValues, setSelectedValues] = useState(defaultValue || []);
 
     const handleSetValue = (val) => {
         let updatedValues;
@@ -76,14 +63,14 @@ export function MultipleSelector({
                                     variant="outline"
                                     role="combobox"
                                     aria-expanded={open}
-                                    className="w-[480px] justify-between"
+                                    className="w-[480px] sm:w-[300px] md:w-[400px] h-auto justify-between"
                                 >
-                                    <div className="flex gap-2 justify-start">
+                                    <div className="flex gap-2 justify-start flex-wrap">
                                         {
-                                            selectedValues?.length ?
-                                                selectedValues.map((val, i) => (
-                                                    <div key={i} className="px-2 py-1 rounded-xl border bg-slate-200 text-xs font-medium">
-                                                        {options?.find((item) => item.id === val)?.title}
+                                            selectedValues.length ?
+                                                selectedValues.map((val) => (
+                                                    <div key={val} className="px-2 py-1 rounded-xl border dark:text-gray-800 bg-slate-200 text-xs font-medium">
+                                                        {options.find((item) => item.id === val)?.title || "Unknown"}
                                                     </div>
                                                 ))
                                                 : `Select ${label}...`
@@ -93,27 +80,17 @@ export function MultipleSelector({
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-[200px] p-0">
-                                <Command
-                                    value={field.value}
-                                // onChange={(val) => {
-                                //     console.log("selctedvalue", val)
-                                //     field.onChange(val)
-                                //     if (onChange) onChange(val)
-                                // }}
-                                >
+                                <Command>
                                     <CommandInput placeholder={placeholder} />
                                     <CommandEmpty>No {label} found.</CommandEmpty>
                                     <CommandGroup>
                                         <CommandList>
                                             {
-                                                options?.map((item) => (
+                                                options.map((item) => (
                                                     <CommandItem
                                                         key={item.id}
                                                         value={item.id}
-                                                        onSelect={() => {
-                                                            console.log("selectedid", item.id)
-                                                            handleSetValue(item.id)
-                                                        }}
+                                                        onSelect={() => handleSetValue(item.id)}
                                                     >
                                                         <Check
                                                             className={cn(
@@ -137,4 +114,3 @@ export function MultipleSelector({
         </div>
     );
 }
-

@@ -16,14 +16,12 @@ const parseHtmlContent = (htmlContent) => {
 export const ExamResultForMcqCard = ({ queIndex, question }) => {
 
     const { id: question_id, title, mcq_questions } = question || {};
-    // console.log("mcq_question", mcq_questions)
 
     const submittedExam = useSelector(state => state.submittedExam);
     const { mcq_answers } = submittedExam;
 
     const submittedAnswer = mcq_answers.find(item => item?.question_id === question_id);
     const submittedMcqOption = submittedAnswer?.submitted_mcq_option;
-    const isSubmittedAnsCorrect = submittedAnswer?.is_correct;
 
     return (
         <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg duration-500">

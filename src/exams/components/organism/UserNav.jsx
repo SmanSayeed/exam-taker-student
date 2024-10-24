@@ -11,22 +11,11 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
+import { useSelector } from 'react-redux';
 import Logout from './../molecules/auth/Logout';
-import { Link } from 'react-router-dom';
-import { Circle } from 'lucide-react';
-
-
-const auth = localStorage.getItem('auth');
-const authObject = JSON.parse(auth);
-if (authObject && authObject?.student && authObject?.student?.email) {
-    console.log(authObject?.student?.profile_image);
-} else {
-    console.log("Email not found");
-}
-
 
 const UserNav = () => {
-
+    const auth = useSelector(state => state.auth);
 
     return (
         <DropdownMenu>
@@ -34,7 +23,15 @@ const UserNav = () => {
                 <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
                     <Avatar className='h-8 w-8'>
                         <AvatarImage src='/avatars/01.png' alt='@shadcn' />
-                        <AvatarFallback>  <img src={authObject?.student?.profile_image} alt="user image" /> </AvatarFallback>
+                        <AvatarFallback>
+                            {
+                                auth?.student?.profile_image ? (
+                                    <img src={auth?.student?.profile_image} alt="user image" />
+                                ) : (
+                                    <span>{auth?.student?.name.charAt(0)}</span>
+                                )
+                            }
+                        </AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
@@ -43,9 +40,15 @@ const UserNav = () => {
                     <div className='flex flex-col space-y-1'>
                         <p className='text-sm font-medium leading-none'>Exam taking app</p>
                         <p className='text-xs leading-none text-muted-foreground'>
-                            satnaingdev@gmail.com
+                            {auth?.student?.email}
                         </p>
-                        <img src={authObject?.student?.profile_image} alt="user image" /> 
+                        {
+                            auth?.student?.profile_image ? (
+                                <img src={auth?.student?.profile_image} alt="user image" />
+                            ) : (
+                                <span>{auth?.student?.name.charAt(0)}</span>
+                            )
+                        }
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />

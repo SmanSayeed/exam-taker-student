@@ -11,7 +11,6 @@ const ExamStartingForm = ({ filteredQuestions }) => {
     const auth = useSelector((state) => state.auth);
 
     const {
-        control,
         register,
         handleSubmit,
         formState: { errors },
@@ -20,10 +19,12 @@ const ExamStartingForm = ({ filteredQuestions }) => {
     const [startExam, { isLoading: isExamStarting }] = useStartExamMutation();
 
     const handleStartExam = async (formData) => {
-        // if (filteredQuestions.length === 0) {
-        //   toast.warning("Please filter your questions first.");
-        //   return;
-        // }
+        if (!auth?.student) navigate("/login");
+
+        if (!filteredQuestions || !filteredQuestions.questionType) {
+            toast.warning("Please filter your questions first.");
+            return;
+        }
 
         const payload = {
             title: "Math Final Exam",
@@ -62,33 +63,61 @@ const ExamStartingForm = ({ filteredQuestions }) => {
             <div className="grid gap-4">
                 <div className="flex items-start flex-col gap-1">
                     <div id="number-o-questions" className="w-full text-center">
-                        <div className="flex flex-col md:flex-row gap-4 mb-6">
-                            <Input
-                                {...register("numberOfQuestion", {
-                                    required: "Number of questions is Required",
-                                })}
-                                name="numberOfQuestion"
-                                type="number"
-                                placeholder="Number of Questions"
-                            />
-                            <Input
-                                {...register("timeCount", {
-                                    required: "Time is Required",
-                                })}
-                                name="timeCount"
-                                type="number"
-                                placeholder="Time count(in minutes)"
-                            />
+                        <div className="flex flex-col md:flex-row gap-4 mb-1">
+                            <div className="w-full text-start ">
+                                <Input
+                                    {...register("numberOfQuestion", {
+                                        required: "Number of questions is Required",
+                                        min: {
+                                            value: 3,
+                                            message: "Minimum 3 question is required",
+                                        },
+                                        max: {
+                                            value: 200,
+                                            message: "Maximum 200 questions allowed",
+                                        },
+                                    })}
+                                    name="numberOfQuestion"
+                                    type="number"
+                                    placeholder="Number of Questions"
+                                />
+                                {errors.numberOfQuestion && (
+                                    <span className="text-red-500 font-semibold text-sm ">
+                                        {errors.numberOfQuestion.message}
+                                    </span>
+                                )}
+                            </div>
+                            <div className="w-full text-start ">
+                                <Input
+                                    {...register("timeCount", {
+                                        required: "Time is Required",
+                                        min: {
+                                            value: 3,
+                                            message: "Minimum time is 3 minute",
+                                        },
+                                        max: {
+                                            value: 180,
+                                            message: "Maximum time is 180 minutes",
+                                        },
+                                    })}
+                                    name="timeCount"
+                                    type="number"
+                                    placeholder="Time count(in minutes)"
+                                />
+                                {
+                                    errors.timeCount && (
+                                        <span className="text-red-500 font-semibold text-sm ">
+                                            {errors.timeCount.message}
+                                        </span>
+                                    )
+                                }
+                            </div>
+
                         </div>
-                        <Button type="submit" disabled={isExamStarting}>
+                        <Button type="submit" disabled={isExamStarting} className="mt-2">
                             {isExamStarting ? "Starting" : "Start"}
                         </Button>
                     </div>
-                    {errors.numberOfQuestion && (
-                        <span className="text-red-500 font-semibold text-sm">
-                            {errors.numberOfQuestion.message}
-                        </span>
-                    )}
                 </div>
             </div>
         </form>

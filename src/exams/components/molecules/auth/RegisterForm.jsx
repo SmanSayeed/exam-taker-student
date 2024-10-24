@@ -12,12 +12,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-import { useRegistrationMutation } from "./../../../features/auth/authApi";
+import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Eye, EyeOff } from "lucide-react";
+import { useRegistrationMutation } from "./../../../features/auth/authApi";
 
 // Utility function to fetch IP
 const fetchUserIP = async () => {
@@ -37,8 +37,8 @@ const RegisterForm = () => {
     const [profileImage, setProfileImage] = useState(null);
     const [imageError, setImageError] = useState("");
     const [ipAddress, setIpAddress] = useState(""); // State to store IP address
-    const [showPass, setShowPass] = useState(false); 
-    const [showConfirmPass, setShowConfirmPass] = useState(false); 
+    const [showPass, setShowPass] = useState(false);
+    const [showConfirmPass, setShowConfirmPass] = useState(false);
 
     const {
         register,
@@ -99,7 +99,7 @@ const RegisterForm = () => {
         // payload.append("active_status", isActive);
         // Convert isActive to 1 or 0 and append it
         payload.append("active_status", isActive ? 1 : 0);
-        
+
         // Check if the profile image exists and append it
         if (profileImage) {
             payload.append("profile_image", profileImage);  // Append the profile image
@@ -324,7 +324,7 @@ const RegisterForm = () => {
                     {errors.password_confirmation && <span className="text-red-600">{errors.password_confirmation.message}</span>}
                 </div>
 
-                 {/* Active status */}
+                {/* Active status */}
                 <div className="flex items-center space-x-2">
                     <Checkbox
                         id="active_status"
