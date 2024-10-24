@@ -1,3 +1,4 @@
+import Loading from "../../atoms/Loading";
 import { MultipleSelector } from "./MultipleSelector";
 import { useCategoryData } from "./useCategoryData";
 
@@ -123,11 +124,11 @@ export default function QuesCategoryForFilter({ control, setValue }) {
     };
 
     if (isLoading) {
-        return <div>Loading Categories...</div>;
+        return <Loading />;
     }
 
     if (error) {
-        return <div>Error loading Categories: {error.message}</div>;
+        return <div className="py-5">Error loading Categories: {error.message}</div>;
     }
 
     const renderSelectField = ({ label, name, options, onChange, defaultValue, rules, disabled }) => (
