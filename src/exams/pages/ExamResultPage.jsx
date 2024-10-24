@@ -6,7 +6,7 @@ import { useGetExamByIdQuery } from "../features/exams/examsApi";
 
 const ExamResultPage = () => {
     const submittedExam = useSelector(state => state.submittedExam);
-    const { examination, mcq_answers } = submittedExam;
+    const { examination, mcq_answers, total_marks } = submittedExam;
 
     const results = mcq_answers.reduce((acc, answer) => {
         if (answer.submitted_mcq_option === null) {
@@ -29,7 +29,7 @@ const ExamResultPage = () => {
         <div className="px-5 w-full ">
             <Card className="text-center p-4 relative">
                 <CardTitle> Mock Exam </CardTitle>
-                <p className="mt-4">Total marks: 10</p>
+                <p className="mt-4">Total marks: {total_marks}</p>
                 <div className="mt-6 flex items-center justify-center gap-4">
                     <p>{results.correct} Correct</p>
                     <p>{results.skipped} Skipped</p>

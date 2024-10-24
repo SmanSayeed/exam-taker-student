@@ -45,7 +45,7 @@ export const examsApi = apiSlice.injectEndpoints({
 
                 try {
                     const result = await queryFulfilled;
-                    const {examination, student, mcq_answers, creative_answers, normal_answers} = result.data;
+                    const {examination, student, mcq_answers, creative_answers, normal_answers, total_marks} = result.data;
 
                     dispatch(
                         clearExamInfo({
@@ -64,7 +64,8 @@ export const examsApi = apiSlice.injectEndpoints({
                             student,
                             mcq_answers,
                             creative_answers,
-                            normal_answers
+                            normal_answers,
+                            total_marks
                         })
                     )
                 } catch (err) {
