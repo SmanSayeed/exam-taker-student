@@ -131,19 +131,26 @@ export default function QuesCategoryForFilter({ control, setValue }) {
         return <div className="py-5">Error loading Categories: {error.message}</div>;
     }
 
-    const renderSelectField = ({ label, name, options, onChange, defaultValue, rules, disabled }) => (
-        <MultipleSelector
-            label={label}
-            name={name}
-            control={control}
-            options={options}
-            placeholder={`Select ${label}`}
-            onChange={onChange}
-            defaultValue={defaultValue}
-            rules={rules}
-            disabled={disabled}
-        />
-    );
+    const renderSelectField = ({ label, name, options, onChange, defaultValue, rules, disabled }) => {
+        // If no options are available, don't render the selector
+        if (!options || options.length === 0) {
+            return null;
+        }
+
+        return (
+            <MultipleSelector
+                label={label}
+                name={name}
+                control={control}
+                options={options}
+                placeholder={`Select ${label}`}
+                onChange={onChange}
+                defaultValue={defaultValue}
+                rules={rules}
+                disabled={disabled}
+            />
+        );
+    };
 
     return (
         <div className="flex flex-col md:flex-row items-start gap-4 my-6 border rounded-md ">

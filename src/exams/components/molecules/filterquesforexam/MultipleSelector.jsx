@@ -5,10 +5,11 @@ import {
     CommandGroup,
     CommandInput,
     CommandItem,
-    CommandList,
+    CommandList
 } from "@/components/ui/command";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import useMediaQuery from "@/exams/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
@@ -26,6 +27,8 @@ export function MultipleSelector({
 }) {
     const [open, setOpen] = useState(false);
     const [selectedValues, setSelectedValues] = useState(defaultValue || []);
+
+    const isMobile = useMediaQuery('(max-width: 768px)');
 
     const handleSetValue = (val) => {
         let updatedValues;
@@ -77,7 +80,12 @@ export function MultipleSelector({
                             </PopoverTrigger>
                             <PopoverContent>
                                 <Command>
-                                    <CommandInput placeholder={placeholder} />
+                                    {!isMobile && (
+                                        <CommandInput
+                                            placeholder={placeholder}
+                                            readOnly={isMobile}
+                                        />
+                                    )}
                                     <CommandEmpty>No {label} found.</CommandEmpty>
                                     <CommandGroup>
                                         <CommandList>
