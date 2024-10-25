@@ -89,7 +89,7 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
                     </div>
                 </div>
 
-                <NavLink title={"Profile"} />
+                <NavLink title={"Exam history"} href="/exam-history" />
 
                 <div
                     className={cn(

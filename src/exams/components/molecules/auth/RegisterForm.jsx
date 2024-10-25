@@ -220,12 +220,13 @@ const RegisterForm = () => {
                             <Label htmlFor="phone">Phone (optional)</Label>
                         </div>
                         <Input
-                            {...register("phone")}
+                            {...register("phone", { required: "Phone number is Required" })}
                             id="phone"
                             name="phone"
                             type="tel"
                             placeholder="+880 16123-4567"
                         />
+                        {errors.phone && <span className="text-red-600">{errors.phone.message}</span>}
                     </div>
 
                     {/* Profile Image */}
