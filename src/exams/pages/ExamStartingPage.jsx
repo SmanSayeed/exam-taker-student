@@ -5,7 +5,6 @@ import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 export default function ExamStartingPage() {
-
   const auth = useAuth();
   const navigate = useNavigate();
 
@@ -16,16 +15,16 @@ export default function ExamStartingPage() {
   }, [auth, navigate]);
 
   return (
-      <Card className="text-center pb-6 ">
-        <CardHeader>
-          <h1 className="text-4xl font-semibold ">Welcome to the OES!</h1>
-          <p>
-            Here, you can easily access and take your exams. Best of luck with
-            your assessments.
-          </p>
-        </CardHeader>
+    <Card className="text-center pb-6 ">
+      <CardHeader>
+        <h1 className="text-4xl font-semibold ">Welcome to the OES!</h1>
+        <p>
+          Here, you can easily access and take your exams. Best of luck with
+          your assessments.
+        </p>
+      </CardHeader>
 
-          <ExamStartingForm/>
-      </Card>
+      <ExamStartingForm />
+    </Card>
   );
 }

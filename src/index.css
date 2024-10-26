@@ -62,3 +62,39 @@
     @apply bg-background text-foreground;
   }
 }
+/* fonts */
+
+@font-face {
+  font-family: 'Hind Siliguri'; /* Define a name for your font */
+  src: url('./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-Regular.ttf') format('truetype'); /* Path to your TTF file */
+  font-weight: normal; /* Normal weight */
+  font-style: normal; /* Normal style */
+}
+
+@font-face {
+  font-family: 'Hind Siliguri'; /* Define a name for your font */
+  src: url('./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-Bold.ttf') format('truetype'); /* Path to your TTF file */
+  font-weight: bold; /* Bold weight */
+  font-style: normal; /* Normal style */
+}
+
+@font-face {
+  font-family: 'Hind Siliguri'; /* Define a name for your font */
+  src: url('./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-Medium.ttf') format('truetype'); /* Path to your TTF file */
+  font-weight: 500; /* Medium weight */
+  font-style: normal; /* Normal style */
+}
+
+@font-face {
+  font-family: 'Hind Siliguri'; /* Define a name for your font */
+  src: url('./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-Light.ttf') format('truetype'); /* Path to your TTF file */
+  font-weight: 300; /* Light weight */
+  font-style: normal; /* Normal style */
+}
+
+@font-face {
+  font-family: 'Hind Siliguri'; /* Define a name for your font */
+  src: url('./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-SemiBold.ttf') format('truetype'); /* Path to your TTF file */
+  font-weight: 600; /* SemiBold weight */
+  font-style: normal; /* Normal style */
+}
