@@ -1,17 +1,17 @@
-import Loading from "../../atoms/Loading";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MultipleSelector } from "./MultipleSelector";
 import { useCategoryData } from "./useCategoryData";
 
 export default function QuesCategoryForFilter({ control, setValue }) {
 
-    const { categories: sections, isLoading, error, categoryData: sectionData, setCategoryData: setSectionData } = useCategoryData("sections");
+    const { categories: sections, isLoading: isSectionLoading, error, categoryData: sectionData, setCategoryData: setSectionData } = useCategoryData("sections");
     const { categories: examTypes, categoryData: examTypeData, setCategoryData: setExamTypeData } = useCategoryData("exam-types");
-    const { categories: groups, categoryData: groupData, setCategoryData: setGroupData } = useCategoryData("groups");
+    const { categories: groups, isLoading: isGroupLoading, categoryData: groupData, setCategoryData: setGroupData } = useCategoryData("groups");
     const { categories: levels, categoryData: levelData, setCategoryData: setLevelData } = useCategoryData("levels");
     const { categories: subjects, categoryData: subjectData, setCategoryData: setSubjectData } = useCategoryData("subjects");
     const { categories: lessons, categoryData: lessonData, setCategoryData: setLessonData } = useCategoryData("lessons");
     const { categories: topics, categoryData: topicData, setCategoryData: setTopicData } = useCategoryData("topics");
-    const { categories: years } = useCategoryData("years");
+    const { categories: years, isLoading: isYearLoading } = useCategoryData("years");
 
     const handleSectionChange = (ids) => {
         if (sections) {
@@ -123,32 +123,60 @@ export default function QuesCategoryForFilter({ control, setValue }) {
         setValue("year", ids);
     };
 
-    if (isLoading) {
-        return <Loading />;
-    }
+    // if (isLoading) {
+    //     return <Loading />;
+    // }
+
+    // if (isLoading) {
+    //     return (
+    //         <div className="flex items-center space-x-4">
+    //             {/* <Skeleton className="h-12 w-12 rounded-full" /> */}
+    //             <div className="space-y-2">
+    //                 <Skeleton className="h-4 w-[250px]" />
+    //                 <Skeleton className="h-4 w-[200px]" />
+    //             </div>
+    //         </div>
+    //     )
+    // }
 
     if (error) {
-        return <div className="py-5">Error loading Categories: {error.message}</div>;
+        return <div className="py-5">Error loading Categories: {error?.data?.message}</div>;
     }
 
-    const renderSelectField = ({ label, name, options, onChange, defaultValue, rules, disabled }) => (
-        <MultipleSelector
-            label={label}
-            name={name}
-            control={control}
-            options={options}
-            placeholder={`Select ${label}`}
-            onChange={onChange}
-            defaultValue={defaultValue}
-            rules={rules}
-            disabled={disabled}
-        />
-    );
+    const renderSelectField = ({ label, name, options, onChange, defaultValue, rules, disabled }) => {
+        // If no options are available, don't render the selector
+        if (!options || options.length === 0) {
+            return null;
+        }
+
+        return (
+            <MultipleSelector
+                label={label}
+                name={name}
+                control={control}
+                options={options}
+                placeholder={`Select ${label}`}
+                onChange={onChange}
+                defaultValue={defaultValue}
+                rules={rules}
+                disabled={disabled}
+            />
+        );
+    };
 
     return (
         <div className="flex flex-col md:flex-row items-start gap-4 my-6 border rounded-md ">
             {/* Section → Exam Type → Exam Sub Type */}
-            <div className="grid grid-cols-1 gap-4 p-4 w-full ">
+            <div className="grid grid-cols-1 gap-4 p-4 w-full">
+                {
+                    isSectionLoading && (
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-[150px]" />
+                            <Skeleton className="h-4 w-[250px]" />
+                        </div>
+                    )
+                }
+
                 {renderSelectField({
                     label: "Section",
                     name: "section",
@@ -175,6 +203,15 @@ export default function QuesCategoryForFilter({ control, setValue }) {
 
             {/* Group → Level → Subject → Lesson → Topic → Sub Topic */}
             <div className="grid gap-4  md:border-l md:border-r  py-4 px-4 md:px-8 w-full ">
+                {
+                    isGroupLoading && (
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-[150px]" />
+                            <Skeleton className="h-4 w-[250px]" />
+                        </div>
+                    )
+                }
+
                 {renderSelectField({
                     label: "Group",
                     name: "group",
@@ -225,6 +262,15 @@ export default function QuesCategoryForFilter({ control, setValue }) {
 
             {/* Year */}
             <div className="w-full p-4">
+                {
+                    isYearLoading && (
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-[150px]" />
+                            <Skeleton className="h-4 w-[250px]" />
+                        </div>
+                    )
+                }
+
                 {renderSelectField({
                     label: "Year",
                     name: "year",

@@ -69,44 +69,44 @@ const ExamStartingForm = () => {
         <form onSubmit={handleSubmit(handleStartExam)} className="w-[95%] md:w-[90%] mx-auto ">
             <div className="grid gap-4">
                 <div className="flex items-start flex-col gap-1">
-                    <div id="number-o-questions" className="w-full text-center">
-                        {/* ..... */}
-                        <div>
-                            {/* question types */}
-                            <div className="space-y-1 ">
-                                <Label className="text-md text-left font-semibold">Question Type: </Label>
-                                <Controller
-                                    name="questionType"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <>
-                                            <Select
-                                                onValueChange={(val) => {
-                                                    field.onChange(val)
-                                                }}
-                                                value={field.value}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Type" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="normal">Normal</SelectItem>
-                                                    <SelectItem value="mcq">MCQ</SelectItem>
-                                                    <SelectItem value="creative">Creative</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </>
-                                    )}
-                                />
-                            </div>
+                    <div id="number-o-questions" className="w-full">
+                        {/* question types */}
+                        <div className="space-y-2 text-start">
+                            <Label className="text-md font-semibold">Question Type: </Label>
+                            <Controller
+                                name="questionType"
+                                control={control}
+                                render={({ field }) => (
+                                    <>
+                                        <Select
+                                            onValueChange={(val) => {
+                                                field.onChange(val)
+                                            }}
+                                            value={field.value}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="normal">Normal</SelectItem>
+                                                <SelectItem value="mcq">MCQ</SelectItem>
+                                                <SelectItem value="creative">Creative</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </>
+                                )}
+                            />
+                        </div>
 
-                            {/* questions category filter */}
+                        {/* questions category filter */}
+                        <div className="space-y-2 py-4 text-start">
+                            <Label className="text-md font-semibold">Select Category: </Label>
                             <QuesCategoryForFilter
                                 control={control}
                                 setValue={setValue}
                             />
                         </div>
-                        {/* ..... */}
+
                         <div className="flex flex-col md:flex-row gap-4 mb-4">
                             <div className="w-full text-start ">
                                 <Input
