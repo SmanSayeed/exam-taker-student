@@ -1,12 +1,9 @@
 import { Card } from "@/components/ui/card";
+import { isoDateFormatter } from "@/helpers/dateFormatter";
 import { Link } from "react-router-dom";
 
 const ExamHistoryCard = ({ exam }) => {
-    const isoDate = exam?.created_at;
-    const date = new Date(isoDate);
-
-    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-    const formattedDate = date.toLocaleDateString('en-GB', options);
+    const formattedDate = isoDateFormatter(exam?.created_at);
 
     const numbers = exam?.questions;
     const numberArray = numbers.split(',');
