@@ -24,7 +24,7 @@ const ExamResultPage = () => {
     const { data: examData, isLoading: isExamResultLoading } = useGetExamByIdQuery(examination.id);
 
     const totalExamMarks = (examData?.questions_list[0].mark * examData?.questions_list?.length);
-    const percentage = ((total_marks / totalExamMarks) * 100);
+    const percentage = Math.round((total_marks / totalExamMarks) * 100);
 
     // const subjectId = examData?.questions_list[0]?.attachable?.subject_id;
     // const { data: subjectData } = useGetCategoryByIdQuery({ category: "subjects", id: subjectId });

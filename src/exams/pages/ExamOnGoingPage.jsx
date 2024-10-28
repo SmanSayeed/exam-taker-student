@@ -68,7 +68,6 @@ export default function ExamOnGoingPage() {
 
     try {
       const response = await finishExam(payload).unwrap();
-      console.log("finish exam response", response)
 
       if (response.examination && response.mcq_answers) {
         navigate("/exam-result");
@@ -94,7 +93,7 @@ export default function ExamOnGoingPage() {
         <CardTitle> Mock Exam </CardTitle>
         <p className="mt-3" >Time: {time} minutes </p>
 
-        <p>1 mark per question and 0.25 marks will be deducted for each mistake</p>
+        <p>{questions_list[0]?.mark} mark per question and 0.25 marks will be deducted for each mistake</p>
       </Card>
 
       <div className="text-center">

@@ -49,7 +49,7 @@ export default function McqExamCard({ queIndex, question }) {
                 <div className="mb-4 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                         <p>{queIndex + 1}. </p>
-                        <p className="text-left">{parseHtmlContent(title)} </p>
+                        <p className="text-left text-base">{parseHtmlContent(title)} </p>
                     </div>
                     <div>
                         <BookmarkPlus size={20} className="cursor-pointer" />
@@ -60,7 +60,6 @@ export default function McqExamCard({ queIndex, question }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {
                     mcq_questions?.map((option, index) => {
-                        // console.log("option", option)
                         return (
                             <div
                                 key={index}
@@ -71,7 +70,7 @@ export default function McqExamCard({ queIndex, question }) {
                                     <p className={`border ${selectedOption === option?.mcq_option_serial && selectedOption !== null && 'bg-green-600'} rounded-full h-6 w-6 p-2 flex items-center justify-center`}>
                                         {index + 1}
                                     </p>
-                                    <h1>{parseHtmlContent(option?.mcq_question_text)}</h1>
+                                    <h1 className="text-sm">{parseHtmlContent(option?.mcq_question_text)}</h1>
                                 </div>
                             </div>
                         )
