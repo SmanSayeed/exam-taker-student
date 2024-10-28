@@ -44,11 +44,11 @@ export default function McqExamCard({ queIndex, question }) {
     };
 
     return (
-        <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg duration-500">
+        <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg dark:bg-gray-100 dark:text-black duration-500">
             <CardTitle>
                 <div className="mb-4 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                        <p>{queIndex + 1}. </p>
+                        <p className="text-base">{queIndex + 1}. </p>
                         <p className="text-left text-base">{parseHtmlContent(title)} </p>
                     </div>
                     <div>
@@ -67,7 +67,7 @@ export default function McqExamCard({ queIndex, question }) {
                                 className="flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2"
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
-                                    <p className={`border ${selectedOption === option?.mcq_option_serial && selectedOption !== null && 'bg-green-600'} rounded-full h-6 w-6 p-2 flex items-center justify-center`}>
+                                    <p className={`border ${selectedOption === option?.mcq_option_serial && selectedOption !== null && 'bg-gray-800 text-gray-200'} rounded-full h-6 w-6 p-2 flex items-center justify-center text-sm`}>
                                         {index + 1}
                                     </p>
                                     <h1 className="text-sm">{parseHtmlContent(option?.mcq_question_text)}</h1>
