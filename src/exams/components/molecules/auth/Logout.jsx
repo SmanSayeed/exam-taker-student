@@ -28,7 +28,6 @@ const Logout = () => {
     const handleLogout = async () => {
         try {
             const response = await logout().unwrap();
-            console.log(response)
 
             setOpen(false);
             toast.success(response?.message);

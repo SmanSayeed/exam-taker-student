@@ -12,7 +12,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -45,8 +45,7 @@ const RegisterForm = () => {
         handleSubmit,
         formState: { errors },
         setError,
-        watch,
-        control
+        watch
     } = useForm();
     const watchPassword = watch("password");
 
@@ -342,7 +341,14 @@ const RegisterForm = () => {
 
                 {/* Submit button */}
                 <Button type="submit" disabled={isLoading}>
-                    {isLoading ? "Registering..." : "Register"}
+                    {
+                        isLoading ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait
+                            </>
+                        ) : "Register"
+                    }
                 </Button>
             </div>
         </form>
