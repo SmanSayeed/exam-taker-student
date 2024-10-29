@@ -1,77 +1,70 @@
-import { updateTimeLeft } from "@/exams/features/exams/examSlice";
 import { differenceInSeconds, parseISO } from "date-fns";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function ExamTimer({ submitExam }) {
-    const dispatch = useDispatch();
-    const { exam } = useSelector((state) => state.exam);
-    const persistedTimeLeft = useSelector((state) => state.exam.timeLeft);
+  const { exam } = useSelector((state) => state.exam);
+  const endTime = exam ? parseISO(exam?.end_time) : null;
 
-    const endTime = exam ? parseISO(exam?.end_time) : null;
+  // Calculate initial time left whenever exam changes
+  const calculateInitialTime = useCallback(() => {
+    if (!endTime) return 0;
     const now = new Date();
+    return Math.max(differenceInSeconds(endTime, now), 0);
+  }, [endTime]);
 
-    const initialTimeLeft = Math.max(differenceInSeconds(endTime, now), 0);
-    const [timeLeft, setTimeLeft] = useState(persistedTimeLeft || initialTimeLeft);
+  // Reset timer when exam changes
+  useEffect(() => {
+    const initialTime = calculateInitialTime();
+    setTimeLeft(initialTime);
+  }, [exam?.end_time, calculateInitialTime]);
 
-    const [examSubmitted, setExamSubmitted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(calculateInitialTime());
+  const [examSubmitted, setExamSubmitted] = useState(false);
 
-    // Memoize the submitExam function to avoid unnecessary re-renders
-    const handleSubmitExam = useCallback(async () => {
-        if (!examSubmitted) {
-            await submitExam();
-            setExamSubmitted(true);
-        }
-    }, [submitExam, examSubmitted]);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setTimeLeft((prevTime) => {
-                const updatedTimeLeft = Math.max(prevTime - 1, 0);
-
-                // dispatch(updateTimeLeft(updatedTimeLeft));
-                if (updatedTimeLeft !== prevTime) {
-                    dispatch(updateTimeLeft(updatedTimeLeft));
-                }
-
-                if (updatedTimeLeft === 0) {
-                    clearInterval(timer);
-                    handleSubmitExam();
-                }
-
-                return updatedTimeLeft;
-            });
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, [dispatch, handleSubmitExam, examSubmitted, timeLeft]);
-
-    const formatTime = () => {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    };
-
-    const showWarning = timeLeft <= 120 && timeLeft > 0;
-    const timeFinished = timeLeft === 0;
-
-    if (!exam || !exam.end_time) {
-        return <p>Loading exam details...</p>;
+  const handleSubmitExam = useCallback(async () => {
+    if (!examSubmitted) {
+      await submitExam();
+      setExamSubmitted(true);
     }
+  }, [submitExam, examSubmitted]);
 
-    return (
-        <div>
-            <h1 className="font-semibold">Time Left: {formatTime()}</h1>
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        const updatedTimeLeft = Math.max(prevTime - 1, 0);
+        if (updatedTimeLeft === 0) {
+          clearInterval(timer);
+          handleSubmitExam(); // Auto-submit on time out
+        }
+        return updatedTimeLeft;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [handleSubmitExam]);
 
-            {showWarning && (
-                <p className="text-red-500 font-semibold">Your exam will end soon!</p>
-            )}
+  const formatTime = () => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
 
-            {timeFinished && (
-                <p className="text-red-500 font-semibold">Time Over!</p>
-            )}
-        </div>
-    );
+  const showWarning = timeLeft <= 120 && timeLeft > 0;
+  const timeFinished = timeLeft === 0;
+
+  if (!exam || !exam.end_time) {
+    return <p>Loading exam details...</p>;
+  }
+
+  return (
+    <div>
+      <h1 className="font-semibold">Time Left: {formatTime()}</h1>
+      {showWarning && (
+        <p className="text-red-500 font-semibold">Your exam will end soon!</p>
+      )}
+      {timeFinished && <p className="text-red-500 font-semibold">Time Over!</p>}
+    </div>
+  );
 }
 
 export default ExamTimer;
