@@ -14,14 +14,11 @@ const ShowCounter = ({ days, hours, minutes, seconds }) => {
     return (
         <div className="show-counter">
             <div
-                className="countdown-link flex gap-4 justify-center items-center"
+                className="countdown-link grid grid-cols-2 md:grid-cols-4 justify-center items-center text-center gap-4"
             >
                 <DateTimeDisplay value={days} type={'Days'} isDanger={days <= 3} />
-                <p>:</p>
                 <DateTimeDisplay value={hours} type={'Hours'} isDanger={false} />
-                <p>:</p>
-                <DateTimeDisplay value={minutes} type={'Mins'} isDanger={false} />
-                <p>:</p>
+                <DateTimeDisplay value={minutes} type={'Minutes'} isDanger={false} />
                 <DateTimeDisplay value={seconds} type={'Seconds'} isDanger={false} />
             </div>
         </div>
