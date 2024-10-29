@@ -142,7 +142,7 @@ const ExamStartingForm = () => {
                   {...register("timeCount", {
                     required: "Time is Required",
                     min: {
-                      value: 1,
+                      value: 3,
                       message: "Minimum time is 3 minute",
                     },
                     max: {
