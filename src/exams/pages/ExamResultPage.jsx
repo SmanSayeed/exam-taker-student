@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Circle, Timer } from "lucide-react";
+import { Circle } from "lucide-react";
 import { useSelector } from "react-redux";
 import Loading from "../components/atoms/Loading";
 import ExamResultForMcq from "../components/organism/exams/ExamResultForMcq";
@@ -50,15 +50,15 @@ const ExamResultPage = () => {
 
             <div className="flex flex-col items-center justify-center gap-4 pb-6">
                 <div className="flex gap-2">
-                    <Button variant="green"><Timer /> finishing Time here</Button>
+                    {/* <Badge variant="green"><Timer /> finishing Time here</Badge> */}
                     {/* <Button variant="outline">Restart</Button> */}
                 </div>
                 {/* <h1 className="text-xl"> {subjectName} ({examData?.questions_list?.length})</h1> */}
                 <div className="flex gap-2">
-                    <Button variant="secondary">All({examData?.questions_list?.length})</Button>
-                    <Button variant="destructive">Wrong({results.incorrect})</Button>
-                    <Button variant="green">Correct({results.correct})</Button>
-                    <Button variant="yellow">Skipped({results.skipped})</Button>
+                    <Badge variant="secondary" className="text-sm">All({examData?.questions_list?.length})</Badge>
+                    <Badge variant="destructive" className="text-sm">Wrong({results.incorrect})</Badge>
+                    <Badge variant="green" className="text-sm">Correct({results.correct})</Badge>
+                    <Badge variant="yellow" className="text-sm">Skipped({results.skipped})</Badge>
                 </div>
             </div>
 
