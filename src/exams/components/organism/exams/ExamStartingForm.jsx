@@ -8,20 +8,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useStartExamMutation } from "@/exams/features/exams/examsApi";
-import { Label } from "@radix-ui/react-dropdown-menu";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Label } from "@radix-ui/react-dropdown-menu";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
 import QuesCategoryForFilter from "../../molecules/filterquesforexam/QuesCategoryForFilter";
+import { Label } from "@/components/ui/label";
 
 const ExamStartingForm = () => {
     const navigate = useNavigate();
@@ -80,7 +72,7 @@ const ExamStartingForm = () => {
                         {/* ..... */}
                         <div>
                             {/* question types */}
-                            <div className="space-y-1 ">
+                            <div className="space-y-1 text-left ">
                                 <Label className="text-md text-left font-semibold">Question Type: </Label>
                                 <Controller
                                     name="questionType"

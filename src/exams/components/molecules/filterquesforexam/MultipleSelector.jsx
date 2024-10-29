@@ -64,7 +64,7 @@ export function MultipleSelector({
                                     <div className="w-full">
                                         {
                                             selectedValues.length ?
-                                                selectedValues.map((val) => (
+                                                selectedValues?.map((val) => (
                                                     <div key={val} className="px-2 my-1 p-1 rounded bg-slate-200 dark:bg-slate-800 text-sm font-medium text-wrap">
                                                         {options.find((item) => item.id === val)?.title || "Unknown"}
                                                     </div>
@@ -82,7 +82,7 @@ export function MultipleSelector({
                                     <CommandGroup>
                                         <CommandList>
                                             {
-                                                options.map((item) => (
+                                                options?.map((item) => (
                                                     <CommandItem
                                                         key={item.id}
                                                         value={item.id}
