@@ -9,7 +9,7 @@ function App() {
   const noHeaderOrFooter = location.pathname.includes("exam-on-going")
 
   return (
-    <div className="min-h-screen relative pb-16 " >
+    <div className="min-h-screen relative pb-16 font-hind-siliguri " >
       <Navbar />
       <Outlet />
       {noHeaderOrFooter || <Footer />}
