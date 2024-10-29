@@ -158,10 +158,10 @@ export default function McqExamCard({ queIndex, question }) {
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
                                     <p className={`border ${selectedOption === option?.mcq_option_serial && selectedOption !== null && 'bg-gray-800 text-gray-200'} rounded-full h-6 w-6 p-2 flex items-center justify-center text-sm`}>
-                                    {index + 1}
-                                </p>
-                                <h1 className="text-sm">{parseHtmlContent(option?.mcq_question_text)}</h1>
-                            </div>
+                                        {index + 1}
+                                    </p>
+                                    <h1 className="text-sm">{parseHtmlContent(option?.mcq_question_text)}</h1>
+                                </div>
                             </div>
             )
                     })

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
     Select,
     SelectContent,
@@ -8,6 +9,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useStartExamMutation } from "@/exams/features/exams/examsApi";
+import { Loader2 } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -68,44 +70,44 @@ const ExamStartingForm = () => {
         <form onSubmit={handleSubmit(handleStartExam)} className="w-[95%] md:w-[90%] mx-auto ">
             <div className="grid gap-4">
                 <div className="flex items-start flex-col gap-1">
-                    <div id="number-o-questions" className="w-full text-center">
-                        {/* ..... */}
-                        <div>
-                            {/* question types */}
-                            <div className="space-y-1 text-left ">
-                                <Label className="text-md text-left font-semibold">Question Type: </Label>
-                                <Controller
-                                    name="questionType"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <>
-                                            <Select
-                                                onValueChange={(val) => {
-                                                    field.onChange(val)
-                                                }}
-                                                value={field.value}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Type" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="normal">Normal</SelectItem>
-                                                    <SelectItem value="mcq">MCQ</SelectItem>
-                                                    <SelectItem value="creative">Creative</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </>
-                                    )}
-                                />
-                            </div>
+                    <div id="number-o-questions" className="w-full">
+                        {/* question types */}
+                        <div className="space-y-2 text-start">
+                            <Label className="text-md font-semibold">Question Type: </Label>
+                            <Controller
+                                name="questionType"
+                                control={control}
+                                render={({ field }) => (
+                                    <>
+                                        <Select
+                                            onValueChange={(val) => {
+                                                field.onChange(val)
+                                            }}
+                                            value={field.value}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="normal">Normal</SelectItem>
+                                                <SelectItem value="mcq">MCQ</SelectItem>
+                                                <SelectItem value="creative">Creative</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </>
+                                )}
+                            />
+                        </div>
 
-                            {/* questions category filter */}
+                        {/* questions category filter */}
+                        <div className="space-y-2 py-4 text-start">
+                            <Label className="text-md font-semibold">Select Category: </Label>
                             <QuesCategoryForFilter
                                 control={control}
                                 setValue={setValue}
                             />
                         </div>
-                        {/* ..... */}
+
                         <div className="flex flex-col md:flex-row gap-4 mb-4">
                             <div className="w-full text-start ">
                                 <Input
@@ -156,8 +158,15 @@ const ExamStartingForm = () => {
                                 }
                             </div>
                         </div>
-                        <Button type="submit" disabled={isExamStarting} className="mt-2 w-full ">
-                            {isExamStarting ? "Starting" : "Start Exam"}
+                        <Button type="submit" disabled={isExamStarting} className="mt-2 w-full">
+                            {
+                                isExamStarting ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Please wait
+                                    </>
+                                ) : "Start Exam"
+                            }
                         </Button>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import { updateTimeLeft } from "@/exams/features/exams/examSlice";
 import { differenceInSeconds, parseISO } from "date-fns";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function ExamTimer({ submitExam }) {
@@ -14,36 +14,29 @@ function ExamTimer({ submitExam }) {
     const initialTimeLeft = Math.max(differenceInSeconds(endTime, now), 0);
     const [timeLeft, setTimeLeft] = useState(persistedTimeLeft || initialTimeLeft);
 
-    const [examSubmitted, setExamSubmitted] = useState(false); // Track if the exam is submitted
+    const [examSubmitted, setExamSubmitted] = useState(false);
 
     // Memoize the submitExam function to avoid unnecessary re-renders
-    // const handleSubmitExam = useCallback(() => {
-    //     if (!examSubmitted && timeLeft === 0) {
-    //         try {
-    //             submitExam();
-    //             setExamSubmitted(true);
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     }
-    // }, [submitExam, examSubmitted, timeLeft]);
+    const handleSubmitExam = useCallback(async () => {
+        if (!examSubmitted) {
+            await submitExam();
+            setExamSubmitted(true);
+        }
+    }, [submitExam, examSubmitted]);
 
     useEffect(() => {
-        if (timeLeft <= 2 && !examSubmitted) {
-            submitExam(); // Submit the exam when time reaches 0
-            setExamSubmitted(true); // Ensure it only happens once
-            return;
-        }
-
         const timer = setInterval(() => {
             setTimeLeft((prevTime) => {
                 const updatedTimeLeft = Math.max(prevTime - 1, 0);
 
-                dispatch(updateTimeLeft(updatedTimeLeft));
+                // dispatch(updateTimeLeft(updatedTimeLeft));
+                if (updatedTimeLeft !== prevTime) {
+                    dispatch(updateTimeLeft(updatedTimeLeft));
+                }
 
                 if (updatedTimeLeft === 0) {
                     clearInterval(timer);
-                    // handleSubmitExam();
+                    handleSubmitExam();
                 }
 
                 return updatedTimeLeft;
@@ -51,7 +44,7 @@ function ExamTimer({ submitExam }) {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [dispatch, submitExam, examSubmitted, timeLeft]);
+    }, [dispatch, handleSubmitExam, examSubmitted, timeLeft]);
 
     const formatTime = () => {
         const minutes = Math.floor(timeLeft / 60);

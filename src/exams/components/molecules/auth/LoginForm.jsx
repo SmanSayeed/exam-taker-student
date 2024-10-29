@@ -1,8 +1,9 @@
-import { Input } from "../../../../components/ui/input";
-import { Label } from "../../../../components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Input } from "../../../../components/ui/input";
+import { Label } from "../../../../components/ui/label";
 
+import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -78,9 +79,16 @@ const LoginForm = () => {
                 <p className="text-red-600">{errors?.root?.random?.message}</p>
 
                 <Button
-                disabled={isLoading}
+                    disabled={isLoading}
                 >
-                    Login
+                    {
+                        isLoading ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait
+                            </>
+                        ) : "Login"
+                    }
                 </Button>
             </div>
         </form>

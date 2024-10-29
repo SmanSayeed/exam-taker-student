@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -27,7 +28,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem}
+    --radius: 0.5rem;
+  }
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -52,7 +54,8 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%}
+    --chart-5: 340 75% 55%;
+  }
 }
 @layer base {
   * {
@@ -61,4 +64,45 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* fonts */
+@font-face {
+  font-family: "Hind Siliguri"; /* Define a name for your font */
+  src: url("./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-Regular.ttf")
+    format("truetype"); /* Path to your TTF file */
+  font-weight: normal; /* Normal weight */
+  font-style: normal; /* Normal style */
+}
+
+@font-face {
+  font-family: "Hind Siliguri"; /* Define a name for your font */
+  src: url("./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-Bold.ttf")
+    format("truetype"); /* Path to your TTF file */
+  font-weight: bold; /* Bold weight */
+  font-style: normal; /* Normal style */
+}
+
+@font-face {
+  font-family: "Hind Siliguri"; /* Define a name for your font */
+  src: url("./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-Medium.ttf")
+    format("truetype"); /* Path to your TTF file */
+  font-weight: 500; /* Medium weight */
+  font-style: normal; /* Normal style */
+}
+
+@font-face {
+  font-family: "Hind Siliguri"; /* Define a name for your font */
+  src: url("./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-Light.ttf")
+    format("truetype"); /* Path to your TTF file */
+  font-weight: 300; /* Light weight */
+  font-style: normal; /* Normal style */
+}
+
+@font-face {
+  font-family: "Hind Siliguri"; /* Define a name for your font */
+  src: url("./assets/fonts/bangla/Hind_Siliguri/HindSiliguri-SemiBold.ttf")
+    format("truetype"); /* Path to your TTF file */
+  font-weight: 600; /* SemiBold weight */
+  font-style: normal; /* Normal style */
 }
