@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Card, CardTitle } from "@/components/ui/card";
 import DOMPurify from "dompurify";
 import { BookmarkPlus } from "lucide-react";
@@ -22,14 +23,16 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
 
     const submittedAnswer = mcq_answers.find(item => item?.question_id === question_id);
     const submittedMcqOption = submittedAnswer?.submitted_mcq_option;
+    const isSkipped = submittedAnswer?.submitted_mcq_option === null;
 
     return (
         <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg duration-500">
             <CardTitle>
                 <div className="mb-4 flex items-center justify-between gap-2 ">
-                    <div className="flex items-center gap-2">
-                        <p>{queIndex + 1}. </p>
-                        <p>{parseHtmlContent(title)} </p>
+                    <div className="flex items-center justify-center gap-2">
+                        <p className="text-base">{queIndex + 1}. </p>
+                        <p className="text-left text-base">{parseHtmlContent(title)} </p>
+                        <span>{isSkipped && (<Badge>Skipped</Badge>)}</span>
                     </div>
                     <div>
                         <BookmarkPlus size={20} className="cursor-pointer" />
@@ -42,7 +45,6 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
                     mcq_questions?.map((option, index) => {
                         const isCorrect = option?.is_correct;
                         const isSubmitted = option?.mcq_option_serial === submittedMcqOption;
-                        const isSkipped = submittedAnswer?.submitted_mcq_option === null;
 
                         let bgColor = "";
 
@@ -53,9 +55,6 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
                         } else if (isSubmitted && !isCorrect) {
                             // If the submitted answer is incorrect
                             bgColor = "bg-red-600 text-white";
-                        } else if (isSkipped && isCorrect) {
-                            // If the question was skipped and the option is correct
-                            bgColor = "bg-yellow-300 text-yellow-900";
                         } else if (isCorrect) {
                             // For the correct answer, even if not selected
                             bgColor = "bg-green-300 text-green-900";
@@ -67,10 +66,10 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
                                 className={`flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2 ${bgColor}`}
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
-                                    <p className="border rounded-full h-6 w-6 p-2 flex items-center justify-center">
+                                    <p className="border rounded-full h-6 w-6 p-2 flex items-center justify-center text-sm">
                                         {index + 1}
                                     </p>
-                                    <h1>{parseHtmlContent(option?.mcq_question_text)}</h1>
+                                    <h1 className="text-sm">{parseHtmlContent(option?.mcq_question_text)}</h1>
                                 </div>
                             </div>
                         )

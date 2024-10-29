@@ -6,7 +6,6 @@ import { Button } from '../../../../components/ui/button';
 import { Layout } from '../../../templates/Layout';
 import Nav from '../../../templates/Nav';
 import Logo from '../../atoms/Logo';
-import ThemeSwitch from '../../atoms/ThemeSwitch';
 import UserNav from '../../organism/UserNav';
 import { NavLinks } from './NavLinks';
 
@@ -67,16 +66,17 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
                     />
 
                     <div className='hidden md:flex items-center gap-3'>
-                        <ThemeSwitch />
+                        {/* <ThemeSwitch /> */}
+
                         {
                             checkingUser ? <UserNav /> : <Button onClick={handleNavigating} >Login</Button>
                         }
                     </div>
 
                     <div className='flex items-center md:hidden '>
-                        <div>
+                        {/* <div>
                             <ThemeSwitch />
-                        </div>
+                        </div> */}
 
                         {/* Toggle Button in mobile */}
                         <Button
