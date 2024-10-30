@@ -4,10 +4,37 @@ import { BookmarkPlus } from "lucide-react";
 import { useSelector } from "react-redux";
 
 const parseHtmlContent = (htmlContent) => {
+    console.log("htmlcontent", htmlContent)
     return (
         <div
             dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(htmlContent),
+            }}
+        />
+    );
+};
+
+const parseHtmlContentWithBadge = (htmlContent, badgeText) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, "text/html");
+
+    // Find the first element with text content
+    const firstTextElement = Array.from(doc.body.getElementsByTagName("*")).find(el => el.textContent.trim());
+
+    if (firstTextElement) {
+        // Create a span for the badge element
+        const badgeElement = document.createElement("span");
+        badgeElement.className = "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80 ml-2";
+        badgeElement.textContent = badgeText;
+
+        // Append the badge after the text content in the found element
+        firstTextElement.appendChild(badgeElement);
+    }
+
+    return (
+        <span
+            dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(doc.body.innerHTML),
             }}
         />
     );
@@ -22,14 +49,17 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
 
     const submittedAnswer = mcq_answers.find(item => item?.question_id === question_id);
     const submittedMcqOption = submittedAnswer?.submitted_mcq_option;
+    const isSkipped = submittedAnswer?.submitted_mcq_option === null;
 
     return (
         <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg duration-500">
             <CardTitle>
                 <div className="mb-4 flex items-center justify-between gap-2 ">
-                    <div className="flex items-center gap-2">
-                        <p>{queIndex + 1}. </p>
-                        <p>{parseHtmlContent(title)} </p>
+                    <div className="flex gap-2">
+                        <p className="text-base">{queIndex + 1}. </p>
+                        <p className="text-left text-base">
+                            {isSkipped ? parseHtmlContentWithBadge(title, "Skipped") : parseHtmlContent(title)}
+                        </p>
                     </div>
                     <div>
                         <BookmarkPlus size={20} className="cursor-pointer" />
@@ -42,7 +72,6 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
                     mcq_questions?.map((option, index) => {
                         const isCorrect = option?.is_correct;
                         const isSubmitted = option?.mcq_option_serial === submittedMcqOption;
-                        const isSkipped = submittedAnswer?.submitted_mcq_option === null;
 
                         let bgColor = "";
 
@@ -53,9 +82,6 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
                         } else if (isSubmitted && !isCorrect) {
                             // If the submitted answer is incorrect
                             bgColor = "bg-red-600 text-white";
-                        } else if (isSkipped && isCorrect) {
-                            // If the question was skipped and the option is correct
-                            bgColor = "bg-yellow-300 text-yellow-900";
                         } else if (isCorrect) {
                             // For the correct answer, even if not selected
                             bgColor = "bg-green-300 text-green-900";
@@ -67,10 +93,10 @@ export const ExamResultForMcqCard = ({ queIndex, question }) => {
                                 className={`flex items-center justify-start rounded-md gap-y-2 shadow cursor-pointer p-2 ${bgColor}`}
                             >
                                 <div className="flex p-2 gap-2 cursor-pointer">
-                                    <p className="border rounded-full h-6 w-6 p-2 flex items-center justify-center">
+                                    <p className="border rounded-full h-6 w-6 p-2 flex items-center justify-center text-sm">
                                         {index + 1}
                                     </p>
-                                    <h1>{parseHtmlContent(option?.mcq_question_text)}</h1>
+                                    <h1 className="text-sm">{parseHtmlContent(option?.mcq_question_text)}</h1>
                                 </div>
                             </div>
                         )

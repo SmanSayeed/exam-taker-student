@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     exam: {},
     questions_list: [],
-    timeLeft: null,
     mcqAnswers: []
 };
 
@@ -35,14 +34,10 @@ const examSlice = createSlice({
         clearExamInfo: (state) => {
             state.exam = {};
             state.questions_list = [];
-            state.timeLeft = null;
             state.mcqAnswers = [];
-        },
-        updateTimeLeft: (state, action) => {
-            state.timeLeft = action.payload;
-        },
+        }
     },
 });
 
-export const { saveExamInfo, clearExamInfo, updateTimeLeft, updateMcqAnswer } = examSlice.actions;
+export const { saveExamInfo, clearExamInfo, updateMcqAnswer } = examSlice.actions;
 export default examSlice.reducer;
