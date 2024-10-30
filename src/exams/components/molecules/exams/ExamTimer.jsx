@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 function ExamTimer({ submitExam }) {
   const { exam } = useSelector((state) => state.exam);
-  // const endTime = exam ? parseISO(exam?.end_time) : null;
   const endTime = exam && exam.end_time ? parseISO(exam.end_time) : null;
 
   // Calculate initial time left whenever exam changes
