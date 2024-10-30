@@ -84,7 +84,7 @@ export default function ExamOnGoingPage() {
   return (
     <div className="px-5 w-full">
       <Card className="text-center p-4 relative">
-        <div className="z-50 fixed right-20 top-2 md:right-28 md:top-4 px-4 py-2 rounded-md flex items-center justify-center gap-2">
+        <div className="z-50 fixed right-15 top-3 md:right-28 md:top-4 px-4 py-2 rounded-md flex items-center justify-center gap-2">
           <ExamTimer submitExam={submitExam} />
           <a href="#exam_submit" title="Got to submit">
             <ArrowDownNarrowWideIcon />
