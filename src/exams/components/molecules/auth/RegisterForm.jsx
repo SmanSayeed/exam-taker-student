@@ -2,15 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -163,7 +154,7 @@ const RegisterForm = () => {
                 </div>
 
                 {/* Country and Country code */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="grid gap-1">
                         <div className="flex items-center">
                             <Label htmlFor="country">Country</Label>
@@ -194,8 +185,6 @@ const RegisterForm = () => {
                         {errors.country && <span className="text-red-600">{errors.country.message}</span>}
                     </div>
 
-
-                    {/* Country code */}
                     <div className="grid gap-1">
                         <div className="flex items-center">
                             <Label htmlFor="country_code">Country Code</Label>
@@ -209,7 +198,7 @@ const RegisterForm = () => {
                         />
                         {errors.country_code && <span className="text-red-600">{errors.country_code.message}</span>}
                     </div>
-                </div>
+                </div> */}
 
                 {/* Phone and Profile Image */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
