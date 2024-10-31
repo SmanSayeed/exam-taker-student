@@ -205,7 +205,7 @@ const RegisterForm = () => {
                     {/* Phone */}
                     <div className="grid gap-1">
                         <div className="flex items-center">
-                            <Label htmlFor="phone">Phone (optional)</Label>
+                            <Label htmlFor="phone">Phone</Label>
                         </div>
                         <Input
                             {...register("phone", { required: "Phone number is Required" })}
