@@ -131,6 +131,7 @@ const ExamStartingForm = () => {
                   name="numberOfQuestion"
                   type="number"
                   placeholder="Number of Questions"
+                  defaultValue={10}
                 />
                 {errors.numberOfQuestion && (
                   <span className="text-red-500 font-semibold text-sm ">
@@ -154,6 +155,7 @@ const ExamStartingForm = () => {
                   name="timeCount"
                   type="number"
                   placeholder="Time count(in minutes)"
+                  defaultValue={20}
                 />
                 {errors.timeCount && (
                   <span className="text-red-500 font-semibold text-sm ">
