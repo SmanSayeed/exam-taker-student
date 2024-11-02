@@ -23,7 +23,6 @@ const fetchUserIP = async () => {
 
 const RegisterForm = () => {
     const navigate = useNavigate();
-    const [isActive, setIsActive] = useState(true);
     const [profileImage, setProfileImage] = useState(null);
     const [imageError, setImageError] = useState("");
     const [ipAddress, setIpAddress] = useState(""); // State to store IP address
@@ -87,7 +86,6 @@ const RegisterForm = () => {
         payload.append("phone", formData.phone);
         // payload.append("active_status", isActive);
         // Convert isActive to 1 or 0 and append it
-        payload.append("active_status", isActive ? 1 : 0);
 
         // Check if the profile image exists and append it
         if (profileImage) {
