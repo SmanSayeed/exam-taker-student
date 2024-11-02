@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -311,21 +310,6 @@ const RegisterForm = () => {
                         />
                     )}
                     {errors.password_confirmation && <span className="text-red-600">{errors.password_confirmation.message}</span>}
-                </div>
-
-                {/* Active status */}
-                <div className="flex items-center space-x-2">
-                    <Checkbox
-                        id="active_status"
-                        checked={isActive}
-                        onCheckedChange={(checked) => setIsActive(checked)}
-                    />
-                    <label
-                        htmlFor="active_status"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        Active Status
-                    </label>
                 </div>
 
                 {/* Submit button */}
