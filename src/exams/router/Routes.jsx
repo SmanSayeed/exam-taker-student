@@ -10,6 +10,8 @@ import HomPage from "../pages/HomPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ExamStartingPage from './../pages/ExamStartingPage';
+import PrivateRoutes from "./PrivateRoutes";
+
 
 const Routes = createBrowserRouter([
     {
@@ -23,15 +25,21 @@ const Routes = createBrowserRouter([
             },
             {
                 path: "/exams-starting",
-                element: <ExamStartingPage />
+                element: <PrivateRoutes>
+                    <ExamStartingPage />
+                </PrivateRoutes>
             },
             {
                 path: "/exam-on-going",
-                element: <ExamOnGoingPage />,
+                element: <PrivateRoutes>
+                    <ExamOnGoingPage />
+                </PrivateRoutes>,
             },
             {
                 path: "/exam-result",
-                element: <ExamResultPage />
+                element: <PrivateRoutes>
+                    <ExamResultPage />
+                </PrivateRoutes>
             },
             {
                 path: "/exams",

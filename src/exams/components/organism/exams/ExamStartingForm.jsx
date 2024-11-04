@@ -62,7 +62,7 @@ const ExamStartingForm = () => {
         navigate("/exam-on-going");
       }
     } catch (err) {
-      toast.error(err?.data?.error || "An error occurred");
+      toast.error(err?.data?.error || err?.data?.message || "An error occurred101010");
     }
   };
 
@@ -77,7 +77,7 @@ const ExamStartingForm = () => {
             {/* question types */}
             <div className="space-y-2 text-start">
               <Label className="text-md font-semibold">Question Type: MCQ </Label>
-              {/* <Controller
+              <Controller
                 name="questionType"
                 defaultValue="mcq"
                 control={control}
@@ -102,7 +102,7 @@ const ExamStartingForm = () => {
                     </Select>
                   </>
                 )}
-              /> */}
+              />
               {errors.questionType && (
                 <span className="text-red-500 font-semibold text-sm">
                   {errors.questionType.message}
