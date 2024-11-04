@@ -4,9 +4,8 @@ import Footer from "./exams/components/molecules/ui/Footer";
 import Navbar from "./exams/components/molecules/ui/Navbar";
 
 function App() {
-
-  const location  =  useLocation()
-  const noHeaderOrFooter = location.pathname.includes("exam-on-going")
+  const location = useLocation();
+  const noHeaderOrFooter = location.pathname.includes("exam-on-going");
 
   return (
     <div className="min-h-screen relative pb-16 max-w-[1920px] mx-auto " >

@@ -39,7 +39,7 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
             >
                 <Nav
                     id='sidebar-menu'
-                    className={`z-40 h-full md:hidden flex flex-row overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen'}`}
+                    className={`z-40 h-full md:hidden flex flex-row overflow-auto pt-6 ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen'}`}
                     closeNav={() => setNavOpened(false)}
                     isCollapsed={isCollapsed}
                     links={NavLinks}
