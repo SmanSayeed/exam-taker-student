@@ -92,15 +92,7 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
 
                 <NavLink title={"Exam history"} href="/exam-history" />
 
-                <div
-                    className={cn(
-                        buttonVariants({
-                            // variant: "ghost",
-                            size: "sm"
-                        }),
-                        "h-12 flex justify-center text-wrap px-8 rounded-md mt-4",
-                    )}
-                >
+                <div>
                     <Logout />
                 </div>
             </div>
