@@ -1,25 +1,10 @@
 import { Navigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import ExamStartingPage from "../pages/ExamStartingPage";
 
-
-const PrivateRoutes = () => {
+const PrivateRoutes = ({ children }) => {
     const isLoggedIn = useAuth();
 
-    return (
-        <>
-            {
-                isLoggedIn ? (
-                    <>
-                        <ExamStartingPage />
-                    </>
-                ) : (
-                    <Navigate to="/login" />
-                )
-            }
-        </>
-    );
+    return isLoggedIn ? children : <Navigate to="/login" />;
 };
 
 export default PrivateRoutes;
-
