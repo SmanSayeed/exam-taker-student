@@ -61,7 +61,7 @@ const ExamStartingForm = () => {
         navigate("/exam-on-going");
       }
     } catch (err) {
-      toast.error(err?.data?.message || "An error occurred");
+      toast.error(err?.data?.error || "An error occurred");
     }
   };
 
@@ -78,6 +78,7 @@ const ExamStartingForm = () => {
               <Label className="text-md font-semibold">Question Type: </Label>
               <Controller
                 name="questionType"
+                defaultValue="mcq"
                 control={control}
                 rules={{ required: "Question Type is required" }}
                 render={({ field }) => (
@@ -86,15 +87,16 @@ const ExamStartingForm = () => {
                       onValueChange={(val) => {
                         field.onChange(val);
                       }}
-                      value={field.value}
+                      // value={field.value}
+                      value="mcq"
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="normal">Normal</SelectItem>
+                        {/* <SelectItem value="normal">Normal</SelectItem> */}
                         <SelectItem value="mcq">MCQ</SelectItem>
-                        <SelectItem value="creative">Creative</SelectItem>
+                        {/* <SelectItem value="creative">Creative</SelectItem> */}
                       </SelectContent>
                     </Select>
                   </>

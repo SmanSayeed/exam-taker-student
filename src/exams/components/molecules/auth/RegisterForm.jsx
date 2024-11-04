@@ -201,7 +201,7 @@ const RegisterForm = () => {
                 </div> */}
 
                 {/* Phone and Profile Image */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="">
                     {/* Phone */}
                     <div className="grid gap-1">
                         <div className="flex items-center">
@@ -218,7 +218,7 @@ const RegisterForm = () => {
                     </div>
 
                     {/* Profile Image */}
-                    <div className="grid gap-1">
+                    {/* <div className="grid gap-1">
                         <div className="flex items-center">
                             <Label htmlFor="profile_image">Profile Image</Label>
                         </div>
@@ -230,7 +230,7 @@ const RegisterForm = () => {
                             onChange={handleImageChange}
                         />
                         {imageError && <span className="text-red-600">{imageError}</span>}
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Address */}
@@ -314,7 +314,7 @@ const RegisterForm = () => {
                 </div>
 
                 {/* Active status */}
-                <div className="flex items-center space-x-2">
+                {/* <div className="flex items-center space-x-2">
                     <Checkbox
                         id="active_status"
                         checked={isActive}
@@ -326,7 +326,7 @@ const RegisterForm = () => {
                     >
                         Active Status
                     </label>
-                </div>
+                </div> */}
 
                 {/* Submit button */}
                 <Button type="submit" disabled={isLoading}>

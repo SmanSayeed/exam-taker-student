@@ -38,14 +38,15 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
     loggedOut: builder.mutation({
-      query: () => ({
+      query: (token) => ({
         url: "/logout",
         method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        // body:token
       }),
 
       async onQueryStarted(arg, { dispatch }) {
         try {
-
           dispatch(
             loggedOut({
               status: null,
@@ -55,7 +56,7 @@ export const authApi = apiSlice.injectEndpoints({
             })
           );
 
-          persistor.purge(['auth']);
+          persistor.purge(["auth"]);
         } catch (err) {
           console.log(err);
         }
