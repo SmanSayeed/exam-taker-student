@@ -27,6 +27,7 @@ import Logout from "../components/molecules/auth/Logout";
 import useCheckActiveNav from "../hooks/useCheckActiveNav";
 
 export default function Nav({ links, isCollapsed, className, closeNav, checkingUser, handleNavigating, fromMobile = false }) {
+
     const renderLink = ({ sub, ...rest }) => {
         const key = `${rest.title}-${rest.href}`;
 
@@ -55,7 +56,7 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
 
     if (fromMobile && !checkingUser) {
         mobileNav = (
-            <NavLink title={"Login"} href={"/login"} />
+            <NavLink title={"Login"} href={"/login"} className="justify-center bg-gray-800 text-gray-100 mt-2" />
         )
     }
 
@@ -94,10 +95,10 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
                 <div
                     className={cn(
                         buttonVariants({
-                            variant: "ghost",
+                            // variant: "ghost",
                             size: "sm"
                         }),
-                        "h-12 flex justify-start text-wrap px-8 rounded-md",
+                        "h-12 flex justify-center text-wrap px-8 rounded-md mt-4",
                     )}
                 >
                     <Logout />
@@ -127,7 +128,7 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
     )
 }
 
-function NavLink({ title, icon, label, href, closeNav, subLink = false }) {
+function NavLink({ title, icon, label, href, closeNav, subLink = false, className }) {
     const { checkActiveNav } = useCheckActiveNav();
 
     return (
@@ -139,7 +140,7 @@ function NavLink({ title, icon, label, href, closeNav, subLink = false }) {
                     variant: checkActiveNav(href) ? "secondary" : "ghost",
                     size: "sm"
                 }),
-                "h-12 flex justify-start text-wrap px-6 rounded-md",
+                `h-12 flex justify-start text-wrap px-6 rounded-md ${className}`,
                 subLink && "h-10 w-full border-l border-l-slate-500 px-2"
             )}
             aria-current={checkActiveNav(href) ? "page" : undefined}

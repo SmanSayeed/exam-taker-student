@@ -23,8 +23,8 @@ const fetchUserIP = async () => {
 
 const RegisterForm = () => {
     const navigate = useNavigate();
-    const [profileImage, setProfileImage] = useState(null);
-    const [imageError, setImageError] = useState("");
+    // const [profileImage, setProfileImage] = useState(null);
+    // const [imageError, setImageError] = useState("");
     const [ipAddress, setIpAddress] = useState(""); // State to store IP address
     const [showPass, setShowPass] = useState(false);
     const [showConfirmPass, setShowConfirmPass] = useState(false);
@@ -49,30 +49,30 @@ const RegisterForm = () => {
         getUserIP();
     }, []);
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
+    // const handleImageChange = (e) => {
+    //     const file = e.target.files[0];
 
-        if (file) {
-            const validTypes = ["image/jpeg", "image/jpg", "image/png"];
-            const isValidType = validTypes.includes(file.type);
-            const isValidSize = file.size <= 2 * 1024 * 1024; // 2 MB
+    //     if (file) {
+    //         const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+    //         const isValidType = validTypes.includes(file.type);
+    //         const isValidSize = file.size <= 2 * 1024 * 1024; // 2 MB
 
-            if (!isValidType) {
-                setImageError("Only jpg, jpeg, and png formats are allowed.");
-                setProfileImage(null);
-                return;
-            }
+    //         if (!isValidType) {
+    //             setImageError("Only jpg, jpeg, and png formats are allowed.");
+    //             setProfileImage(null);
+    //             return;
+    //         }
 
-            if (!isValidSize) {
-                setImageError("File size should not exceed 2 MB.");
-                setProfileImage(null);
-                return;
-            }
+    //         if (!isValidSize) {
+    //             setImageError("File size should not exceed 2 MB.");
+    //             setProfileImage(null);
+    //             return;
+    //         }
 
-            setImageError("");
-            setProfileImage(file);
-        }
-    };
+    //         setImageError("");
+    //         setProfileImage(file);
+    //     }
+    // };
 
     const handleRegister = (formData) => {
         // Create a new FormData object
@@ -88,9 +88,9 @@ const RegisterForm = () => {
         // Convert isActive to 1 or 0 and append it
 
         // Check if the profile image exists and append it
-        if (profileImage) {
-            payload.append("profile_image", profileImage);  // Append the profile image
-        }
+        // if (profileImage) {
+        //     payload.append("profile_image", profileImage);  
+        // }
 
         payload.append("ip_address", ipAddress);  // Append IP address
         payload.append("country", formData.country);
@@ -198,7 +198,7 @@ const RegisterForm = () => {
                 </div> */}
 
                 {/* Phone and Profile Image */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="">
                     {/* Phone */}
                     <div className="grid gap-1">
                         <div className="flex items-center">
@@ -215,7 +215,7 @@ const RegisterForm = () => {
                     </div>
 
                     {/* Profile Image */}
-                    <div className="grid gap-1">
+                    {/* <div className="grid gap-1">
                         <div className="flex items-center">
                             <Label htmlFor="profile_image">Profile Image</Label>
                         </div>
@@ -227,7 +227,7 @@ const RegisterForm = () => {
                             onChange={handleImageChange}
                         />
                         {imageError && <span className="text-red-600">{imageError}</span>}
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Address */}
