@@ -39,7 +39,8 @@ const ExamStartingForm = () => {
       is_paid: false,
       created_by: auth.student.id,
       created_by_role: "student",
-      type: formData.questionType,
+      // type: formData.questionType,
+      type: "mcq",
       time_limit: formData.timeCount,
       is_negative_mark_applicable: true,
       questions_limit: formData.numberOfQuestion,
@@ -75,8 +76,8 @@ const ExamStartingForm = () => {
           <div id="number-o-questions" className="w-full">
             {/* question types */}
             <div className="space-y-2 text-start">
-              <Label className="text-md font-semibold">Question Type: </Label>
-              <Controller
+              <Label className="text-md font-semibold">Question Type: MCQ </Label>
+              {/* <Controller
                 name="questionType"
                 defaultValue="mcq"
                 control={control}
@@ -101,7 +102,7 @@ const ExamStartingForm = () => {
                     </Select>
                   </>
                 )}
-              />
+              /> */}
               {errors.questionType && (
                 <span className="text-red-500 font-semibold text-sm">
                   {errors.questionType.message}
@@ -132,6 +133,7 @@ const ExamStartingForm = () => {
                   name="numberOfQuestion"
                   type="number"
                   placeholder="Number of Questions"
+                  defaultValue={10}
                 />
                 {errors.numberOfQuestion && (
                   <span className="text-red-500 font-semibold text-sm ">
@@ -155,6 +157,7 @@ const ExamStartingForm = () => {
                   name="timeCount"
                   type="number"
                   placeholder="Time count(in minutes)"
+                  defaultValue={20}
                 />
                 {errors.timeCount && (
                   <span className="text-red-500 font-semibold text-sm ">

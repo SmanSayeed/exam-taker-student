@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -24,7 +23,6 @@ const fetchUserIP = async () => {
 
 const RegisterForm = () => {
     const navigate = useNavigate();
-    const [isActive, setIsActive] = useState(true);
     const [profileImage, setProfileImage] = useState(null);
     const [imageError, setImageError] = useState("");
     const [ipAddress, setIpAddress] = useState(""); // State to store IP address
@@ -88,7 +86,6 @@ const RegisterForm = () => {
         payload.append("phone", formData.phone);
         // payload.append("active_status", isActive);
         // Convert isActive to 1 or 0 and append it
-        payload.append("active_status", isActive ? 1 : 0);
 
         // Check if the profile image exists and append it
         if (profileImage) {
@@ -205,7 +202,7 @@ const RegisterForm = () => {
                     {/* Phone */}
                     <div className="grid gap-1">
                         <div className="flex items-center">
-                            <Label htmlFor="phone">Phone (optional)</Label>
+                            <Label htmlFor="phone">Phone</Label>
                         </div>
                         <Input
                             {...register("phone", { required: "Phone number is Required" })}
