@@ -77,7 +77,7 @@ const ExamStartingForm = () => {
             {/* question types */}
             <div className="space-y-2 text-start">
               <Label className="text-md font-semibold">Question Type: MCQ </Label>
-              <Controller
+              {/* <Controller
                 name="questionType"
                 defaultValue="mcq"
                 control={control}
@@ -88,16 +88,16 @@ const ExamStartingForm = () => {
                       onValueChange={(val) => {
                         field.onChange(val);
                       }}
-                      // value={field.value}
+                      value={field.value}
                       value="mcq"
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Type" />
                       </SelectTrigger>
                       <SelectContent>
-                        {/* <SelectItem value="normal">Normal</SelectItem> */}
+                        <SelectItem value="normal">Normal</SelectItem>
                         <SelectItem value="mcq">MCQ</SelectItem>
-                        {/* <SelectItem value="creative">Creative</SelectItem> */}
+                        <SelectItem value="creative">Creative</SelectItem>
                       </SelectContent>
                     </Select>
                   </>
@@ -107,7 +107,7 @@ const ExamStartingForm = () => {
                 <span className="text-red-500 font-semibold text-sm">
                   {errors.questionType.message}
                 </span>
-              )}
+              )} */}
             </div>
 
             {/* questions category filter */}

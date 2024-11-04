@@ -84,7 +84,7 @@ const RegisterForm = () => {
         payload.append("password", formData.password);
         payload.append("password_confirmation", formData.password_confirmation);
         payload.append("phone", formData.phone);
-        // payload.append("active_status", isActive);
+        payload.append("active_status", 1);
         // Convert isActive to 1 or 0 and append it
 
         // Check if the profile image exists and append it
@@ -99,6 +99,8 @@ const RegisterForm = () => {
 
         // Make the registration API call with the FormData payload
         registration(payload);
+
+        console.log("payload", payload)
     };
 
     useEffect(() => {
