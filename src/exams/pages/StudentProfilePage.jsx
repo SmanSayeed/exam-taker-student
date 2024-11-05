@@ -69,6 +69,7 @@ const StudentProfilePage = () => {
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
@@ -349,7 +350,7 @@ const StudentProfilePage = () => {
                 <div className="grid gap-1.5">
                   <Label htmlFor="country">Country</Label>
                   <Select
-                    value={profile?.country}
+                    value={watch("country")}
                     onValueChange={handleCountryChange}
                   >
                     <SelectTrigger>
