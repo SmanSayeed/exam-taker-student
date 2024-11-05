@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../../App";
-import ErrorPage from '../../ErrorPage';
+import ErrorPage from "../../ErrorPage";
 import NotFoundPage from "../../NotFoundPage";
 import ExamAnswersPageForHistory from "../pages/ExamAnswersPageForHistory";
 import ExamHistoryPage from "../pages/ExamHistoryPage";
@@ -9,64 +9,67 @@ import ExamResultPage from "../pages/ExamResultPage";
 import HomPage from "../pages/HomPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import ExamStartingPage from './../pages/ExamStartingPage';
+import ExamStartingPage from "./../pages/ExamStartingPage";
+import StudentProfilePage from "../pages/StudentProfilePage"; // Import the profile page
 import PrivateRoutes from "./PrivateRoutes";
 
 
 const Routes = createBrowserRouter([
-    {
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
         path: "/",
-        element: <App />,
-        errorElement: <ErrorPage />,
-        children: [
-            {
-                path: "/",
-                element: <HomPage />
-            },
-            {
-                path: "/exams-starting",
-                element: <PrivateRoutes>
-                    <ExamStartingPage />
-                </PrivateRoutes>
-            },
-            {
-                path: "/exam-on-going",
-                element: <PrivateRoutes>
-                    <ExamOnGoingPage />
-                </PrivateRoutes>,
-            },
-            {
-                path: "/exam-result",
-                element: <PrivateRoutes>
-                    <ExamResultPage />
-                </PrivateRoutes>
-            },
-            {
-                path: "/exams",
-                element: <ExamStartingPage />
-            },
-            {
-                path: "/exam-history",
-                element: <ExamHistoryPage />
-            },
-            {
-                path: "/exam-history/:id",
-                element: <ExamAnswersPageForHistory />
-            },
-            {
-                path: "/login",
-                element: <LoginPage />
-            },
-            {
-                path: "/registration",
-                element: <RegisterPage />
-            },
-        ]
-    },
-    {
-        path: "*",
-        element: <NotFoundPage />
-    }
-])
+        element: <HomPage />,
+      },
+      {
+        path: "/exams-starting",
+        element: <ExamStartingPage />,
+      },
+      {
+        path: "/exam-on-going",
+        element: <ExamOnGoingPage />,
+      },
+      {
+        path: "/exam-result",
+        element: <ExamResultPage />,
+      },
+      {
+        path: "/exams",
+        element: <ExamStartingPage />,
+      },
+      {
+        path: "/exam-history",
+        element: <ExamHistoryPage />,
+      },
+      {
+        path: "/exam-history/:id",
+        element: <ExamAnswersPageForHistory />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/registration",
+        element: <RegisterPage />,
+      },
+      {
+        path: "/profile", // Profile route with PrivateRoutes
+        element: (
+          <PrivateRoutes>
+            <StudentProfilePage />
+          </PrivateRoutes>
+        ),
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
+]);
 
-export default Routes
+export default Routes;
