@@ -63,10 +63,17 @@ const UserNav = () => {
 
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link to="/profile">Profile</Link>
+            <Link to="/profile" className="flex items-center w-full h-full p-2">
+              Profile
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link to="/exam-history">Exam History</Link>
+            <Link
+              to="/exam-history"
+              className="flex items-center w-full h-full p-2"
+            >
+              Exam History
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
