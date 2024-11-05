@@ -19,14 +19,13 @@ export const examsApi = apiSlice.injectEndpoints({
 
                 try {
                     const result = await queryFulfilled;
-                    const {exam, questions_list, mcqAnswers, timeLeft} = result.data;
+                    const {exam, questions_list, mcqAnswers} = result.data;
 
                     dispatch(
                         saveExamInfo({
                             exam,
                             questions_list,
-                            mcqAnswers,
-                            timeLeft
+                            mcqAnswers
                         })
                     );
                 } catch (err) {
@@ -51,8 +50,7 @@ export const examsApi = apiSlice.injectEndpoints({
                         clearExamInfo({
                             exam: {},
                             questions_list: [],
-                            mcqAnswers: [],
-                            timeLeft: null
+                            mcqAnswers: []
                         })
                     );
 

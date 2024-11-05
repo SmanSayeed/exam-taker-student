@@ -13,6 +13,7 @@ import ExamStartingPage from "./../pages/ExamStartingPage";
 import StudentProfilePage from "../pages/StudentProfilePage"; // Import the profile page
 import PrivateRoutes from "./PrivateRoutes";
 
+
 const Routes = createBrowserRouter([
   {
     path: "/",

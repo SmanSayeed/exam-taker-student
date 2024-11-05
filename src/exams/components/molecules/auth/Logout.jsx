@@ -13,6 +13,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useLoggedOutMutation } from "./../../../features/auth/authApi";
+import { useSelector } from "react-redux";
+import { Button } from "@/components/ui/button";
 
 const Logout = () => {
     const navigate = useNavigate();
@@ -23,12 +25,13 @@ const Logout = () => {
         setOpen(true)
     };
 
+    const token = useSelector(state => state?.auth?.token)
+
     const [logout, { error }] = useLoggedOutMutation();
 
     const handleLogout = async () => {
         try {
-            const response = await logout().unwrap();
-
+            const { data: response } = await logout(token); 
             setOpen(false);
             toast.success(response?.message);
             navigate("/login");
@@ -39,11 +42,13 @@ const Logout = () => {
     }
 
     return (
-        <AlertDialog open={open} onOpenChange={setOpen}>
-            <AlertDialogTrigger onClick={handleOpen}>
-                Logout
+        <AlertDialog open={open} onOpenChange={setOpen} >
+            <AlertDialogTrigger onClick={handleOpen} className="w-full " >
+                    <Button className="w-full mt-4">
+                        Logout
+                </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="w-[95%] mx-auto">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
                     <AlertDialogDescription>

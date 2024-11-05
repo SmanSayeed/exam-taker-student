@@ -36,9 +36,11 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
     loggedOut: builder.mutation({
-      query: () => ({
+      query: (token) => ({
         url: "/logout",
         method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        // body:token
       }),
       async onQueryStarted(arg, { dispatch }) {
         try {
