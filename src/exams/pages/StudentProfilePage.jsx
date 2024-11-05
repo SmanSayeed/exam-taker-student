@@ -29,20 +29,20 @@ import {
 import { toast } from "sonner";
 
 // Define the countries object
-const countries = {
-  AF: { name: "Afghanistan", code: "+93" },
-  DZ: { name: "Algeria", code: "+213" },
-  AL: { name: "Albania", code: "+355" },
-  AU: { name: "Australia", code: "+61" },
-  AR: { name: "Argentina", code: "+54" },
-  AZ: { name: "Azerbaijan", code: "+994" },
-  BD: { name: "Bangladesh", code: "+880" },
-  BT: { name: "Bhutan", code: "+975" },
-  BM: { name: "Bermuda", code: "+1-441" },
-  BE: { name: "Belgium", code: "+32" },
-  BY: { name: "Belarus", code: "+375" },
-  US: { name: "United States", code: "+1" },
-};
+const countries = [
+  { code: "AF", name: "Afghanistan" },
+  { code: "DZ", name: "Algeria" },
+  { code: "AL", name: "Albania" },
+  { code: "AU", name: "Australia" },
+  { code: "AR", name: "Argentina" },
+  { code: "AZ", name: "Azerbaijan" },
+  { code: "BD", name: "Bangladesh" },
+  { code: "BT", name: "Bhutan" },
+  { code: "BM", name: "Bermuda" },
+  { code: "BE", name: "Belgium" },
+  { code: "BY", name: "Belarus" },
+  { code: "US", name: "United States" },
+];
 
 // Form validation schema
 const formSchema = z.object({
