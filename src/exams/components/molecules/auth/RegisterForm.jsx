@@ -88,6 +88,7 @@ const RegisterForm = () => {
 
     return (
         <form onSubmit={handleSubmit(handleRegister)}>
+            <input type="hidden" name="active_status" value={1} />
             <div className="grid gap-4 space-y-2 text-left">
                 <div className="grid gap-1">
                     <Label htmlFor="firstName">Name</Label>
@@ -119,7 +120,7 @@ const RegisterForm = () => {
                         id="phone"
                         name="phone"
                         type="tel"
-                        placeholder="+880 16123-4567"
+                        placeholder="01*********"
                     />
                     {errors.phone && <span className="text-red-600">{errors.phone.message}</span>}
                 </div>
