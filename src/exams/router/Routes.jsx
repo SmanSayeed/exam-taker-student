@@ -22,7 +22,7 @@ const Routes = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomPage />,
+        element: <LoginPage />,
       },
       {
         path: "/exams-starting",
@@ -47,14 +47,6 @@ const Routes = createBrowserRouter([
       {
         path: "/exam-history/:id",
         element: <ExamAnswersPageForHistory />,
-      },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      {
-        path: "/registration",
-        element: <RegisterPage />,
       },
       {
         path: "/profile", // Profile route with PrivateRoutes

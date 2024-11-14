@@ -15,7 +15,7 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
     const navigate = useNavigate();
 
     const handleNavigating = () => {
-        navigate("/login")
+        navigate("/")
     }
 
     const [navOpened, setNavOpened] = useState(false);

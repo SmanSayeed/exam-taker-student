@@ -10,7 +10,7 @@ export default function ExamStartingPage() {
 
   useEffect(() => {
     if (!auth) {
-      navigate("/login");
+      navigate("/");
     }
   }, [auth, navigate]);
 

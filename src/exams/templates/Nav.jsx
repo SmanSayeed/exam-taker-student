@@ -56,7 +56,7 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
 
     if (fromMobile && !checkingUser) {
         mobileNav = (
-            <NavLink title={"Login"} href={"/login"} className="justify-center bg-gray-800 text-gray-100 mt-2" />
+            <NavLink title={"Login"} href={"/"} className="justify-center bg-gray-800 text-gray-100 mt-2" />
         )
     }
 

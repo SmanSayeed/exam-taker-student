@@ -31,7 +31,7 @@ const ExamStartingForm = () => {
   const [startExam, { isLoading: isExamStarting }] = useStartExamMutation();
 
   const handleStartExam = async (formData) => {
-    if (!auth?.student) navigate("/login");
+    if (!auth?.student) navigate("/");
 
     const payload = {
       title: "Math Final Exam",
