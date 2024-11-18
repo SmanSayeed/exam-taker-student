@@ -3,7 +3,6 @@ import { MultipleSelector } from "./MultipleSelector";
 import { useCategoryData } from "./useCategoryData";
 
 export default function QuesCategoryForFilter({ control, setValue }) {
-
     const { categories: sections, isLoading: isSectionLoading, error, categoryData: sectionData, setCategoryData: setSectionData } = useCategoryData("sections");
     const { categories: examTypes, categoryData: examTypeData, setCategoryData: setExamTypeData } = useCategoryData("exam-types");
     const { categories: groups, isLoading: isGroupLoading, categoryData: groupData, setCategoryData: setGroupData } = useCategoryData("groups");
@@ -122,22 +121,6 @@ export default function QuesCategoryForFilter({ control, setValue }) {
     const handleYearChange = (ids) => {
         setValue("year", ids);
     };
-
-    // if (isLoading) {
-    //     return <Loading />;
-    // }
-
-    // if (isLoading) {
-    //     return (
-    //         <div className="flex items-center space-x-4">
-    //             {/* <Skeleton className="h-12 w-12 rounded-full" /> */}
-    //             <div className="space-y-2">
-    //                 <Skeleton className="h-4 w-[250px]" />
-    //                 <Skeleton className="h-4 w-[200px]" />
-    //             </div>
-    //         </div>
-    //     )
-    // }
 
     if (error) {
         return <div className="py-5">Error loading Categories: {error?.data?.message}</div>;
