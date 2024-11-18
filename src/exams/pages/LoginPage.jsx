@@ -25,12 +25,12 @@ const LoginPage = () => {
                 <CardContent>
                     <LoginForm />
 
-                    <div className="mt-4 text-center text-sm">
+                    {/* <div className="mt-4 text-center text-sm">
                         Don&apos;t have an account?{" "}
                         <Link to="/registration" className="underline font-medium ">
                             Sign Up
                         </Link>
-                    </div>
+                    </div> */}
                 </CardContent>
             </Card>
         </div>
