@@ -7,8 +7,6 @@ import ExamHistoryPage from "../pages/ExamHistoryPage";
 import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 import ExamResultPage from "../pages/ExamResultPage";
 import LoginPage from "../pages/LoginPage";
-import ExamStartingPage from "./../pages/ExamStartingPage";
-import RegisterPage from "../pages/RegisterPage";
 import StudentProfilePage from "../pages/StudentProfilePage"; // Import the profile page
 import ExamStartingPage from "./../pages/ExamStartingPage";
 import PrivateRoutes from "./PrivateRoutes";
