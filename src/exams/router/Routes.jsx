@@ -6,12 +6,12 @@ import ExamAnswersPageForHistory from "../pages/ExamAnswersPageForHistory";
 import ExamHistoryPage from "../pages/ExamHistoryPage";
 import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 import ExamResultPage from "../pages/ExamResultPage";
-import HomPage from "../pages/HomPage";
 import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
 import ExamStartingPage from "./../pages/ExamStartingPage";
 import StudentProfilePage from "../pages/StudentProfilePage"; // Import the profile page
 import PrivateRoutes from "./PrivateRoutes";
+import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
+
 
 
 const Routes = createBrowserRouter([
@@ -47,6 +47,10 @@ const Routes = createBrowserRouter([
       {
         path: "/exam-history/:id",
         element: <ExamAnswersPageForHistory />,
+      },
+      {
+        path: "/questions",
+        element: <QuestionListForStudentPage />,
       },
       {
         path: "/profile", // Profile route with PrivateRoutes
