@@ -75,7 +75,7 @@ const QuestionListForStudentPage = () => {
     return <h1 className="text-5xl text-black">No data found</h1>;
 
   return (
-    <Fragment>
+    <div className="px-5 w-full ">
       <Card
         id="filtering-and-search-question"
         className="mb-5 h-full rounded-md p-3"
@@ -117,7 +117,7 @@ const QuestionListForStudentPage = () => {
           }}
         />
       </div>
-    </Fragment>
+    </div>
   );
 };
 
