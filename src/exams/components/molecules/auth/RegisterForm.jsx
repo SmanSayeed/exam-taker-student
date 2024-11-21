@@ -82,7 +82,7 @@ const RegisterForm = () => {
 
         if (isSuccess && data?.data) {
             toast.success(data?.message);
-            navigate("/login");
+            navigate("/");
         }
     }, [error, setError, isSuccess, data, navigate]);
 

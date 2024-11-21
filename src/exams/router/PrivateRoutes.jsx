@@ -5,7 +5,7 @@ const PrivateRoutes = ({ children }) => {
   const isLoggedIn = useAuth();
 
   // Render children if logged in; otherwise, redirect to the login page
-  return isLoggedIn ? children : <Navigate to="/login" />;
+  return isLoggedIn ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoutes;

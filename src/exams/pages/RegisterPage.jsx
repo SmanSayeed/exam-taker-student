@@ -26,7 +26,7 @@ const RegisterPage = () => {
 
                     <div className="mt-4 text-center text-sm">
                         Don&apos;t have an account?{" "}
-                        <Link to="/login" className="underline font-medium ">
+                        <Link to="/" className="underline font-medium ">
                             Log In
                         </Link>
                     </div>

@@ -34,7 +34,7 @@ const Logout = () => {
             const { data: response } = await logout(token); 
             setOpen(false);
             toast.success(response?.message);
-            navigate("/login");
+            navigate("/");
         } catch (err) {
             console.error(err);
             toast.error(error?.data?.message || "Something went wrong");

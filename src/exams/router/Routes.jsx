@@ -6,12 +6,14 @@ import ExamAnswersPageForHistory from "../pages/ExamAnswersPageForHistory";
 import ExamHistoryPage from "../pages/ExamHistoryPage";
 import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 import ExamResultPage from "../pages/ExamResultPage";
-import HomPage from "../pages/HomPage";
 import LoginPage from "../pages/LoginPage";
+import ExamStartingPage from "./../pages/ExamStartingPage";
 import RegisterPage from "../pages/RegisterPage";
 import StudentProfilePage from "../pages/StudentProfilePage"; // Import the profile page
 import ExamStartingPage from "./../pages/ExamStartingPage";
 import PrivateRoutes from "./PrivateRoutes";
+import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
+
 
 const Routes = createBrowserRouter([
   {
@@ -21,7 +23,7 @@ const Routes = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomPage />,
+        element: <LoginPage />,
       },
       {
         path: "/exams-starting",
@@ -68,12 +70,8 @@ const Routes = createBrowserRouter([
         ),
       },
       {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      {
-        path: "/registration",
-        element: <RegisterPage />,
+        path: "/questions",
+        element: <QuestionListForStudentPage />,
       },
       {
         path: "/profile", // Profile route with PrivateRoutes
