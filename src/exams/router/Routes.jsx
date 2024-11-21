@@ -8,10 +8,11 @@ import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 import ExamResultPage from "../pages/ExamResultPage";
 import LoginPage from "../pages/LoginPage";
 import ExamStartingPage from "./../pages/ExamStartingPage";
+import RegisterPage from "../pages/RegisterPage";
 import StudentProfilePage from "../pages/StudentProfilePage"; // Import the profile page
+import ExamStartingPage from "./../pages/ExamStartingPage";
 import PrivateRoutes from "./PrivateRoutes";
 import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
-
 
 
 const Routes = createBrowserRouter([
@@ -26,15 +27,27 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/exams-starting",
-        element: <ExamStartingPage />,
+        element: (
+          <PrivateRoutes>
+            <ExamStartingPage />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/exam-on-going",
-        element: <ExamOnGoingPage />,
+        element: (
+          <PrivateRoutes>
+            <ExamOnGoingPage />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/exam-result",
-        element: <ExamResultPage />,
+        element: (
+          <PrivateRoutes>
+            <ExamResultPage />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/exams",
@@ -42,11 +55,19 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/exam-history",
-        element: <ExamHistoryPage />,
+        element: (
+          <PrivateRoutes>
+            <ExamHistoryPage />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/exam-history/:id",
-        element: <ExamAnswersPageForHistory />,
+        element: (
+          <PrivateRoutes>
+            <ExamAnswersPageForHistory />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/questions",
