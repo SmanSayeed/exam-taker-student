@@ -52,11 +52,11 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
         return <NavLink {...rest} key={key} closeNav={closeNav} />
     }
 
+    const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
+
     let mobileNav;
 
     if (fromMobile && !checkingUser) {
-        const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
-
         mobileNav = (
             <>
                 <NavLink title={"Go to Homepage"} href={homePageUrl} className="justify-center bg-gray-800 text-gray-100 mt-2" />
@@ -95,7 +95,16 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
                     </div>
                 </div>
 
-                <NavLink title={"Exam history"} href="/exam-history" />
+                <NavLink
+                    title={"Exam history"}
+                    href="/exam-history"
+                />
+
+                <NavLink
+                    title={"Go to Homepage"}
+                    href={homePageUrl}
+                    className="justify-center bg-gray-700 text-gray-100 mt-2"
+                />
 
                 <div>
                     <Logout />
