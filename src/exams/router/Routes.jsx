@@ -11,7 +11,7 @@ import StudentProfilePage from "../pages/StudentProfilePage"; // Import the prof
 import ExamStartingPage from "./../pages/ExamStartingPage";
 import PrivateRoutes from "./PrivateRoutes";
 import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
-
+import RegisterPage from "../pages/RegisterPage";
 
 const Routes = createBrowserRouter([
   {
@@ -22,6 +22,10 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: <LoginPage />,
+      },
+      {
+        path: "/registration",
+        element: <RegisterPage />,
       },
       {
         path: "/exams-starting",
