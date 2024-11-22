@@ -33,15 +33,13 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
       {/* Overlay in mobile */}
       <div
         onClick={() => setNavOpened(false)}
-        className={`absolute top-14 inset-0 transition-[opacity] delay-100 duration-700 z-50 ${
-          navOpened ? "h-svh opacity-100" : "h-0 opacity-0"
-        } w-full bg-black md:hidden`}
+        className={`absolute top-14 inset-0 transition-[opacity] delay-100 duration-700 z-50 ${navOpened ? "h-svh opacity-100" : "h-0 opacity-0"
+          } w-full bg-black md:hidden`}
       >
         <Nav
           id="sidebar-menu"
-          className={`z-40 h-full md:hidden flex flex-row overflow-auto pt-6 ${
-            navOpened ? "max-h-screen" : "max-h-0 py-0 md:max-h-screen"
-          }`}
+          className={`z-40 h-full md:hidden flex flex-row overflow-auto pt-6 ${navOpened ? "max-h-screen" : "max-h-0 py-0 md:max-h-screen"
+            }`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
           links={NavLinks}
@@ -51,9 +49,8 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
       </div>
       <Layout
         fixed
-        className={`${
-          navOpened ? "h-svh" : ""
-        } w-full flex flex-co items-center justify-between md:flex-row shadow`}
+        className={`${navOpened ? "h-svh" : ""
+          } w-full flex flex-co items-center justify-between md:flex-row shadow`}
       >
         <Layout.Header
           sticky
@@ -64,19 +61,18 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
           </div>
           <Nav
             id="sidebar-menu"
-            className={`z-40 h-full hidden md:flex flex-row overflow-auto ${
-              navOpened ? "max-h-screen" : "max-h-0 py-0 md:max-h-screen"
-            }`}
+            className={`z-40 h-full hidden md:flex flex-row overflow-auto ${navOpened ? "max-h-screen" : "max-h-0 py-0 md:max-h-screen"
+              }`}
             closeNav={() => setNavOpened(false)}
             isCollapsed={isCollapsed}
             links={NavLinks}
           />
           <div className="hidden md:flex items-center gap-3">
-            {checkingUser ? (
+            {checkingUser && (
               <UserNav />
-            ) : (
-              <Button onClick={() => navigate("/login")}>Login</Button>
             )}
+            {/* <Button onClick={() => navigate("/login")}>Login</Button> */}
+
             {/* Add Go to Homepage Button */}
             <Button onClick={handleGoToHomepage}>Go to Homepage</Button>
           </div>
