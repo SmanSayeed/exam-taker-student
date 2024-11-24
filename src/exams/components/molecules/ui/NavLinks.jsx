@@ -1,14 +1,24 @@
+import { BookOpen, Home, List, NotebookPen } from "lucide-react";
+
 export const NavLinks = [
-    // {
-    //     title: "Class",
-    //     href: "/class",
-    // },
+    {
+        title: "Home",
+        href: "/",
+        icon: <Home />,
+    },
     {
         title: "Exams",
         href: "/exams-starting",
+        icon: <NotebookPen />,
     },
-    // {
-    //     title: "Information",
-    //     href: "/information",
-    // },
-]
+    {
+        title: "Question Bank",
+        href: "/questions",
+        icon: <List />,
+    },
+    {
+        title: "Course",
+        href: "https://loopsexam.xyz/courses",
+        icon: <BookOpen />,
+    },
+];
