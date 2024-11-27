@@ -13,11 +13,6 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
   const checkingUser = useAuth();
   const navigate = useNavigate();
 
-  // Navigate to external homepage (landing page)
-  const handleGoToHomepage = () => {
-    window.location.href = "https://loopsexam.xyz"; // Redirect to the external homepage
-  };
-
   const [navOpened, setNavOpened] = useState(false);
   /* Make body not scrollable when navBar is opened */
   useEffect(() => {
@@ -68,13 +63,11 @@ export default function Navbar({ className, isCollapsed, setIsCollapsed }) {
             links={NavLinks}
           />
           <div className="hidden md:flex items-center gap-3">
-            {checkingUser && (
+            {checkingUser ? (
               <UserNav />
+            ) : (
+              <Button onClick={() => navigate("/")}>Login</Button>
             )}
-            {/* <Button onClick={() => navigate("/login")}>Login</Button> */}
-
-            {/* Add Go to Homepage Button */}
-            <Button onClick={handleGoToHomepage}>Go to Homepage</Button>
           </div>
           <div className="flex items-center md:hidden">
             {/* Toggle Button in mobile */}
