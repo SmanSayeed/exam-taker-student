@@ -7,6 +7,7 @@ export default {
     extend: {
       fontFamily: {
         "hind-siliguri": ["Hind Siliguri", "sans-serif"],
+        "solaiman-lipi": ["SolaimanLipi", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
