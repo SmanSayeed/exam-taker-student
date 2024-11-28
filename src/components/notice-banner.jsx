@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
+import { Link } from "react-router-dom";
 
 const bannerVariants = cva(
   "border text-center p-4 text-sm flex items-center w-full",
@@ -28,7 +29,13 @@ const NoticeBanner = ({ label, variant, className }) => {
     <div className={cn(bannerVariants({ variant }), className)}>
       {/* <Icon className="h-4 w-4 mr-2" /> */}
       {label}
-      <button className="underline ml-4">Click Here</button>
+      <Link
+        target="_blank"
+        to="https://www.facebook.com/looopsacademy?mibextid=ZbWKwL"
+        className="underline ml-2"
+      >
+        Click Here
+      </Link>
     </div>
   );
 };
