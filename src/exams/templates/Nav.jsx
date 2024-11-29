@@ -59,7 +59,6 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
     if (fromMobile && !checkingUser) {
         mobileNav = (
             <>
-                <NavLink title={"Go to Homepage"} href={homePageUrl} className="justify-center bg-gray-800 text-gray-100 mt-2" />
                 <NavLink title={"Login"} href={"/"} className="justify-center bg-gray-800 text-gray-100 mt-2" />
             </>
         )
@@ -96,14 +95,13 @@ export default function Nav({ links, isCollapsed, className, closeNav, checkingU
                 </div>
 
                 <NavLink
-                    title={"Exam history"}
-                    href="/exam-history"
+                    title={"Profile"}
+                    href="/profile"
                 />
 
                 <NavLink
-                    title={"Go to Homepage"}
-                    href={homePageUrl}
-                    className="justify-center bg-gray-700 text-gray-100 mt-2"
+                    title={"Exam history"}
+                    href="/exam-history"
                 />
 
                 <div>

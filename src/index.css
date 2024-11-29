@@ -1,3 +1,5 @@
+@import url("https://fonts.maateen.me/solaiman-lipi/font.css"); /* import solaiman lipi font */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -62,7 +64,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-solaiman-lipi; /* used solaiman lipi font */
   }
 }
 
@@ -73,6 +75,7 @@
     format("truetype"); /* Path to your TTF file */
   font-weight: normal; /* Normal weight */
   font-style: normal; /* Normal style */
+  font-display: swap; /* Optimize Font Loading */
 }
 
 @font-face {
@@ -81,6 +84,7 @@
     format("truetype"); /* Path to your TTF file */
   font-weight: bold; /* Bold weight */
   font-style: normal; /* Normal style */
+  font-display: swap; /* Optimize Font Loading */
 }
 
 @font-face {
@@ -89,6 +93,7 @@
     format("truetype"); /* Path to your TTF file */
   font-weight: 500; /* Medium weight */
   font-style: normal; /* Normal style */
+  font-display: swap; /* Optimize Font Loading */
 }
 
 @font-face {
@@ -97,6 +102,7 @@
     format("truetype"); /* Path to your TTF file */
   font-weight: 300; /* Light weight */
   font-style: normal; /* Normal style */
+  font-display: swap; /* Optimize Font Loading */
 }
 
 @font-face {
@@ -105,4 +111,5 @@
     format("truetype"); /* Path to your TTF file */
   font-weight: 600; /* SemiBold weight */
   font-style: normal; /* Normal style */
+  font-display: swap; /* Optimize Font Loading */
 }
