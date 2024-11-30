@@ -8,10 +8,10 @@ const ExamAnswersPageForHistory = () => {
     const { data: examData } = useGetExamByIdQuery(id);
 
     useEffect(() => {
-        console.log("exam", examData?.exam);
-    }, [examData?.exam]);
+        console.log("exam", examData);
+    }, [examData]);
 
-    const results = examData?.exam?.answers[0]?.mcq_answers.reduce((acc, answer) => {
+    const results = examData?.exam?.answers[0]?.mcq_answers?.reduce((acc, answer) => {
         if (answer.submitted_mcq_option === null) {
             acc.skipped++;
         } else if (answer.is_submitted_correct) {
