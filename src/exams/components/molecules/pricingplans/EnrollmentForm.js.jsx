@@ -5,8 +5,10 @@ import { useForm } from "react-hook-form";
 const EnrollmentForm = ({ singlePackage, onSubmitSuccess, onCancel }) => {
     const form = useForm({
         defaultValues: {
-            name: "",
-            email: "",
+            payment_method: "",
+            mobile_number: "",
+            transaction_id: "",
+            amount: singlePackage?.discountPrice || singlePackage?.price,
         },
         mode: "onChange", // Validation occurs while typing
     });
@@ -25,18 +27,48 @@ const EnrollmentForm = ({ singlePackage, onSubmitSuccess, onCancel }) => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {/* Name Field */}
+                {/* Payment Method Field (Radio Buttons) */}
                 <FormField
-                    name="name"
+                    name="payment_method"
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel className="text-md inline-block">Payment Method</FormLabel>
+                            <FormControl>
+                                <div className="flex gap-2 items-center">
+                                    {["bkash", "nagad", "rocket"].map((method) => (
+                                        <label key={method} className="flex items-center space-x-2 md:ml-2">
+                                            <input
+                                                {...field}
+                                                type="radio"
+                                                value={method}
+                                                checked={field.value === method}
+                                                onChange={() => field.onChange(method)}
+                                                className="form-radio"
+                                            />
+                                            <span className="capitalize">{method}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                {/* Mobile Number Field */}
+                <FormField
+                    name="mobile_number"
+                    control={form.control}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mobile Number</FormLabel>
                             <FormControl>
                                 <input
                                     {...field}
+                                    type="text"
                                     className="w-full px-4 py-2 border rounded-md"
-                                    placeholder="Enter your name"
+                                    placeholder="Enter your mobile number"
                                 />
                             </FormControl>
                             <FormMessage />
@@ -44,19 +76,41 @@ const EnrollmentForm = ({ singlePackage, onSubmitSuccess, onCancel }) => {
                     )}
                 />
 
-                {/* Email Field */}
+                {/* Transaction ID Field */}
                 <FormField
-                    name="email"
+                    name="transaction_id"
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>Transaction ID</FormLabel>
                             <FormControl>
                                 <input
                                     {...field}
-                                    type="email"
+                                    type="text"
                                     className="w-full px-4 py-2 border rounded-md"
-                                    placeholder="Enter your email"
+                                    placeholder="Enter the transaction ID"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                {/* Amount Field (Read-Only) */}
+                <FormField
+                    name="amount"
+                    control={form.control}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Amount</FormLabel>
+                            <FormControl>
+                                <input
+                                    {...field}
+                                    type="text"
+                                    className="w-full px-4 py-2 border rounded-md"
+                                    readOnly
+                                    value={field.value}
+                                    disabled
                                 />
                             </FormControl>
                             <FormMessage />
@@ -68,7 +122,7 @@ const EnrollmentForm = ({ singlePackage, onSubmitSuccess, onCancel }) => {
                 <div className="flex justify-center space-x-4">
                     <Button
                         type="submit"
-                        disabled={!form.formState.isValid} // Disable button if form is invalid
+                        disabled={!form.formState.isValid}
                     >
                         Enroll Now
                     </Button>
