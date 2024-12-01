@@ -1,6 +1,6 @@
 import { CustomDialog } from "@/components/custom-dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import { useState } from "react";
 import EnrollmentForm from "./EnrollmentForm.js";
@@ -18,19 +18,25 @@ const PricingPlansCard = ({ singlePackage }) => {
 
     return (
         <>
-            <Card className="container">
-                <CardHeader>
-                    <h2 className="text-xl font-semibold">{parseHtmlContent(singlePackage?.name)}</h2>
-                    <p className="text-2xl font-bold">{singlePackage?.price}$</p>
-                </CardHeader>
-                <CardContent>
-                    <p>{parseHtmlContent(singlePackage?.description)}</p>
-                </CardContent>
-                <CardFooter>
-                    <Button className="w-full" onClick={handleGetStartedClick}>
+            <Card className="bg-gradient-to-b from-blue-500 to-gray-500 text-white rounded-xl overflow-hidden shadow-lg">
+                <div className="p-6 text-center">
+                    <div className="bg-white rounded-full mx-auto w-20 h-20 flex items-center justify-center mb-4">
+                        <span className="text-2xl font-bold text-purple-500">
+                            ${singlePackage?.price}
+                        </span>
+                    </div>
+
+                    <h2 className="text-xl font-semibold mb-4">{parseHtmlContent(singlePackage?.name)}</h2>
+
+                    <p className="my-3">{parseHtmlContent(singlePackage?.description)}</p>
+
+                    <Button
+                        className="w-full bg-gray-300 text-gray-800 hover:bg-gray-200"
+                        onClick={handleGetStartedClick}
+                    >
                         Get Started
                     </Button>
-                </CardFooter>
+                </div>
             </Card>
 
             {/* Custom Dialog */}
