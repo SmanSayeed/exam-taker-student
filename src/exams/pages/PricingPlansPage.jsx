@@ -5,6 +5,9 @@ import PricingPlansCard from "../components/molecules/pricingplans/PricingPlansC
 const PricingPlansPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
 
+  // Filter for active packages
+  const activePackages = allPackages?.data && allPackages?.data?.filter((pkg) => pkg.is_active === 1);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -36,10 +39,17 @@ const PricingPlansPage = () => {
 
       {/* Pricing Plans Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {allPackages?.data &&
-          allPackages?.data.map((item) => (
-            <PricingPlansCard key={item?.id} singlePackage={item} />
-          ))}
+        {
+          activePackages && activePackages?.length > 0 ? (
+            activePackages.map((item) => (
+              <PricingPlansCard key={item?.id} singlePackage={item} />
+            ))
+          ) : (
+            <p className="col-span-3 text-center text-gray-500">
+              No active packages available at the moment.
+            </p>
+          )
+        }
       </div>
     </div>
   );

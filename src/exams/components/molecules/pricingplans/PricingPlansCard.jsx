@@ -8,28 +8,20 @@ import EnrollmentForm from "./EnrollmentForm.js";
 const PricingPlansCard = ({ singlePackage }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+    const isSubscribedToPackage = singlePackage?.is_subscribed || false;
+
     const handleGetStartedClick = () => {
         setIsDialogOpen(true);
     };
 
-    const handleFormSuccess = () => {
-        setIsDialogOpen(false);
+    const handleViewClick = () => {
+        // Logic for viewing the subscribed package details
+        console.log("Viewing subscribed package:", singlePackage?.name);
     };
 
     return (
         <>
             <Card className="bg-gradient-to-b from-blue-500 to-gray-500 text-white rounded-xl overflow-hidden shadow-lg">
-                {/* Card Header with Image */}
-                {/* {singlePackage?.image && (
-                    <div className="relative">
-                        <img
-                            src={singlePackage.image}
-                            alt={singlePackage?.name || "Package Image"}
-                            className="w-full h-40 object-cover"
-                        />
-                    </div>
-                )} */}
-
                 <div className="p-6 text-center">
                     {/* Price and Discount */}
                     <div className="bg-white rounded-full mx-auto w-20 h-20 flex items-center justify-center mb-4 relative">
@@ -48,12 +40,24 @@ const PricingPlansCard = ({ singlePackage }) => {
                     <h2 className="text-xl font-semibold mb-4">{parseHtmlContent(singlePackage?.name)}</h2>
                     <p className="my-3">{parseHtmlContent(singlePackage?.description)}</p>
 
-                    <Button
-                        className="w-full bg-gray-300 text-gray-800 hover:bg-gray-200"
-                        onClick={handleGetStartedClick}
-                    >
-                        Get Started
-                    </Button>
+                    {/* Conditional Button Rendering */}
+                    {
+                        isSubscribedToPackage ? (
+                            <Button
+                                className="w-full bg-green-500 text-white hover:bg-green-400"
+                                onClick={handleViewClick}
+                            >
+                                View
+                            </Button>
+                        ) : (
+                            <Button
+                                className="w-full bg-gray-300 text-gray-800 hover:bg-gray-200"
+                                onClick={handleGetStartedClick}
+                            >
+                                Get Started
+                            </Button>
+                        )
+                    }
                 </div>
             </Card>
 
@@ -75,7 +79,6 @@ const PricingPlansCard = ({ singlePackage }) => {
                 <div className="mt-4">
                     <EnrollmentForm
                         singlePackage={singlePackage}
-                        onSubmitSuccess={handleFormSuccess}
                         onCancel={() => setIsDialogOpen(false)}
                     />
                 </div>

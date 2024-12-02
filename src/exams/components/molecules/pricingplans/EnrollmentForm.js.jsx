@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useSubscribeToPackageMutation } from "@/features/packages/packagesApi";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-const EnrollmentForm = ({ singlePackage, onSubmitSuccess, onCancel }) => {
+const EnrollmentForm = ({ singlePackage, onCancel }) => {
     const form = useForm({
         defaultValues: {
             payment_method: "",
@@ -13,15 +16,20 @@ const EnrollmentForm = ({ singlePackage, onSubmitSuccess, onCancel }) => {
         mode: "onChange",
     });
 
-    const onSubmit = (data) => {
+    const [subscribeToPackage, { isLoading }] = useSubscribeToPackageMutation();
+
+    const onSubmit = async (data) => {
         console.log("Enrolling student with data:", data);
 
-        // Simulate an API call for enrollment
-        setTimeout(() => {
-            alert(`Enrollment successful for ${singlePackage?.name}!`);
-            form.reset(); // Clear the form after submission
-            onSubmitSuccess(); // Close the dialog
-        }, 1000);
+        try {
+            const response = await subscribeToPackage({ id: singlePackage?.id, data }).unwrap();
+            console.log(response)
+            toast.success(response?.message || "");
+            form.reset();
+        } catch (error) {
+            console.error(error);
+            toast.error(error?.data?.message);
+        }
     };
 
     return (
@@ -122,9 +130,16 @@ const EnrollmentForm = ({ singlePackage, onSubmitSuccess, onCancel }) => {
                 <div className="flex justify-center space-x-4">
                     <Button
                         type="submit"
-                        disabled={!form.formState.isValid}
+                        disabled={isLoading || !form.formState.isValid}
                     >
-                        Enroll Now
+                        {
+                            isLoading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Please wait
+                                </>
+                            ) : "Enroll Now"
+                        }
                     </Button>
                     <Button
                         type="button"
