@@ -1,8 +1,4 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -22,11 +17,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  useGetProfileQuery,
-  useUpdateProfileMutation,
-} from "../features/auth/authApi";
+import { useGetProfileQuery, useUpdateProfileMutation } from "@/features/auth/authApi";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import * as z from "zod";
 
 // Define the countries object
 const countries = [
@@ -267,11 +264,10 @@ const StudentProfilePage = () => {
                   <span className="font-semibold">Status:</span>
                   <span className="col-span-2">
                     <span
-                      className={`px-2 py-1 rounded-full text-sm ${
-                        profile?.active_status
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
+                      className={`px-2 py-1 rounded-full text-sm ${profile?.active_status
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                        }`}
                     >
                       {profile?.active_status ? "Active" : "Inactive"}
                     </span>

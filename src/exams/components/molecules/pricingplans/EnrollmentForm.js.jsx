@@ -10,7 +10,7 @@ const EnrollmentForm = ({ singlePackage, onSubmitSuccess, onCancel }) => {
             transaction_id: "",
             amount: singlePackage?.discountPrice || singlePackage?.price,
         },
-        mode: "onChange", // Validation occurs while typing
+        mode: "onChange",
     });
 
     const onSubmit = (data) => {

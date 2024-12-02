@@ -1,7 +1,7 @@
-import { apiSlice } from "@/exams/features/api/apiSlice";
-import authSliceReducer from "@/exams/features/auth/authSlice";
-import examSliceReducer from "@/exams/features/exams/examSlice";
-import submittedExamSliceReducer from "@/exams/features/exams/submittedExamSlice";
+import { apiSlice } from "@/features/api/apiSlice";
+import authSliceReducer from "@/features/auth/authSlice";
+import examSliceReducer from "@/features/exams/examSlice";
+import submittedExamSliceReducer from "@/features/exams/submittedExamSlice";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   FLUSH,

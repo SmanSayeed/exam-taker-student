@@ -1,7 +1,7 @@
 import { Card, CardTitle } from "@/components/ui/card";
+import { useGetExamByIdQuery } from "@/features/exams/examsApi";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useGetExamByIdQuery } from "../features/exams/examsApi";
 
 const ExamAnswersPageForHistory = () => {
     const { id } = useParams();
