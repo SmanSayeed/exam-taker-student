@@ -1,5 +1,5 @@
 import { Card, CardTitle } from "@/components/ui/card";
-import { updateMcqAnswer } from "@/exams/features/exams/examSlice";
+import { updateMcqAnswer } from "@/features/exams/examSlice";
 import DOMPurify from "dompurify";
 import { BookmarkPlus } from "lucide-react";
 import { useEffect, useState } from "react";

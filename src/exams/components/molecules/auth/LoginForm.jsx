@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useLoggedInMutation } from "../../../features/auth/authApi";
+import { useLoggedInMutation } from "@/features/auth/authApi";
 
 const LoginForm = () => {
     const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { useGetCategoryQuery } from "@/exams/features/categories/categoriesApi";
+import { useGetCategoryQuery } from "@/features/categories/categoriesApi";
 import { useState } from "react";
 
 export const useCategoryData = (category) => {

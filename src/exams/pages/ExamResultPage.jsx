@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { useGetExamByIdQuery } from "@/features/exams/examsApi";
 import { Circle } from "lucide-react";
 import { useSelector } from "react-redux";
 import Loading from "../components/atoms/Loading";
 import ExamResultForMcq from "../components/organism/exams/ExamResultForMcq";
-import { useGetExamByIdQuery } from "../features/exams/examsApi";
 
 const ExamResultPage = () => {
     const submittedExam = useSelector(state => state.submittedExam);

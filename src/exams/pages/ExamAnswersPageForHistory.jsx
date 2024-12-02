@@ -1,17 +1,17 @@
 import { Card, CardTitle } from "@/components/ui/card";
+import { useGetExamByIdQuery } from "@/features/exams/examsApi";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useGetExamByIdQuery } from "../features/exams/examsApi";
 
 const ExamAnswersPageForHistory = () => {
     const { id } = useParams();
     const { data: examData } = useGetExamByIdQuery(id);
 
     useEffect(() => {
-        console.log("exam", examData?.exam);
-    }, [examData?.exam]);
+        console.log("exam", examData);
+    }, [examData]);
 
-    const results = examData?.exam?.answers[0]?.mcq_answers.reduce((acc, answer) => {
+    const results = examData?.exam?.answers[0]?.mcq_answers?.reduce((acc, answer) => {
         if (answer.submitted_mcq_option === null) {
             acc.skipped++;
         } else if (answer.is_submitted_correct) {

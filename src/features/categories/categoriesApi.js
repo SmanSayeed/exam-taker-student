@@ -6,7 +6,13 @@ export const categoriesApi = apiSlice.injectEndpoints({
             query: (category) => `/category/${category}`,
         }),
         getCategoryById: builder.query({
-            query: ({category, id}) => `/category/${category}/${id}`,
+            query: ({category, id}) => {
+                if(category === "tags") {
+                    return `/tags/${id}`
+                }
+                
+                return `/category/${category}/${id}`
+            },
         }),
     }),
 });

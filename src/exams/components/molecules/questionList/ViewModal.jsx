@@ -3,10 +3,11 @@ import {
     DialogContent,
     DialogHeader,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Link } from "react-router-dom"
+} from "@/components/ui/dialog";
 import DOMPurify from "dompurify";
 import { Eye } from "lucide-react";
+import { Link } from "react-router-dom";
+import TagsTitle from "./TagsTitle";
 
 // Helper function to parse HTML string and convert to JSX with Tailwind classes
 const parseHtmlContent = (htmlContent) => {
@@ -19,11 +20,9 @@ const parseHtmlContent = (htmlContent) => {
     );
 };
 
-export function ViewModal({ data }) {
-    const { id, title, description, attachable, is_paid, is_featured, type, mark, mcq_questions, creative_questions
+export function ViewModal({ data, tagIds }) {
+    const { id, title, is_paid, is_featured, type, mark, mcq_questions
     } = data || {};
-
-    const mcqOptionDescription = mcq_questions?.map(title => title?.description)
 
     return (
         <Dialog>
@@ -34,11 +33,21 @@ export function ViewModal({ data }) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[80%] md:max-w-[60%] border border-gray-400 ">
                 <DialogHeader>
+                    <div className="mb-4">
+                        <p className="my-4 text-lg dark:text-white">
+                            {parseHtmlContent(title)}
+                        </p>
 
-                    <p className="text-2xl mb-3 " >
-                        {parseHtmlContent(title)}
-                    </p>
-
+                        {/* Display Tag Names */}
+                        <div className="flex flex-wrap gap-2 justify-end">
+                            {tagIds.map((tagId) => (
+                                <TagsTitle
+                                    key={tagId}
+                                    tagId={tagId}
+                                />
+                            ))}
+                        </div>
+                    </div>
 
                     <div>
                         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 ">
