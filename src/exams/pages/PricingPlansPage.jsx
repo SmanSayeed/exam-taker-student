@@ -6,7 +6,7 @@ const PricingPlansPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
 
   // Filter for active packages
-  const activePackages = allPackages?.data && allPackages?.data?.filter((pkg) => pkg.is_active === 1);
+  // const activePackages = allPackages?.data && allPackages?.data?.filter((pkg) => pkg.is_active === 1);
 
   if (isLoading) {
     return <Loading />;
@@ -40,8 +40,8 @@ const PricingPlansPage = () => {
       {/* Pricing Plans Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {
-          activePackages && activePackages?.length > 0 ? (
-            activePackages.map((item) => (
+          allPackages?.data && allPackages?.data?.length > 0 ? (
+            allPackages?.data.map((item) => (
               <PricingPlansCard key={item?.id} singlePackage={item} />
             ))
           ) : (
