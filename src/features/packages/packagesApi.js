@@ -5,8 +5,11 @@ export const packagesApi = apiSlice.injectEndpoints({
         getAllPackages: builder.query({
             query: () => "/packages"
         }),
-        getSinglePackages: builder.query({
+        getSinglePackage: builder.query({
             query: (id) => `/packages/${id}`
+        }),
+        getModelTestsByPkgId: builder.query({
+            query: (id) => `/packages/${id}/model-tests`
         }),
         subscribeToPackage: builder.mutation({
             query: ({id, data}) => ({
@@ -20,6 +23,7 @@ export const packagesApi = apiSlice.injectEndpoints({
 
 export const {
     useGetAllPackagesQuery,
-    useGetSinglePackagesQuery,
-    useSubscribeToPackageMutation
+    useGetSinglePackageQuery,
+    useSubscribeToPackageMutation,
+    useGetModelTestsByPkgIdQuery
 } = packagesApi;

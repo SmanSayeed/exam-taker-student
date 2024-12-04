@@ -34,6 +34,20 @@ const EnrollmentForm = ({ singlePackage, onCancel }) => {
 
     return (
         <Form {...form}>
+            {/* Payment Instructions */}
+            <div className="bg-gray-100 p-4 rounded-md text-center text-sm mb-4">
+                <h3 className="text-lg font-bold mb-2">Payment Instructions</h3>
+                <p className="text-gray-700">
+                    Please send the payment to the given number:
+                </p>
+                <strong className="mt-2 text-gray-600 space-y-1">
+                    01706429945(personal)
+                </strong>
+                <p className="mt-2 text-gray-700">
+                    After sending the payment, enter the transaction ID in the form below to complete your enrollment.
+                </p>
+            </div>
+
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 {/* Payment Method Field (Radio Buttons) */}
                 <FormField
@@ -41,11 +55,11 @@ const EnrollmentForm = ({ singlePackage, onCancel }) => {
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="text-md inline-block">Payment Method</FormLabel>
+                            <FormLabel className="text-md inline-block">Select Any Payment Method</FormLabel>
                             <FormControl>
-                                <div className="flex gap-2 items-center">
+                                <div className="flex gap-6 items-center justify-center">
                                     {["bkash", "nagad", "rocket"].map((method) => (
-                                        <label key={method} className="flex items-center space-x-2 md:ml-2">
+                                        <label key={method} className="flex items-center space-x-2">
                                             <input
                                                 {...field}
                                                 type="radio"
