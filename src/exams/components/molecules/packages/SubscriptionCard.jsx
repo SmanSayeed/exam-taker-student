@@ -62,7 +62,7 @@ export function SubscriptionCard({ singlePackage }) {
             <CustomDialog
                 isOpen={isDialogOpen}
                 setIsOpen={setIsDialogOpen}
-                title="Enrollment Form"
+                title=""
                 description=""
             >
                 <div className="mt-4">
