@@ -4,19 +4,14 @@ import { Card } from "@/components/ui/card";
 import { useGetModelTestsByPkgIdQuery } from "@/features/packages/packagesApi.js";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import { useState } from "react";
-import EnrollmentForm from "./EnrollmentForm.js";
+import { Link } from "react-router-dom";
 
 const PricingPlansCard = ({ singlePackage }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState(false); // Enrollment Dialog
-    const [isViewDialogOpen, setIsViewDialogOpen] = useState(false); // View Model Tests Dialog
+    const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
 
     const isSubscribedToPackage = singlePackage?.is_subscribed || false;
 
     const { data: modelTestsByPkgId, isLoading, error } = useGetModelTestsByPkgIdQuery(singlePackage?.id);
-
-    const handleGetStartedClick = () => {
-        setIsDialogOpen(true);
-    };
 
     const handleViewClick = () => {
         setIsViewDialogOpen(true);
@@ -52,7 +47,7 @@ const PricingPlansCard = ({ singlePackage }) => {
                     </div>
 
                     <h2 className="text-xl font-semibold mb-4">{parseHtmlContent(singlePackage?.name)}</h2>
-                    <p className="my-3">{parseHtmlContent(singlePackage?.description)}</p>
+                    {/* <p className="my-3">{parseHtmlContent(singlePackage?.description)}</p> */}
 
                     {/* Conditional Button Rendering */}
                     {isSubscribedToPackage ? (
@@ -60,41 +55,18 @@ const PricingPlansCard = ({ singlePackage }) => {
                             className="w-full bg-green-500 text-white hover:bg-green-400"
                             onClick={handleViewClick}
                         >
-                            View
+                            View Model tests
                         </Button>
                     ) : (
-                        <Button
-                            className="w-full bg-gray-300 text-gray-800 hover:bg-gray-200"
-                            onClick={handleGetStartedClick}
+                        <Link
+                            to={`/package/${singlePackage?.id}`}
+                            className="px-2 py-1 rounded-md bg-gray-300 text-gray-800 hover:bg-gray-200"
                         >
-                            Get Started
-                        </Button>
+                            view Details
+                        </Link>
                     )}
                 </div>
             </Card>
-
-            {/* Enrollment Dialog */}
-            <CustomDialog
-                isOpen={isDialogOpen}
-                setIsOpen={setIsDialogOpen}
-                title=""
-                description=""
-            >
-                <h3 className="text-xl font-bold mb-4 flex flex-col md:flex-row justify-center items-center gap-1">
-                    Get Started with {parseHtmlContent(singlePackage?.name)}
-                </h3>
-                <p className="flex flex-col md:flex-row items-center justify-center gap-1">
-                    You are about to subscribe to the {parseHtmlContent(singlePackage?.name)} plan for {singlePackage?.price}.
-                </p>
-
-                {/* Enrollment Form */}
-                <div className="mt-4">
-                    <EnrollmentForm
-                        singlePackage={singlePackage}
-                        onCancel={() => setIsDialogOpen(false)}
-                    />
-                </div>
-            </CustomDialog>
 
             {/* View Model Tests Dialog */}
             <CustomDialog

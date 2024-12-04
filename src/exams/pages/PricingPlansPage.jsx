@@ -1,6 +1,6 @@
 import { useGetAllPackagesQuery } from "@/features/packages/packagesApi";
 import Loading from "../components/atoms/Loading";
-import PricingPlansCard from "../components/molecules/pricingplans/PricingPlansCard";
+import PricingPlansCard from "../components/molecules/packages/PricingPlansCard";
 
 const PricingPlansPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
