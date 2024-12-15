@@ -4,6 +4,7 @@ import ExamHistoryCard from "../components/molecules/exams/ExamHistoryCard";
 
 const ExamHistoryPage = () => {
     const { data: allExams, isLoading } = useGetAllExamsQuery();
+    console.log("allexams", allExams)
 
     if (isLoading) {
         return <Loading />
