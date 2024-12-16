@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { MultipleSelector } from "./MultipleSelector";
 import { useCategoryData } from "../filterquesforexam/useCategoryData";
+import { MultipleSelector } from "./MultipleSelector";
 
 export default function FilterQuestionsByCategory({ control, setValue }) {
   const {
