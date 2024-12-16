@@ -106,7 +106,12 @@ const ExamStartingForm = () => {
             {/* questions category filter */}
             <div className="space-y-2 py-4 text-start">
               <Label className="text-md font-semibold">Select Category: </Label>
-              <QuesCategoryForFilter control={control} setValue={setValue} />
+
+              {/* question filtering by category */}
+              <QuesCategoryForFilter
+                control={control}
+                setValue={setValue}
+              />
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 mb-4">

@@ -244,7 +244,7 @@ export default function QuesCategoryForFilter({ control, setValue }) {
             </div>
 
             {/* Year */}
-            <div className="w-full p-4">
+            {/* <div className="w-full p-4">
                 {
                     isYearLoading && (
                         <div className="space-y-2">
@@ -260,7 +260,7 @@ export default function QuesCategoryForFilter({ control, setValue }) {
                     options: years,
                     onChange: handleYearChange,
                 })}
-            </div>
+            </div> */}
         </div>
     );
 }

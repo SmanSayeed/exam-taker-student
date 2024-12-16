@@ -20,7 +20,7 @@ const QuestionListForStudentPage = () => {
     refetch,
   } = useGetQuestionsQuery({
     page: currentPage,
-    per_page: perPage,
+    perPage: perPage,
     ...filters,
   });
 
@@ -102,7 +102,7 @@ const QuestionListForStudentPage = () => {
             setCurrentPage(newPage);
             refetch({
               page: newPage,
-              per_page: perPage,
+              perPage: perPage,
               ...filters,
             });
           }}
@@ -110,7 +110,7 @@ const QuestionListForStudentPage = () => {
             setPerPage(newPerPage);
             refetch({
               page: currentPage,
-              per_page: newPerPage,
+              perPage: newPerPage,
               ...filters,
             });
           }}
