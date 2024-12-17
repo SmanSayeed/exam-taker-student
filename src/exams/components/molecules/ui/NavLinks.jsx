@@ -1,4 +1,4 @@
-import { BookOpen, Home, List, NotebookPen } from "lucide-react";
+import { BookOpen, Home, List, NotebookPen, Package } from "lucide-react";
 
 export const NavLinks = [
     {
@@ -20,5 +20,10 @@ export const NavLinks = [
         title: "Course",
         href: "https://loopsexam.xyz/courses",
         icon: <BookOpen size={20} />,
+    },
+    {
+        title: "Package",
+        href: "/package",
+        icon: <Package size={20} />,
     },
 ];

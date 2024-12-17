@@ -1,5 +1,5 @@
-import { Card, CardTitle } from "@/components/ui/card";
-import { updateMcqAnswer } from "@/exams/features/exams/examSlice";
+import { Card } from "@/components/ui/card";
+import { updateMcqAnswer } from "@/features/exams/examSlice";
 import DOMPurify from "dompurify";
 import { BookmarkPlus } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -19,7 +19,7 @@ export default function McqExamCard({ queIndex, question }) {
     const dispatch = useDispatch();
     const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
 
-    const { id: question_id, title, mcq_questions } = question || {};
+    const { id: question_id, title, mcq_questions, images } = question || {};
 
     const persistedAnswer = mcqAnswers?.find((answer) => answer?.question_id === question_id);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -45,17 +45,27 @@ export default function McqExamCard({ queIndex, question }) {
 
     return (
         <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg dark:bg-gray-100 dark:text-black duration-500">
-            <CardTitle>
-                <div className="mb-4 flex items-center justify-between gap-2">
-                    <div className="flex gap-2">
-                        <p className="text-base">{queIndex + 1}. </p>
-                        <p className="text-left text-base">{parseHtmlContent(title)} </p>
-                    </div>
-                    <div>
-                        <BookmarkPlus size={20} className="cursor-pointer" />
-                    </div>
+            {/* questionn title */}
+            <div className="mb-4 flex items-center justify-between gap-2">
+                <div className="flex gap-2">
+                    <p className="text-base">{queIndex + 1}. </p>
+                    <p className="text-left text-base">{parseHtmlContent(title)} </p>
                 </div>
-            </CardTitle>
+                <div>
+                    <BookmarkPlus size={20} className="cursor-pointer" />
+                </div>
+            </div>
+
+            {/* Render the image if available */}
+            {images && (
+                <div className="my-4">
+                    <img
+                        src={images}
+                        alt={`Image for question ${question_id}`}
+                        className="rounded-md shadow-md max-w-full"
+                    />
+                </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {

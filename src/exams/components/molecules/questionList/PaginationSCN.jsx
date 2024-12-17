@@ -83,7 +83,11 @@ export default function PaginationSCN({
             <Loading />
           ) : (
             data.map((question) => (
-              <QuestionCard key={question.id} data={question} refetch={refetch} />
+              <QuestionCard
+                key={question.id}
+                data={question}
+                refetch={refetch}
+              />
             ))
           )
         }

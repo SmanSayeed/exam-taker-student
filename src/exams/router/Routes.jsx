@@ -7,11 +7,13 @@ import ExamHistoryPage from "../pages/ExamHistoryPage";
 import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 import ExamResultPage from "../pages/ExamResultPage";
 import LoginPage from "../pages/LoginPage";
-import StudentProfilePage from "../pages/StudentProfilePage"; // Import the profile page
-import ExamStartingPage from "./../pages/ExamStartingPage";
-import PrivateRoutes from "./PrivateRoutes";
+import PackageDetailsPage from "../pages/PackageDetailsPage";
+import PricingPlansPage from "../pages/PricingPlansPage";
 import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
 import RegisterPage from "../pages/RegisterPage";
+import StudentProfilePage from "../pages/StudentProfilePage";
+import ExamStartingPage from "./../pages/ExamStartingPage";
+import PrivateRoutes from "./PrivateRoutes";
 
 const Routes = createBrowserRouter([
   {
@@ -76,11 +78,23 @@ const Routes = createBrowserRouter([
         element: <QuestionListForStudentPage />,
       },
       {
-        path: "/profile", // Profile route with PrivateRoutes
+        path: "/profile",
         element: (
           <PrivateRoutes>
             <StudentProfilePage />
           </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/package",
+        element: (
+          <PricingPlansPage />
+        ),
+      },
+      {
+        path: "/package/:id",
+        element: (
+          <PackageDetailsPage />
         ),
       },
     ],

@@ -1,16 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useStartExamMutation } from "@/exams/features/exams/examsApi";
+import { useStartExamMutation } from "@/features/exams/examsApi";
 import { Loader2 } from "lucide-react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -113,7 +106,12 @@ const ExamStartingForm = () => {
             {/* questions category filter */}
             <div className="space-y-2 py-4 text-start">
               <Label className="text-md font-semibold">Select Category: </Label>
-              <QuesCategoryForFilter control={control} setValue={setValue} />
+
+              {/* question filtering by category */}
+              <QuesCategoryForFilter
+                control={control}
+                setValue={setValue}
+              />
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 mb-4">

@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import CreativeExamPage from "../components/organism/exams/CreativeExamPage";
 import McqExamPage from "../components/organism/exams/McqExamPage";
 import NormalExamPage from "../components/organism/exams/NormalExamPage";
-import { useFinishExamMutation } from "../features/exams/examsApi";
 
 import {
   AlertDialog,
@@ -17,6 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
+import { useFinishExamMutation } from "@/features/exams/examsApi";
 import { ArrowDownNarrowWideIcon, Loader2 } from "lucide-react";
 import ExamTimer from "../components/molecules/exams/ExamTimer";
 

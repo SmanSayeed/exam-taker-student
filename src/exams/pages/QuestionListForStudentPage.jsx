@@ -1,12 +1,11 @@
 import { Card } from "@/components/ui/card";
+import { useGetQuestionsQuery } from "@/features/questions/questionsApi";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Fragment } from "react";
 import Loading from "../components/atoms/Loading";
 import PaginationSCN from "../components/molecules/questionList/PaginationSCN";
 import FilteringQuestions from "../components/organism/FilteringQuestions";
-import { useGetQuestionsQuery } from "../features/questions/questionsApi";
 
 const QuestionListForStudentPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +20,7 @@ const QuestionListForStudentPage = () => {
     refetch,
   } = useGetQuestionsQuery({
     page: currentPage,
-    per_page: perPage,
+    perPage: perPage,
     ...filters,
   });
 
@@ -64,8 +63,8 @@ const QuestionListForStudentPage = () => {
     } catch (err) {
       toast.error(
         err?.data?.error ||
-          err?.data?.message ||
-          "An error occurred while filtering"
+        err?.data?.message ||
+        "An error occurred while filtering"
       );
     }
   };
@@ -103,7 +102,7 @@ const QuestionListForStudentPage = () => {
             setCurrentPage(newPage);
             refetch({
               page: newPage,
-              per_page: perPage,
+              perPage: perPage,
               ...filters,
             });
           }}
@@ -111,7 +110,7 @@ const QuestionListForStudentPage = () => {
             setPerPage(newPerPage);
             refetch({
               page: currentPage,
-              per_page: newPerPage,
+              perPage: newPerPage,
               ...filters,
             });
           }}

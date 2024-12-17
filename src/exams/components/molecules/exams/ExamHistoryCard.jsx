@@ -3,6 +3,7 @@ import { isoDateFormatter } from "@/helpers/dateFormatter";
 import { Link } from "react-router-dom";
 
 const ExamHistoryCard = ({ exam }) => {
+
     const formattedDate = isoDateFormatter(exam?.created_at);
 
     const numbers = exam?.questions;

@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRegistrationMutation } from "@/features/auth/authApi";
+import { useGetCategoryQuery } from "@/features/categories/categoriesApi";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useRegistrationMutation } from "./../../../features/auth/authApi";
 
 const fetchUserIP = async () => {
     try {
@@ -19,7 +20,7 @@ const fetchUserIP = async () => {
     }
 };
 
-const RegisterForm = () => {
+export default function RegisterForm() {
     const navigate = useNavigate();
     const [ipAddress, setIpAddress] = useState("");
     const [showPass, setShowPass] = useState(false);
@@ -34,6 +35,7 @@ const RegisterForm = () => {
     } = useForm();
     const watchPassword = watch("password");
 
+    const { data: sections, isLoading: sectionsLoading, error: sectionsError } = useGetCategoryQuery("sections");
     const [registration, { data, isSuccess, isLoading, error }] = useRegistrationMutation();
 
     useEffect(() => {
@@ -56,6 +58,7 @@ const RegisterForm = () => {
         payload.append("country", formData.country);
         payload.append("country_code", formData.country_code);
         payload.append("address", formData.address);
+        payload.append("section_id", formData.section);
 
         registration(payload);
     };
@@ -89,7 +92,31 @@ const RegisterForm = () => {
     return (
         <form onSubmit={handleSubmit(handleRegister)}>
             <input type="hidden" name="active_status" value={1} />
+
             <div className="grid gap-4 space-y-2 text-left">
+                {/* Section Select */}
+                <div className="grid gap-1">
+                    <Label htmlFor="section">Select Section</Label>
+                    <select
+                        {...register("section", { required: "Section is required" })}
+                        id="section"
+                        name="section"
+                        className="border rounded p-2"
+                        disabled={sectionsLoading || sectionsError}
+                    >
+                        {sectionsLoading && <option>Loading sections...</option>}
+                        {sectionsError && <option>Error loading sections</option>}
+                        {
+                            sections?.data?.data && sections?.data?.data.map((section) => (
+                                <option key={section.id} value={section.id}>
+                                    {section.title}
+                                </option>
+                            ))
+                        }
+                    </select>
+                    {errors.section && <span className="text-red-600">{errors.section.message}</span>}
+                </div>
+
                 <div className="grid gap-1">
                     <Label htmlFor="firstName">Name</Label>
                     <Input
@@ -212,5 +239,3 @@ const RegisterForm = () => {
         </form>
     );
 };
-
-export default RegisterForm;
