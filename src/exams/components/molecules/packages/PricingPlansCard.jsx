@@ -4,9 +4,24 @@ import { Link } from "react-router-dom";
 
 const PricingPlansCard = ({ singlePackage }) => {
     const discountPrice = 100; // examlple discount
+    const packageTags = ["Best Seller", "New", "Discounted"];
 
     return (
         <Card className="bg-gradient-to-b from-blue-500 to-gray-500 text-white rounded-xl overflow-hidden shadow-lg">
+            {/* Highlighted Tags Section */}
+            {packageTags.length > 0 && (
+                <div className="flex gap-2 absolute z-10">
+                    {packageTags.map((tag, index) => (
+                        <span
+                            key={index}
+                            className="bg-yellow-400 text-black text-xs px-2 py-1 rounded-full shadow-md font-semibold"
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+            )}
+
             {/* Cover Image Section */}
             {
                 singlePackage?.img ? (
@@ -18,7 +33,7 @@ const PricingPlansCard = ({ singlePackage }) => {
                         />
                     </div>
                 ) : (
-                    <div className="bg-gray-200 h-48 w-full rounded-t-md flex items-center justify-center">
+                    <div className="bg-gray-200 relative h-48 w-full rounded-t-md flex items-center justify-center">
                         <p className="text-gray-500">No Image Available</p>
                     </div>
                 )
@@ -53,4 +68,3 @@ const PricingPlansCard = ({ singlePackage }) => {
 };
 
 export default PricingPlansCard;
-
