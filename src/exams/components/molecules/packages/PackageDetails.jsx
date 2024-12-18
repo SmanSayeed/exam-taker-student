@@ -75,6 +75,7 @@ export function PackageDetails({ singlePackage }) {
                         key={test.id}
                         test={test}
                         isSubscribed={isSubscribed}
+                        packageId={singlePackage?.id}
                     />
                 ))}
             </div>

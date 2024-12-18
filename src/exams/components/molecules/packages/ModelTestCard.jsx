@@ -1,9 +1,13 @@
-import { isoDateFormatter } from "@/helpers/dateFormatter"
-import { Pen } from "lucide-react"
+import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
+import { Pen } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const ModelTestCard = ({ test, isSubscribed }) => {
+export const ModelTestCard = ({ test, isSubscribed, packageId }) => {
+    const duration = calculateDuration(test.start_time, test.end_time);
+
     return (
-        <div
+        <Link
+            to={`/package/${packageId}/model-test/${test?.id}`}
             className="rounded-lg overflow-hidden shadow-md border"
         >
             <div className="relative">
@@ -24,7 +28,7 @@ const ModelTestCard = ({ test, isSubscribed }) => {
             {/* Routine Section */}
             <div className="bg-indigo-50 text-gray-700 text-center py-3 px-4 rounded-b-lg shadow-inner">
                 <div className="text-lg font-semibold text-indigo-700 mb-2">
-                    {test.routine}
+                    {duration}
                 </div>
 
                 <div className="flex justify-between items-center text-sm text-gray-600">
@@ -49,8 +53,6 @@ const ModelTestCard = ({ test, isSubscribed }) => {
                     Subscribed - Access Granted
                 </div>
             )}
-        </div>
+        </Link>
     )
 }
-
-export default ModelTestCard
