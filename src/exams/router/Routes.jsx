@@ -14,6 +14,7 @@ import RegisterPage from "../pages/RegisterPage";
 import StudentProfilePage from "../pages/StudentProfilePage";
 import ExamStartingPage from "./../pages/ExamStartingPage";
 import PrivateRoutes from "./PrivateRoutes";
+import PdfViewerPage from "../pages/PdfViewerPage";
 
 const Routes = createBrowserRouter([
   {
@@ -87,15 +88,15 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/package",
-        element: (
-          <PricingPlansPage />
-        ),
+        element: <PricingPlansPage />,
       },
       {
         path: "/package/:id",
-        element: (
-          <PackageDetailsPage />
-        ),
+        element: <PackageDetailsPage />,
+      },
+      {
+        path: "pdf",
+        element: <PdfViewerPage />,
       },
     ],
   },
