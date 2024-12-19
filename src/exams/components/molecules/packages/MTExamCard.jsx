@@ -1,7 +1,12 @@
+import { Button } from "@/components/ui/button";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
 
 export const MTExamCard = ({ exam, isSubscribed }) => {
     const duration = calculateDuration(exam?.start_time, exam?.end_time);
+
+    // Calculate if the current time is within the exam start and end time
+    const now = new Date();
+    const isWithinExamTime = new Date(exam?.start_time) <= now && now <= new Date(exam?.end_time);
 
     return (
         <div className="bg-white border border-gray-200 shadow-sm rounded-lg p-4">
@@ -14,9 +19,24 @@ export const MTExamCard = ({ exam, isSubscribed }) => {
             </p>
             {
                 isSubscribed && (
-                    <button className="bg-blue-500 text-white px-4 py-2 mt-2 rounded hover:bg-blue-600">
-                        Start Exam
-                    </button>
+                    <div className="mt-2">
+                        <Button
+                            variant="outline"
+                            disabled={!isWithinExamTime}
+                        >
+                            Start Exam
+                        </Button>
+                        {!isWithinExamTime && (
+                            <p className="text-sm text-gray-500 mb-2">
+                                The exam will start at {isoDateFormatter(exam?.start_time)}
+                            </p>
+                        )}
+                        {isWithinExamTime && (
+                            <p className="text-sm text-gray-500 mb-2">
+                                The exam is currently active. Please start now.
+                            </p>
+                        )}
+                    </div>
                 )
             }
         </div>

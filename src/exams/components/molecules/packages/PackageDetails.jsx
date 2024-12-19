@@ -1,4 +1,4 @@
-import ModelTestCard from "./ModelTestCard";
+import { ModelTestCard } from "./ModelTestCard";
 
 // Dummy data for model tests
 const modelTests = [
@@ -55,9 +55,8 @@ const modelTests = [
 ];
 
 export function PackageDetails({ singlePackage }) {
-    console.log("single package", singlePackage)
 
-    const isSubscribed = false;
+    const isSubscribed = true;
     // const isSubscribed = singlePackage?.is_subscribed;
 
     return (

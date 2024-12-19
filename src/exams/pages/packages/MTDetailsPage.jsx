@@ -33,8 +33,8 @@ const exams = [
 export const MTDetailsPage = () => {
     const { packageId } = useParams();
     const { data: singlePackage } = useGetSinglePackageQuery(packageId);
-    // const isSubscribed = singlePackage?.is_subscribed;
-    const isSubscribed = true;
+    const isSubscribed = singlePackage?.is_subscribed;
+    // const isSubscribed = false;
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">

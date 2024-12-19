@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
 import { Pen } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -8,9 +9,9 @@ export const ModelTestCard = ({ test, isSubscribed, packageId }) => {
     return (
         <Link
             to={`/package/${packageId}/model-test/${test?.id}`}
-            className="rounded-lg overflow-hidden shadow-md border"
+            className="rounded-lg overflow-hidden shadow-md border relative"
         >
-            <div className="relative">
+            <div className="">
                 {/* Model Test Image */}
                 <img
                     src={test.image}
@@ -47,11 +48,10 @@ export const ModelTestCard = ({ test, isSubscribed, packageId }) => {
                 </div>
             </div>
 
-            {/* Exam List Card - Render only if subscribed */}
             {isSubscribed && (
-                <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-3 py-1 rounded-full shadow-md">
-                    Subscribed - Access Granted
-                </div>
+                <Badge variant="green" className="absolute top-1 right-1">
+                    Subscribed
+                </Badge>
             )}
         </Link>
     )
