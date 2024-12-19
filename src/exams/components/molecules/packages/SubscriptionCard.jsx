@@ -42,7 +42,7 @@ export function SubscriptionCard({ singlePackage }) {
                     </div>
 
                     {
-                        !singlePackage?.isSubscribed ? (
+                        !singlePackage?.is_subscribed ? (
                             <button
                                 className="mt-4 w-full px-6 py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition"
                                 onClick={() => setIsDialogOpen(true)}

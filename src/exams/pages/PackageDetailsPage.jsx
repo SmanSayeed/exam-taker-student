@@ -16,14 +16,12 @@ export default function PackageDetailsPage() {
         return <ErrorScreen />;
     }
 
-    const { description } = singlePackage.data;
-
     return (
         <div className="container mx-auto p-6">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                 {/* Left Section: Package Details */}
                 <div className="md:col-span-8">
-                    <PackageDetails description={description} />
+                    <PackageDetails singlePackage={singlePackage.data} />
                 </div>
 
                 {/* Right Section: Subscription Card */}
