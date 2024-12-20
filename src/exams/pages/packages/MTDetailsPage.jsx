@@ -1,5 +1,5 @@
 import { MTExamCard } from "@/exams/components/molecules/packages/MTExamCard";
-import { useGetSinglePackageQuery } from "@/features/packages/packagesApi";
+import { useGetExamsUnderMTQuery, useGetSinglePackageQuery } from "@/features/packages/packagesApi";
 import { Link, useParams } from "react-router-dom";
 
 // Mock data for exams
@@ -33,8 +33,10 @@ const exams = [
 export const MTDetailsPage = () => {
     const { packageId, modelTestId } = useParams();
     const { data: singlePackage } = useGetSinglePackageQuery(packageId);
-    // const isSubscribed = singlePackage?.is_subscribed;
-    const isSubscribed = true;
+    const isSubscribed = singlePackage?.is_subscribed;
+
+    const { data: examsUnderMT } = useGetExamsUnderMTQuery(modelTestId);
+    console.log("examsUnderMT", examsUnderMT)
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
@@ -50,7 +52,7 @@ export const MTDetailsPage = () => {
                 <section className="bg-white shadow rounded-lg p-6">
                     <h2 className="text-xl font-semibold mb-4">Available Exams</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {exams.map((exam) => (
+                        {examsUnderMT?.data && examsUnderMT?.data.map((exam) => (
                             <MTExamCard
                                 key={exam?.id}
                                 exam={exam}

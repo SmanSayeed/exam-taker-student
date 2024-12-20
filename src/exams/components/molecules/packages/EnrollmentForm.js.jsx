@@ -19,11 +19,20 @@ const EnrollmentForm = ({ singlePackage, onCancel }) => {
     const [subscribeToPackage, { isLoading }] = useSubscribeToPackageMutation();
 
     const onSubmit = async (data) => {
-        console.log("Enrolling student with data:", data);
+        const payload = new FormData();
+
+        payload.append("resource_id", singlePackage?.id);
+        payload.append("resource_type", "package");
+        payload.append("payment_method", data.payment_method);
+        payload.append("mobile_number", data.mobile_number);
+        payload.append("transaction_id", data.transaction_id);
+        payload.append("amount", data.amount);
+        if (data.coupon) {
+            payload.append("coupon", data.coupon);
+        }
 
         try {
-            const response = await subscribeToPackage({ id: singlePackage?.id, data }).unwrap();
-            console.log(response)
+            const response = await subscribeToPackage(payload).unwrap();
             toast.success(response?.message || "");
             form.reset();
         } catch (error) {
