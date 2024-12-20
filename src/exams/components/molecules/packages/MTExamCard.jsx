@@ -1,12 +1,43 @@
 import { Button } from "@/components/ui/button";
+import { useStartExamMutation } from "@/features/exams/examsApi";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
-export const MTExamCard = ({ exam, isSubscribed }) => {
+export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
+    const navigate = useNavigate();
+
     const duration = calculateDuration(exam?.start_time, exam?.end_time);
 
     // Calculate if the current time is within the exam start and end time
-    const now = new Date();
-    const isWithinExamTime = new Date(exam?.start_time) <= now && now <= new Date(exam?.end_time);
+    // const now = new Date();
+    // const isWithinExamTime = new Date(exam?.start_time) <= now && now <= new Date(exam?.end_time);
+    const isWithinExamTime = true;
+
+    const auth = useSelector(state => state.auth);
+
+    const [startMTExam] = useStartExamMutation();
+
+    const handleExamStart = async (event) => {
+        event.preventDefault();
+
+        const payload = {
+            "is_second_time": false,
+            "student_id": auth.student.id,
+            "exam_id": exam?.id
+        }
+
+        try {
+            const response = await startMTExam(payload).unwrap();
+            console.log("response", response)
+
+            navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing`);
+        } catch (err) {
+            console.error(err);
+            toast.error(err?.data?.message || "An error occurred");
+        }
+    }
 
     return (
         <div className="bg-white border border-gray-200 shadow-sm rounded-lg p-4">
@@ -21,7 +52,8 @@ export const MTExamCard = ({ exam, isSubscribed }) => {
                 isSubscribed && (
                     <div className="mt-2">
                         <Button
-                            variant="outline"
+                            onClick={handleExamStart}
+                            className="mb-2 mt-4"
                             disabled={!isWithinExamTime}
                         >
                             Start Exam

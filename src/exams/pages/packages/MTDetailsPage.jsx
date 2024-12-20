@@ -31,10 +31,10 @@ const exams = [
 ];
 
 export const MTDetailsPage = () => {
-    const { packageId } = useParams();
+    const { packageId, modelTestId } = useParams();
     const { data: singlePackage } = useGetSinglePackageQuery(packageId);
-    const isSubscribed = singlePackage?.is_subscribed;
-    // const isSubscribed = false;
+    // const isSubscribed = singlePackage?.is_subscribed;
+    const isSubscribed = true;
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
@@ -55,6 +55,8 @@ export const MTDetailsPage = () => {
                                 key={exam?.id}
                                 exam={exam}
                                 isSubscribed={isSubscribed}
+                                packageId={packageId}
+                                modelTestId={modelTestId}
                             />
                         ))}
                         {!isSubscribed && (

@@ -18,6 +18,13 @@ export const packagesApi = apiSlice.injectEndpoints({
                 body: data,
               }),
         }),
+        startMTExam: builder.mutation({
+            query: (data) => ({
+                url: "model-test-exam-start",
+                method: "POST",
+                body: data,
+              }),
+        }),
     }),
 });
 
@@ -25,5 +32,6 @@ export const {
     useGetAllPackagesQuery,
     useGetSinglePackageQuery,
     useSubscribeToPackageMutation,
-    useGetModelTestsByPkgIdQuery
+    useGetModelTestsByPkgIdQuery,
+    useStartMTExamMutation
 } = packagesApi;
