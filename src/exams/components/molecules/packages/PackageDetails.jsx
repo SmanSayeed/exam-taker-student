@@ -19,26 +19,23 @@ export function PackageDetails({ singlePackage, packageId }) {
 
             {/* Model Test List */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {mtUnderPkg?.data && mtUnderPkg?.data.map((singleMT) => (
-                    <ModelTestCard
-                        key={singleMT?.id}
-                        singleMT={singleMT}
-                        isSubscribed={isSubscribed}
-                        packageId={singlePackage?.id}
-                    />
-                ))}
+                {
+                    mtUnderPkg?.data && mtUnderPkg?.data.length > 0 ? (
+                        mtUnderPkg?.data.map((singleMT) => (
+                            <ModelTestCard
+                                key={singleMT?.id}
+                                singleMT={singleMT}
+                                isSubscribed={isSubscribed}
+                                packageId={singlePackage?.id}
+                            />
+                        ))
+                    ) : (
+                        <div className="text-center text-red-600 font-semibold">
+                            No Model Tests available for this package.
+                        </div>
+                    )
+                }
             </div>
-
-            {/* Conditional Rendering for Exam Access */}
-            {isSubscribed ? (
-                <div className="mt-6 text-center text-green-600 font-semibold">
-                    You have access to the exam list for this package.
-                </div>
-            ) : (
-                <div className="mt-6 text-center text-red-600 font-semibold">
-                    Subscribe to access the exams for this package.
-                </div>
-            )}
         </div>
     );
 }

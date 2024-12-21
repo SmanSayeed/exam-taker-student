@@ -2,41 +2,12 @@ import { MTExamCard } from "@/exams/components/molecules/packages/MTExamCard";
 import { useGetExamsUnderMTQuery, useGetSinglePackageQuery } from "@/features/packages/packagesApi";
 import { Link, useParams } from "react-router-dom";
 
-// Mock data for exams
-const exams = [
-    {
-        id: 1,
-        name: "Engineering weekly-1 (MCQ)",
-        duration: "45 Minutes",
-        questions: 50,
-        start_time: "2024-06-01T10:00:00",
-        end_time: "2024-06-01T12:00:00"
-    },
-    {
-        id: 2,
-        name: "Math Weekly Test",
-        duration: "1 Hour",
-        questions: 40,
-        start_time: "2024-06-01T10:00:00",
-        end_time: "2024-06-01T12:00:00"
-    },
-    {
-        id: 3,
-        name: "Science Challenge",
-        duration: "30 Minutes",
-        questions: 20,
-        start_time: "2024-06-01T10:00:00",
-        end_time: "2024-06-01T12:00:00"
-    },
-];
-
 export const MTDetailsPage = () => {
     const { packageId, modelTestId } = useParams();
     const { data: singlePackage } = useGetSinglePackageQuery(packageId);
-    const isSubscribed = singlePackage?.is_subscribed;
+    const isSubscribed = singlePackage?.data?.is_subscribed;
 
     const { data: examsUnderMT } = useGetExamsUnderMTQuery(modelTestId);
-    console.log("examsUnderMT", examsUnderMT)
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
