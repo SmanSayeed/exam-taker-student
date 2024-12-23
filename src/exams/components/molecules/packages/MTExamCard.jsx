@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
+    console.log("exam", exam);
+
     const navigate = useNavigate();
     const duration = calculateDuration(exam?.start_time, exam?.end_time);
 
@@ -22,6 +24,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
 
     const handleExamStart = async (event) => {
         event.preventDefault();
+
         const payload = {
             is_second_time: false,
             student_id: auth.student.id,
@@ -30,7 +33,9 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
 
         try {
             const response = await startMTExam(payload).unwrap();
-            navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing`);
+            console.log("response", response);
+
+            navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
         } catch (err) {
             console.error(err);
             toast.error(err?.data?.message || "An error occurred");
@@ -68,9 +73,14 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                 <>
                     {isWithinExamTime && (
                         <div>
-                            <Button onClick={handleExamStart} className="w-full" disabled={!isWithinExamTime}>
+                            {/* start exam button */}
+                            <Button
+                                onClick={handleExamStart}
+                                className="w-full" disabled={!isWithinExamTime}
+                            >
                                 Start Exam
                             </Button>
+
                             <p className="text-sm text-gray-500 mt-2">
                                 The exam is currently active. Click the button to begin.
                             </p>

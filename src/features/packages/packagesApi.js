@@ -19,15 +19,33 @@ export const packagesApi = apiSlice.injectEndpoints({
                 url: "/pay",
                 method: "POST",
                 body: data,
-              }),
+            }),
         }),
         startMTExam: builder.mutation({
             query: (data) => ({
                 url: "model-test-exam-start",
                 method: "POST",
                 body: data,
-              }),
+            }),
         }),
+
+        async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+
+            try {
+                const result = await queryFulfilled;
+                const { exam, questions_list } = result.data.data;
+
+                // dispatch(
+                //     saveExamInfo({
+                //         exam,
+                //         questions_list,
+                //         mcqAnswers
+                //     })
+                // );
+            } catch (err) {
+                console.log(err);
+            }
+        },
     }),
 });
 

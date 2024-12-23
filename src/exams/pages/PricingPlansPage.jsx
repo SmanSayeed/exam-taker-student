@@ -5,16 +5,16 @@ import PricingPlansCard from "../components/molecules/packages/PricingPlansCard"
 
 const PricingPlansPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
-  console.log("allpackages", allPackages)
   const auth = useSelector(state => state.auth);
-
-  // Filter for active packages
-  // const activePackages = allPackages?.data && allPackages?.data?.filter((pkg) => pkg.is_active === 1);
 
   // Filter packages based on student section_id or show all packages if section_id is missing
   const filteredPackages = allPackages?.data?.filter((pkg) =>
     !auth?.student?.section_id || pkg?.section_id === auth.student.section_id
   );
+
+  const sortedPackages = filteredPackages?.length > 0
+    ? [...filteredPackages].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    : [];
 
   if (isLoading) {
     return <Loading />;
@@ -48,8 +48,8 @@ const PricingPlansPage = () => {
       {/* Pricing Plans Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {
-          filteredPackages?.length > 0 ? (
-            filteredPackages.map((item) => (
+          sortedPackages?.length > 0 ? (
+            sortedPackages.map((item) => (
               <PricingPlansCard key={item?.id} singlePackage={item} />
             ))
           ) : (

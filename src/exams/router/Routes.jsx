@@ -106,7 +106,7 @@ const Routes = createBrowserRouter([
         ),
       },
       {
-        path: "/package/:packageId/model-test/:modelTestId/exam-ongoing",
+        path: "/package/:packageId/model-test/:modelTestId/exam-ongoing/:examId",
         element: (
           <MTExamOnGoingPage />
         ),

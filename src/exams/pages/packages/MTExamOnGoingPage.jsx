@@ -1,23 +1,25 @@
 import { Card, CardTitle } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
+import { McqExamCardForMT } from "@/exams/components/molecules/packages/mtexam/McqExamCardForMT";
 import { useFinishExamMutation } from "@/features/exams/examsApi";
 import { ArrowDownNarrowWideIcon } from "lucide-react";
 
 export default function MTExamOnGoingPage() {
     const navigate = useNavigate();
-    const exam = useSelector(state => state.exam);
 
-    const { exam: examData, questions_list } = exam;
-    const time = examData.time_limit;
-    const questionType = examData.type;
+    const mtExam = useSelector(state => state.mtExam);
+    const { mtExam: mtExamData, questions_list } = mtExam;
+
+    // const time = mtExamData.time_limit;
+    const questionType = mtExamData.type;
     const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
 
-    const [isAlertOpen, setIsAlertOpen] = useState(false);
-    const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
+    // const [isAlertOpen, setIsAlertOpen] = useState(false);
+    // const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
 
     const [finishExam, { isLoading: isExamFinishing }] = useFinishExamMutation();
 
@@ -79,17 +81,21 @@ export default function MTExamOnGoingPage() {
                     </a>
                 </div>
                 <CardTitle> Exam Title </CardTitle>
-                <p className="mt-3" >Time: {time} minutes </p>
+                {/* <p className="mt-3" >Time: {time} minutes </p> */}
 
                 <p>{questions_list[0]?.mark} mark per question and 0.25 marks will be deducted for each mistake</p>
             </Card>
 
             <div className="text-center">
-                {/* {questionType === "mcq" && (
-                    <McqExamPage
-                        filteredQues={questions_list}
-                    />
-                )} */}
+                {questionType === "mcq" && (
+                    questions_list.map((question, index) => (
+                        <McqExamCardForMT
+                            key={question?.id}
+                            queIndex={index}
+                            question={question}
+                        />
+                    ))
+                )}
 
                 {/* <Button
                     id="exam_submit"
