@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 const PricingPlansCard = ({ singlePackage }) => {
     const discountPrice = 100; // examlple discount
     const packageTags = ["Best Seller", "New", "Discounted"];
-    // const isSubscribed = singlePackage?.is_subscribed;
-    const isSubscribed = true;
+    const isSubscribed = singlePackage?.is_subscribed;
+
+    const baseURL = "https://loopsexam.xyz";
+    const imageURL = `${baseURL}${singlePackage.img}`;
 
     return (
         <Card className="relative bg-gradient-to-b from-blue-500 to-gray-500 text-white rounded-xl overflow-hidden shadow-lg">
@@ -28,11 +30,11 @@ const PricingPlansCard = ({ singlePackage }) => {
             {/* Cover Image Section */}
             {
                 singlePackage?.img ? (
-                    <div className="relative h-48 w-full">
+                    <div className="relative bg-inherit">
                         <img
-                            src={singlePackage.img}
+                            src={imageURL}
                             alt={parseHtmlContent(singlePackage.name)}
-                            className="w-full h-full object-cover"
+                            className="w-full h-48"
                         />
                     </div>
                 ) : (
@@ -68,7 +70,7 @@ const PricingPlansCard = ({ singlePackage }) => {
             </div>
 
             {isSubscribed && (
-                <Badge variant="green" className="absolute top-1 right-1">
+                <Badge className="absolute top-0 py-1 text-black bg-green-500 right-1 z-10">
                     Subscribed
                 </Badge>
             )}

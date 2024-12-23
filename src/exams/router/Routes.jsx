@@ -9,6 +9,7 @@ import ExamResultPage from "../pages/ExamResultPage";
 import LoginPage from "../pages/LoginPage";
 import PackageDetailsPage from "../pages/PackageDetailsPage";
 import { MTDetailsPage } from "../pages/packages/MTDetailsPage";
+import MTExamOnGoingPage from "../pages/packages/MTExamOnGoingPage";
 import PricingPlansPage from "../pages/PricingPlansPage";
 import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
 import RegisterPage from "../pages/RegisterPage";
@@ -102,6 +103,12 @@ const Routes = createBrowserRouter([
         path: "/package/:packageId/model-test/:modelTestId",
         element: (
           <MTDetailsPage />
+        ),
+      },
+      {
+        path: "/package/:packageId/model-test/:modelTestId/exam-ongoing/:examId",
+        element: (
+          <MTExamOnGoingPage />
         ),
       },
     ],
