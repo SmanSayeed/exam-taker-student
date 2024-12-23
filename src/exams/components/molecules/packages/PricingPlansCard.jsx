@@ -30,11 +30,11 @@ const PricingPlansCard = ({ singlePackage }) => {
             {/* Cover Image Section */}
             {
                 singlePackage?.img ? (
-                    <div className="relative h-48 w-full bg-inherit">
+                    <div className="relative bg-inherit">
                         <img
                             src={imageURL}
                             alt={parseHtmlContent(singlePackage.name)}
-                            className="w-full h-full object-cover"
+                            className="w-full h-48"
                         />
                     </div>
                 ) : (
@@ -70,7 +70,7 @@ const PricingPlansCard = ({ singlePackage }) => {
             </div>
 
             {isSubscribed && (
-                <Badge variant="green" className="absolute top-1 right-1">
+                <Badge className="absolute top-0 py-1 text-black bg-green-500 right-1 z-10">
                     Subscribed
                 </Badge>
             )}

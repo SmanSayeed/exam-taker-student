@@ -15,7 +15,10 @@ export default function MTExamOnGoingPage() {
     const mtExam = useSelector(state => state.mtExam);
     const { mtExam: mtExamData, questions_list } = mtExam;
 
-    // const time = mtExamData.time_limit;
+    const startTime = mtExamData.start_time;
+    const endTime = mtExamData.end_time;
+    const timeLimit = new Date(endTime) - new Date(startTime);
+
     const questionType = mtExamData.type;
     const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
 
@@ -85,7 +88,7 @@ export default function MTExamOnGoingPage() {
                     </a>
                 </div>
                 <CardTitle> Exam Title </CardTitle>
-                {/* <p className="mt-3" >Time: {time} minutes </p> */}
+                <p className="mt-3" >Time: {timeLimit} minutes </p>
 
                 <p>{questions_list[0]?.mark} mark per question and 0.25 marks will be deducted for each mistake</p>
             </Card>

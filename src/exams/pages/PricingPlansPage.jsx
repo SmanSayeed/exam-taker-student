@@ -12,8 +12,12 @@ const PricingPlansPage = () => {
     !auth?.student?.section_id || pkg?.section_id === auth.student.section_id
   );
 
+  // const sortedPackages = filteredPackages?.length > 0
+  //   ? [...filteredPackages].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+  //   : [];
+
   const sortedPackages = filteredPackages?.length > 0
-    ? [...filteredPackages].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    ? filteredPackages.toSorted((a, b) => new Date(b.created_at) - new Date(a.created_at))
     : [];
 
   if (isLoading) {
