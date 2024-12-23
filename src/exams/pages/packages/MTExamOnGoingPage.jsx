@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { McqExamCardForMT } from "@/exams/components/molecules/packages/mtexam/McqExamCardForMT";
+import { MTExamTimer } from "@/exams/components/molecules/packages/mtexam/MTExamTimer";
 import { useFinishExamMutation } from "@/features/exams/examsApi";
 import { ArrowDownNarrowWideIcon } from "lucide-react";
 
@@ -74,7 +75,10 @@ export default function MTExamOnGoingPage() {
         <div className="px-5 w-full">
             <Card className="text-center p-4 relative">
                 <div className="z-50 fixed right-10 top-4 md:right-28 md:top-4 px-4 py-2 rounded-md flex items-center justify-center gap-2">
-                    {/* <ExamTimer submitExam={submitExam} /> */}
+                    <MTExamTimer
+                        startTime={mtExamData.startTime}
+                        endTime={mtExamData.endTime}
+                    />
 
                     <a href="#exam_submit" title="Got to submit">
                         <ArrowDownNarrowWideIcon />

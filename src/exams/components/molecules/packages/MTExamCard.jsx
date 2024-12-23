@@ -1,23 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { useStartExamMutation } from "@/features/exams/examsApi";
+import { useGetSingleModelTestQuery } from "@/features/packages/packagesApi";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { hasActiveExams } from "./mtexam/examHelpers";
 
 export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
-    console.log("exam", exam);
-
     const navigate = useNavigate();
-    const duration = calculateDuration(exam?.start_time, exam?.end_time);
+
+    const { data: modelTestData } = useGetSingleModelTestQuery(modelTestId);
+    const startTime = modelTestData?.data?.start_time;
+    const endTime = modelTestData?.data?.end_time;
+    const duration = calculateDuration(startTime, endTime);
 
     const questionsArray = exam?.questions?.split(",") || [];
     const questionCount = questionsArray.length || 0;
 
     const now = new Date();
-    const isWithinExamTime = new Date(exam?.start_time) <= now && now <= new Date(exam?.end_time);
-    const isExamEnded = new Date(exam?.end_time) < now;
-    const isExamNotStarted = now < new Date(exam?.start_time);
+    const isExamsActive = hasActiveExams(startTime, endTime);
+    const isExamEnded = new Date(endTime) < now;
+    const isExamNotStarted = now < new Date(startTime);
 
     const auth = useSelector((state) => state.auth);
     const [startMTExam] = useStartExamMutation();
@@ -66,38 +70,46 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                 <span className="font-semibold">Questions:</span> {questionCount}
             </p>
             <p className="text-gray-500 text-sm">
-                <span className="font-semibold">Time:</span> {isoDateFormatter(exam?.start_time)}{" "}
-                to {isoDateFormatter(exam?.end_time)}
+                <span className="font-semibold">Time:</span> {isoDateFormatter(startTime)}{" "}
+                to {isoDateFormatter(endTime)}
             </p>
-            {isSubscribed && (
-                <>
-                    {isWithinExamTime && (
-                        <div>
-                            {/* start exam button */}
-                            <Button
-                                onClick={handleExamStart}
-                                className="w-full" disabled={!isWithinExamTime}
-                            >
-                                Start Exam
-                            </Button>
+            {
+                isSubscribed && (
+                    <>
+                        {
+                            isExamsActive && (
+                                <div>
+                                    {/* start exam button */}
+                                    <Button
+                                        onClick={handleExamStart}
+                                        className="w-full"
+                                    >
+                                        Start Exam
+                                    </Button>
 
-                            <p className="text-sm text-gray-500 mt-2">
-                                The exam is currently active. Click the button to begin.
-                            </p>
-                        </div>
-                    )}
-                    {isExamNotStarted && (
-                        <p className="text-sm text-yellow-600">
-                            The exam will start at <strong>{isoDateFormatter(exam?.start_time)}</strong>.
-                        </p>
-                    )}
-                    {isExamEnded && (
-                        <p className="text-sm text-red-600">
-                            The exam ended on <strong>{isoDateFormatter(exam?.end_time)}</strong>.
-                        </p>
-                    )}
-                </>
-            )}
+                                    <p className="text-sm text-gray-500 mt-2">
+                                        The exam is currently active. Click the button to begin.
+                                    </p>
+                                </div>
+                            )
+                        }
+                        {
+                            isExamNotStarted && (
+                                <p className="text-sm text-yellow-600">
+                                    The exam will start at <strong>{isoDateFormatter(startTime)}</strong>.
+                                </p>
+                            )
+                        }
+                        {
+                            isExamEnded && (
+                                <p className="text-sm text-red-600">
+                                    The exam ended on <strong>{isoDateFormatter(endTime)}</strong>.
+                                </p>
+                            )
+                        }
+                    </>
+                )
+            }
             {!isSubscribed && (
                 <p className="text-sm text-blue-600">
                     Subscribe to access this exam.

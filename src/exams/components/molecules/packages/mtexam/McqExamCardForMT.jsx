@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import { updateMcqAnswer } from "@/features/exams/examSlice";
 import DOMPurify from "dompurify";
 import { BookmarkPlus } from "lucide-react";
 import { useState } from "react";
@@ -16,6 +15,8 @@ const parseHtmlContent = (htmlContent) => {
 };
 
 export function McqExamCardForMT({ queIndex, question }) {
+    console.log("question", question)
+
     const dispatch = useDispatch();
     // const mcqAnswers = useSelector((state) => state.mtExam.mcqAnswers);
 
@@ -36,11 +37,11 @@ export function McqExamCardForMT({ queIndex, question }) {
             return;
         }
 
-        dispatch(updateMcqAnswer({
-            question_id,
-            mcq_question_id: optionId,
-            submitted_mcq_option: optionSerial
-        }));
+        // dispatch(updateMcqAnswer({
+        //     question_id,
+        //     mcq_question_id: optionId,
+        //     submitted_mcq_option: optionSerial
+        // }));
     };
 
     return (

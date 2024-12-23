@@ -11,6 +11,9 @@ export const packagesApi = apiSlice.injectEndpoints({
         getModelTestsByPkgId: builder.query({
             query: (id) => `/packages/${id}/model-tests`
         }),
+        getSingleModelTest: builder.query({
+            query: (id) => `/model-tests/${id}`
+        }),
         getExamsUnderMT: builder.query({
             query: (id) => `/model-test-exams/${id}`
         }),
@@ -52,6 +55,7 @@ export const packagesApi = apiSlice.injectEndpoints({
 export const {
     useGetAllPackagesQuery,
     useGetSinglePackageQuery,
+    useGetSingleModelTestQuery,
     useSubscribeToPackageMutation,
     useGetModelTestsByPkgIdQuery,
     useStartMTExamMutation,
