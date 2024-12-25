@@ -99,8 +99,7 @@
 
 import { useGetAllPackagesQuery } from "@/features/packages/packagesApi";
 import { useSelector } from "react-redux";
-import Loading from "../components/atoms/Loading";
-import PricingPlansCard from "../components/molecules/packages/PricingPlansCard";
+import Loading from "../../components/atoms/Loading";
 
 import {
   Tabs,
@@ -108,9 +107,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import { PackageCard } from "@/exams/components/molecules/packages/PackageCard";
 import { useGetCategoryQuery } from "@/features/categories/categoriesApi";
 
-const PricingPlansPage = () => {
+const PackagesPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
   const { data: allSections } = useGetCategoryQuery("sections");
   console.log("sections", allSections)
@@ -159,14 +159,16 @@ const PricingPlansPage = () => {
       {
         allSections?.data?.data?.length > 0 ? (
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="flex justify-center gap-4">
-              <TabsTrigger value="all">All</TabsTrigger>
-              {allSections?.data?.data?.map((section) => (
-                <TabsTrigger key={section.id} value={section.name}>
-                  {section.title}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="flex justify-center mb-8">
+              <TabsList className="inline-flex items-center gap-4">
+                <TabsTrigger value="all">All</TabsTrigger>
+                {allSections?.data?.data?.map((section) => (
+                  <TabsTrigger key={section?.id} value={section?.title}>
+                    {section?.title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
 
             {/* All Packages Tab */}
             <TabsContent value="all">
@@ -174,7 +176,7 @@ const PricingPlansPage = () => {
                 {
                   sortedPackages?.length > 0 ? (
                     sortedPackages.map((item) => (
-                      <PricingPlansCard key={item?.id} singlePackage={item} />
+                      <PackageCard key={item?.id} singlePackage={item} />
                     ))
                   ) : (
                     <p className="col-span-3 text-center text-gray-500">
@@ -186,27 +188,29 @@ const PricingPlansPage = () => {
             </TabsContent>
 
             {/* Dynamic Category Tabs */}
-            {allSections?.data?.data.map((section) => {
-              const packagesForSection = sortedPackages.filter(
-                (pkg) => pkg.section_id === section.id
-              );
+            {
+              allSections?.data?.data.map((section) => {
+                const packagesForSection = sortedPackages.filter(
+                  (pkg) => pkg.section_id === section.id
+                );
 
-              return (
-                <TabsContent key={section.id} value={section.name}>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {packagesForSection.length > 0 ? (
-                      packagesForSection.map((item) => (
-                        <PricingPlansCard key={item.id} singlePackage={item} />
-                      ))
-                    ) : (
-                      <p className="col-span-3 text-center text-gray-500">
-                        No packages available for {section.name}.
-                      </p>
-                    )}
-                  </div>
-                </TabsContent>
-              );
-            })}
+                return (
+                  <TabsContent key={section.id} value={section.name}>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      {packagesForSection.length > 0 ? (
+                        packagesForSection.map((item) => (
+                          <PackageCard key={item.id} singlePackage={item} />
+                        ))
+                      ) : (
+                        <p className="col-span-3 text-center text-gray-500">
+                          No packages available for {section.name}.
+                        </p>
+                      )}
+                    </div>
+                  </TabsContent>
+                );
+              })
+            }
           </Tabs>
         ) : (
           <p className="text-center text-gray-500">Loading categories...</p>
@@ -216,4 +220,4 @@ const PricingPlansPage = () => {
   );
 };
 
-export default PricingPlansPage;
+export default PackagesPage;

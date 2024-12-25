@@ -7,10 +7,10 @@ import ExamHistoryPage from "../pages/ExamHistoryPage";
 import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 import ExamResultPage from "../pages/ExamResultPage";
 import LoginPage from "../pages/LoginPage";
-import PackageDetailsPage from "../pages/PackageDetailsPage";
 import { MTDetailsPage } from "../pages/packages/MTDetailsPage";
 import MTExamOnGoingPage from "../pages/packages/MTExamOnGoingPage";
-import PricingPlansPage from "../pages/PricingPlansPage";
+import PackageDetailsPage from "../pages/packages/PackageDetailsPage";
+import PackagesPage from "../pages/packages/PackagesPage";
 import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
 import RegisterPage from "../pages/RegisterPage";
 import StudentProfilePage from "../pages/StudentProfilePage";
@@ -90,7 +90,7 @@ const Routes = createBrowserRouter([
       {
         path: "/package",
         element: (
-          <PricingPlansPage />
+          <PackagesPage />
         ),
       },
       {
