@@ -40,6 +40,10 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
         try {
             const response = await startMTExam(payload).unwrap();
 
+            // dispatch(
+            //     saveMTExamInfo(response?.data)
+            // )
+
             dispatch(
                 saveMTExamInfo({
                     mtExam: response?.data?.exam,

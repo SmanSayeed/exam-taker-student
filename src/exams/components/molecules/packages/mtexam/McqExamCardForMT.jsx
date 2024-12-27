@@ -89,7 +89,6 @@ export function McqExamCardForMT({ queIndex, question }) {
                     })
                 }
             </div>
-
         </Card >
     )
 }
