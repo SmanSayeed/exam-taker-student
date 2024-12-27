@@ -1,7 +1,9 @@
 import { Card } from "@/components/ui/card";
+import { updateMTMcqAnswer } from "@/features/packages/mtExamSlice";
 import DOMPurify from "dompurify";
 import { BookmarkPlus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const parseHtmlContent = (htmlContent) => {
     return (
@@ -16,19 +18,19 @@ const parseHtmlContent = (htmlContent) => {
 export function McqExamCardForMT({ queIndex, question }) {
     console.log("question", question)
 
-    // const dispatch = useDispatch();
-    // const mcqAnswers = useSelector((state) => state.mtExam.mcqAnswers);
+    const dispatch = useDispatch();
+    const mcqAnswers = useSelector((state) => state.mtExam.mcqAnswers);
 
     const { id: question_id, title, mcq_questions, images } = question || {};
 
-    // const persistedAnswer = mcqAnswers?.find((answer) => answer?.question_id === question_id);
+    const persistedAnswer = mcqAnswers?.find((answer) => answer?.question_id === question_id);
     const [selectedOption, setSelectedOption] = useState(null);
 
-    // useEffect(() => {
-    //     if (persistedAnswer && persistedAnswer?.submitted_mcq_option) {
-    //         setSelectedOption(persistedAnswer?.submitted_mcq_option);
-    //     }
-    // }, [persistedAnswer]);
+    useEffect(() => {
+        if (persistedAnswer && persistedAnswer?.submitted_mcq_option) {
+            setSelectedOption(persistedAnswer?.submitted_mcq_option);
+        }
+    }, [persistedAnswer]);
 
     const handleOptionClick = (optionId, optionSerial) => {
         if (!optionSerial) {
@@ -36,11 +38,11 @@ export function McqExamCardForMT({ queIndex, question }) {
             return;
         }
 
-        // dispatch(updateMcqAnswer({
-        //     question_id,
-        //     mcq_question_id: optionId,
-        //     submitted_mcq_option: optionSerial
-        // }));
+        dispatch(updateMTMcqAnswer({
+            question_id,
+            mcq_question_id: optionId,
+            submitted_mcq_option: optionSerial
+        }));
     };
 
     return (

@@ -1,13 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { saveMTExamInfo } from "@/features/packages/mtExamSlice";
 import { useGetSingleModelTestQuery, useStartMTExamMutation } from "@/features/packages/packagesApi";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { LoaderSubmit } from "../../atoms/LoaderSubmit";
 import { hasActiveExams } from "./mtexam/examHelpers";
 
 export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const { data: modelTestData } = useGetSingleModelTestQuery(modelTestId);
     const startTime = modelTestData?.data?.start_time;
@@ -23,7 +26,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
     const isExamNotStarted = now < new Date(startTime);
 
     const auth = useSelector((state) => state.auth);
-    const [startMTExam] = useStartMTExamMutation();
+    const [startMTExam, { isLoading: isExamStarting }] = useStartMTExamMutation();
 
     const handleExamStart = async (event) => {
         event.preventDefault();
@@ -36,7 +39,13 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
 
         try {
             const response = await startMTExam(payload).unwrap();
-            console.log("response", response);
+
+            dispatch(
+                saveMTExamInfo({
+                    mtExam: response?.data?.exam,
+                    questions_list: response?.data?.questions_list,
+                })
+            );
 
             navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
         } catch (err) {
@@ -82,8 +91,13 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                                     <Button
                                         onClick={handleExamStart}
                                         className="w-full"
+                                        disabled={isExamStarting}
                                     >
-                                        Start Exam
+                                        {
+                                            isExamStarting ? (
+                                                <LoaderSubmit />
+                                            ) : "Start Exam"
+                                        }
                                     </Button>
 
                                     <p className="text-sm text-gray-500 mt-2">

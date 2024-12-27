@@ -23,14 +23,14 @@ const mtExamSlice = createSlice({
                 }
             });
         },
-        // updateMcqAnswer: (state, action) => {
-        //     const { question_id, mcq_question_id, submitted_mcq_option } = action.payload;
-        //     const answerIndex = state.mcqAnswers?.findIndex(answer => answer?.question_id === question_id);
+        updateMTMcqAnswer: (state, action) => {
+            const { question_id, mcq_question_id, submitted_mcq_option } = action.payload;
+            const answerIndex = state.mcqAnswers?.findIndex(answer => answer?.question_id === question_id);
 
-        //     if (answerIndex !== -1) {
-        //       state.mcqAnswers[answerIndex] = { question_id, mcq_question_id, submitted_mcq_option };
-        //     }
-        // },
+            if (answerIndex !== -1) {
+              state.mcqAnswers[answerIndex] = { question_id, mcq_question_id, submitted_mcq_option };
+            }
+        },
         clearMTExamInfo: (state) => {
             state.exam = {};
             state.questions_list = [];
@@ -39,5 +39,5 @@ const mtExamSlice = createSlice({
     },
 });
 
-export const { saveMTExamInfo, clearMTExamInfo } = mtExamSlice.actions;
+export const { saveMTExamInfo, clearMTExamInfo, updateMTMcqAnswer } = mtExamSlice.actions;
 export default mtExamSlice.reducer;

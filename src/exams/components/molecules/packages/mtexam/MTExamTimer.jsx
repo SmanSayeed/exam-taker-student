@@ -38,7 +38,7 @@ export const MTExamTimer = ({ startTime, endTime }) => {
     if (!timeLeft) return null;
 
     return (
-        <div className="bg-gray-300 px-4 py-2 w-full rounded shadow-md text-center">
+        <div className="bg-gray-400 px-4 py-2 w-full rounded shadow-md text-center">
             {timeLeft.message ? (
                 <p className="text-red-500 text-sm font-semibold">{timeLeft.message}</p>
             ) : (
