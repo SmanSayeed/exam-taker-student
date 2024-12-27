@@ -1,26 +1,28 @@
 import { Card, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { McqExamCardForMT } from "@/exams/components/molecules/packages/mtexam/McqExamCardForMT";
 import { MTExamTimer } from "@/exams/components/molecules/packages/mtexam/MTExamTimer";
 import { useFinishExamMutation } from "@/features/exams/examsApi";
-import { ArrowDownNarrowWideIcon } from "lucide-react";
+import { useGetSingleModelTestQuery } from "@/features/packages/packagesApi";
+import { calculateDuration } from "@/helpers/dateFormatter";
 
 export default function MTExamOnGoingPage() {
     const navigate = useNavigate();
 
     const mtExam = useSelector(state => state.mtExam);
-    const { mtExam: mtExamData, questions_list } = mtExam;
+    const { mtExam: mtExamData, questions_list, mcqAnswers } = mtExam;
 
-    const startTime = mtExamData.start_time;
-    const endTime = mtExamData.end_time;
-    const timeLimit = new Date(endTime) - new Date(startTime);
+    const { modelTestId } = useParams();
+    const { data: modelTestData } = useGetSingleModelTestQuery(modelTestId);
+    const startTime = modelTestData?.data?.start_time;
+    const endTime = modelTestData?.data?.end_time;
+    const duration = calculateDuration(startTime, endTime);
 
     const questionType = mtExamData.type;
-    const mcqAnswers = useSelector((state) => state.exam.mcqAnswers);
 
     // const [isAlertOpen, setIsAlertOpen] = useState(false);
     // const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
@@ -77,18 +79,17 @@ export default function MTExamOnGoingPage() {
     return (
         <div className="px-5 w-full">
             <Card className="text-center p-4 relative">
-                <div className="z-50 fixed right-10 top-4 md:right-28 md:top-4 px-4 py-2 rounded-md flex items-center justify-center gap-2">
+                <div
+                    className="z-50 fixed left-1/2 bottom-2 md:bottom-4 px-4 py-2 rounded-md flex items-center justify-center gap-2 transform -translate-x-1/2 w-full"
+                >
                     <MTExamTimer
-                        startTime={mtExamData.startTime}
-                        endTime={mtExamData.endTime}
+                        startTime={startTime}
+                        endTime={endTime}
                     />
-
-                    <a href="#exam_submit" title="Got to submit">
-                        <ArrowDownNarrowWideIcon />
-                    </a>
                 </div>
-                <CardTitle> Exam Title </CardTitle>
-                <p className="mt-3" >Time: {timeLimit} minutes </p>
+
+                <CardTitle> {mtExamData?.title} </CardTitle>
+                <p className="mt-3" >Time: {duration} minutes </p>
 
                 <p>{questions_list[0]?.mark} mark per question and 0.25 marks will be deducted for each mistake</p>
             </Card>

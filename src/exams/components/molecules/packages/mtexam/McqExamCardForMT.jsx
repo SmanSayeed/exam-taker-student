@@ -2,7 +2,6 @@ import { Card } from "@/components/ui/card";
 import DOMPurify from "dompurify";
 import { BookmarkPlus } from "lucide-react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 const parseHtmlContent = (htmlContent) => {
     return (
@@ -17,7 +16,7 @@ const parseHtmlContent = (htmlContent) => {
 export function McqExamCardForMT({ queIndex, question }) {
     console.log("question", question)
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     // const mcqAnswers = useSelector((state) => state.mtExam.mcqAnswers);
 
     const { id: question_id, title, mcq_questions, images } = question || {};

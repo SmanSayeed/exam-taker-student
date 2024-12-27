@@ -3,6 +3,7 @@ import { hasActiveExams } from "@/exams/components/molecules/packages/mtexam/exa
 import { MTExamTimer } from "@/exams/components/molecules/packages/mtexam/MTExamTimer";
 import { MTExamCard } from "@/exams/components/molecules/packages/MTExamCard";
 import { useGetExamsUnderMTQuery, useGetSingleModelTestQuery, useGetSinglePackageQuery } from "@/features/packages/packagesApi";
+import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import { Loader2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
@@ -31,7 +32,7 @@ export const MTDetailsPage = () => {
             <header className="bg-white shadow w-full px-6 py-4">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <h1 className="text-2xl font-bold text-gray-800">
-                        {modelTestData?.data?.title || "Model Test Details"}
+                        {parseHtmlContent(modelTestData?.data?.title) || "Model Test Details"}
                     </h1>
                 </div>
             </header>
@@ -45,15 +46,19 @@ export const MTDetailsPage = () => {
                             isExamsUnderMTLoading ? (
                                 <Loader2 />
                             ) : (
-                                examsUnderMT?.data && examsUnderMT?.data.map((exam) => (
-                                    <MTExamCard
-                                        key={exam?.id}
-                                        exam={exam}
-                                        isSubscribed={isSubscribed}
-                                        packageId={packageId}
-                                        modelTestId={modelTestId}
-                                    />
-                                ))
+                                examsUnderMT?.data && examsUnderMT?.data?.length > 0 ? (
+                                    examsUnderMT?.data.map((exam) => (
+                                        <MTExamCard
+                                            key={exam?.id}
+                                            exam={exam}
+                                            isSubscribed={isSubscribed}
+                                            packageId={packageId}
+                                            modelTestId={modelTestId}
+                                        />
+                                    ))
+                                ) : (
+                                    <p className="text-gray-500 text-sm">No exams available</p>
+                                )
                             )
                         }
                         {
@@ -77,12 +82,12 @@ export const MTDetailsPage = () => {
                 {/* Fixed Timer and Button Section */}
                 {
                     isExamsActive && isSubscribed && (
-                        <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 flex justify-center items-center gap-1">
+                        <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 flex flex-col justify-center items-center gap-2">
                             <MTExamTimer startTime={startTime} endTime={endTime} />
 
                             <Button
                                 onClick={handleFinishAllExams}
-                                className="bg-red-500 hover:bg-red-600 text-white px-6 py-3"
+                                className="bg-red-500 hover:bg-red-600 text-white text-lg px-6 py-3 w-full"
                             >
                                 Finish All Exams
                             </Button>

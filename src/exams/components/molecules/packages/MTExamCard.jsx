@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useStartExamMutation } from "@/features/exams/examsApi";
-import { useGetSingleModelTestQuery } from "@/features/packages/packagesApi";
+import { useGetSingleModelTestQuery, useStartMTExamMutation } from "@/features/packages/packagesApi";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +23,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
     const isExamNotStarted = now < new Date(startTime);
 
     const auth = useSelector((state) => state.auth);
-    const [startMTExam] = useStartExamMutation();
+    const [startMTExam] = useStartMTExamMutation();
 
     const handleExamStart = async (event) => {
         event.preventDefault();

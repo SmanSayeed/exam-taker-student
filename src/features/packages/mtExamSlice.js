@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const mtExamSlice = createSlice({
-    name: "exam",
+    name: "mtExam",
     initialState,
     reducers: {
         saveMTExamInfo: (state, action) => {

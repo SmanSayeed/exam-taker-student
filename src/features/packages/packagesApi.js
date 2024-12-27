@@ -1,4 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
+import { saveMTExamInfo } from "./mtExamSlice";
 
 export const packagesApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -38,13 +39,12 @@ export const packagesApi = apiSlice.injectEndpoints({
                 const result = await queryFulfilled;
                 const { exam, questions_list } = result.data.data;
 
-                // dispatch(
-                //     saveExamInfo({
-                //         exam,
-                //         questions_list,
-                //         mcqAnswers
-                //     })
-                // );
+                dispatch(
+                    saveMTExamInfo({
+                        mtExam: exam,
+                        questions_list,
+                    })
+                );
             } catch (err) {
                 console.log(err);
             }

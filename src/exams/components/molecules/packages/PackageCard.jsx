@@ -7,17 +7,15 @@ export const PackageCard = ({ singlePackage }) => {
     const {
         id: packageId,
         name,
-        description,
         price,
         duration_days,
         img: pkgImg,
-        is_active,
         discount,
         discount_type,
         is_subscribed: isSubscribed,
     } = singlePackage || {};
 
-    const packageTags = ["Best Seller", "New", "Discounted"];
+    // const packageTags = ["Best Seller", "New", "Discounted"];
 
     const baseURL = "https://loopsexam.xyz";
     const imageURL = `${baseURL}${pkgImg}`;
@@ -32,7 +30,7 @@ export const PackageCard = ({ singlePackage }) => {
     return (
         <Card className="relative bg-gradient-to-b from-blue-500 to-gray-500 text-white rounded-xl overflow-hidden shadow-lg">
             {/* Highlighted Tags Section */}
-            {packageTags.length > 0 && (
+            {/* {packageTags.length > 0 && (
                 <div className="flex gap-2 absolute z-10">
                     {packageTags.map((tag, index) => (
                         <span
@@ -43,7 +41,7 @@ export const PackageCard = ({ singlePackage }) => {
                         </span>
                     ))}
                 </div>
-            )}
+            )} */}
 
             {/* Cover Image Section */}
             {
