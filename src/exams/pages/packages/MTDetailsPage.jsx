@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 export const MTDetailsPage = () => {
+
     const { packageId, modelTestId } = useParams();
 
     const { data: singlePackage } = useGetSinglePackageQuery(packageId);

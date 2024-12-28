@@ -96,19 +96,25 @@ const Routes = createBrowserRouter([
       {
         path: "/package/:id",
         element: (
-          <PackageDetailsPage />
+          <PrivateRoutes>
+            <PackageDetailsPage />
+          </PrivateRoutes>
         ),
       },
       {
         path: "/package/:packageId/model-test/:modelTestId",
         element: (
-          <MTDetailsPage />
+          <PrivateRoutes>
+            <MTDetailsPage />
+          </PrivateRoutes>
         ),
       },
       {
         path: "/package/:packageId/model-test/:modelTestId/exam-ongoing/:examId",
         element: (
-          <MTExamOnGoingPage />
+          <PrivateRoutes>
+            <MTExamOnGoingPage />
+          </PrivateRoutes>
         ),
       },
     ],

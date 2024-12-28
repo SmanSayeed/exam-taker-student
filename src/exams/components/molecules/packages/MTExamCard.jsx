@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { saveMTExamInfo } from "@/features/packages/mtExamSlice";
+import { saveMTExamInfo, switchActiveExam } from "@/features/packages/mtExamSlice";
 import { useGetSingleModelTestQuery, useStartMTExamMutation } from "@/features/packages/packagesApi";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
+import { ArrowRightCircleIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { LoaderSubmit } from "../../atoms/LoaderSubmit";
 import { hasActiveExams } from "./mtexam/examHelpers";
@@ -11,14 +12,15 @@ import { hasActiveExams } from "./mtexam/examHelpers";
 export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const allMTExams = useSelector((state) => state.mtExam.allMTExams);
+
+    const questionsArray = exam?.questions?.split(",") || [];
+    const questionCount = questionsArray.length || 0;
 
     const { data: modelTestData } = useGetSingleModelTestQuery(modelTestId);
     const startTime = modelTestData?.data?.start_time;
     const endTime = modelTestData?.data?.end_time;
     const duration = calculateDuration(startTime, endTime);
-
-    const questionsArray = exam?.questions?.split(",") || [];
-    const questionCount = questionsArray.length || 0;
 
     const now = new Date();
     const isExamsActive = hasActiveExams(startTime, endTime);
@@ -28,8 +30,17 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
     const auth = useSelector((state) => state.auth);
     const [startMTExam, { isLoading: isExamStarting }] = useStartMTExamMutation();
 
+    // Check if the exam is already started
+    const existingExam = allMTExams.find((item) => item.exam.id === exam?.id);
+
     const handleExamStart = async (event) => {
         event.preventDefault();
+
+        if (existingExam) {
+            dispatch(switchActiveExam(existingExam));
+            navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
+            return;
+        }
 
         const payload = {
             is_second_time: false,
@@ -39,17 +50,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
 
         try {
             const response = await startMTExam(payload).unwrap();
-
-            // dispatch(
-            //     saveMTExamInfo(response?.data)
-            // )
-
-            dispatch(
-                saveMTExamInfo({
-                    mtExam: response?.data?.exam,
-                    questions_list: response?.data?.questions_list,
-                })
-            );
+            dispatch(saveMTExamInfo(response?.data));
 
             navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
         } catch (err) {
@@ -57,6 +58,32 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
             toast.error(err?.data?.message || "An error occurred");
         }
     };
+
+    // const handleExamStart = async (event) => {
+    //     event.preventDefault();
+
+    //     const payload = {
+    //         is_second_time: false,
+    //         student_id: auth.student.id,
+    //         exam_id: exam?.id,
+    //     };
+
+    //     try {
+    //         const response = await startMTExam(payload).unwrap(); 
+
+    //         dispatch(
+    //             saveMTExamInfo({
+    //                 mtExam: response?.data?.exam,
+    //                 questions_list: response?.data?.questions_list,
+    //             })
+    //         );
+
+    //         navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
+    //     } catch (err) {
+    //         console.error(err);
+    //         toast.error(err?.data?.message || "An error occurred");
+    //     }
+    // };
 
     return (
         <div className="bg-white border border-gray-200 shadow-md rounded-lg p-6 space-y-4">
@@ -91,18 +118,28 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                         {
                             isExamsActive && (
                                 <div>
-                                    {/* start exam button */}
-                                    <Button
-                                        onClick={handleExamStart}
-                                        className="w-full"
-                                        disabled={isExamStarting}
-                                    >
-                                        {
-                                            isExamStarting ? (
-                                                <LoaderSubmit />
-                                            ) : "Start Exam"
-                                        }
-                                    </Button>
+                                    {
+                                        existingExam ? (
+                                            <Link
+                                                to={`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`}
+                                                className="flex gap-2 underline text-blue-600"
+                                            >
+                                                Go to {exam?.title} Page <ArrowRightCircleIcon />
+                                            </Link>
+                                        ) : (
+                                            <Button
+                                                onClick={handleExamStart}
+                                                className="w-full"
+                                                disabled={isExamStarting}
+                                            >
+                                                {
+                                                    isExamStarting ? (
+                                                        <LoaderSubmit />
+                                                    ) : "Start Exam"
+                                                }
+                                            </Button>
+                                        )
+                                    }
 
                                     <p className="text-sm text-gray-500 mt-2">
                                         The exam is currently active. Click the button to begin.
