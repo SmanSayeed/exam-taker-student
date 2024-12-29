@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    allMTExams: [], // List of started exams
-    activeExam: null, // Currently active exam
+    allMTExams: [], 
+    activeExam: null, 
 };
 
 const mtExamSlice = createSlice({
@@ -18,7 +18,7 @@ const mtExamSlice = createSlice({
                 // Add a new exam if it doesn't exist
                 state.allMTExams.push({
                     ...action.payload,
-                    mcqAnswers: action.payload.mcqAnswers || [], // Initialize mcqAnswers
+                    mcqAnswers: action.payload.mcqAnswers || [],
                 });
             } else {
                 // Update the existing exam's mcqAnswers if it exists
@@ -60,7 +60,6 @@ const mtExamSlice = createSlice({
         updateMTMcqAnswer: (state, action) => {
             const { question_id, mcq_question_id, submitted_mcq_option } = action.payload;
         
-            // Ensure there's an active exam
             if (state.activeExam) {
                 const { exam } = state.activeExam;
                 const { mcqAnswers } = state.activeExam;
@@ -103,31 +102,10 @@ const mtExamSlice = createSlice({
                         });
                     }
         
-                    // Ensure the state is updated
                     state.allMTExams[examIndex].mcqAnswers = [...allExamMcqAnswers];
                 }
             }
-        },        
-        // updateMTMcqAnswer: (state, action) => {
-        //     const { question_id, mcq_question_id, submitted_mcq_option } = action.payload;
-
-        //     // Ensure there's an active exam
-        //     if (state.activeExam) {
-        //         const { mcqAnswers } = state.activeExam;
-                
-        //         const answerIndex = mcqAnswers?.findIndex(
-        //             (answer) => answer.question_id === question_id
-        //         );
-
-        //         if (answerIndex !== -1) {
-        //             // Update existing answer
-        //             mcqAnswers[answerIndex] = { question_id, mcq_question_id, submitted_mcq_option };
-        //         } else {
-        //             // Add new answer if it doesn't exist
-        //             mcqAnswers.push({ question_id, mcq_question_id, submitted_mcq_option });
-        //         }
-        //     }
-        // },
+        },
         clearMTExamInfo: (state) => {
             state.allMTExams = [];
             state.activeExam = null;
@@ -142,68 +120,3 @@ export const {
     clearMTExamInfo,
 } = mtExamSlice.actions;
 export default mtExamSlice.reducer;
-
-
-
-
-
-
-// import { createSlice } from "@reduxjs/toolkit";
-
-// const initialState = {
-//     allMTExams: [], // List of started exams
-//     activeExam: null, // Currently active exam
-// };
-
-// const mtExamSlice = createSlice({
-//     name: "mtExam",
-//     initialState,
-//     reducers: {
-//         saveMTExamInfo: (state, action) => {
-//             const existingExam = state.allMTExams.length > 0 && state.allMTExams.find(
-//                 (item) => item.exam.id === action.payload.exam.id
-//             );
-
-//             if (!existingExam) {
-//                 state.allMTExams.push(action.payload);
-//             }
-
-//             state.activeExam = action.payload; // Set the newly started exam as active
-//         },
-//         switchActiveExam: (state, action) => {
-//             const existingExam = state.allMTExams.length > 0 && state.allMTExams.find(
-//                 (item) => item.exam.id === action.payload.exam.id
-//             );
-
-//             if (existingExam) {
-//                 state.activeExam = existingExam; // Switch to another exam
-//             }
-//         },
-//         updateMTMcqAnswer: (state, action) => {
-//             const { question_id, mcq_question_id, submitted_mcq_option } = action.payload;
-
-//             // Ensure there's an active exam
-//             if (state.activeExam) {
-//                 const { mcqAnswers } = state.activeExam;
-//                 const answerIndex = mcqAnswers?.findIndex(
-//                     (answer) => answer.question_id === question_id
-//                 );
-
-//                 if (answerIndex !== -1) {
-//                     // Update existing answer
-//                     mcqAnswers[answerIndex] = { question_id, mcq_question_id, submitted_mcq_option };
-//                 } else {
-//                     // Add new answer if it doesn't exist
-//                     mcqAnswers.push({ question_id, mcq_question_id, submitted_mcq_option });
-//                 }
-//             }
-//         },
-//         clearMTExamInfo: (state) => {
-//             state.allMTExams = [];
-//             state.activeExam = null;
-//         },
-//     },
-// });
-
-// export const { saveMTExamInfo, switchActiveExam, updateMTMcqAnswer, clearMTExamInfo } = mtExamSlice.actions;
-// export default mtExamSlice.reducer;
