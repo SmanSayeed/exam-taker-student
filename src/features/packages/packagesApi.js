@@ -32,23 +32,22 @@ export const packagesApi = apiSlice.injectEndpoints({
             }),
         }),
 
-        async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
 
-            try {
-                const result = await queryFulfilled;
-                const { exam, questions_list } = result.data.data;
+        //     try {
+        //         const result = await queryFulfilled;
+        //         const { exam, questions_list } = result.data;
 
-                // dispatch(
-                //     saveExamInfo({
-                //         exam,
-                //         questions_list,
-                //         mcqAnswers
-                //     })
-                // );
-            } catch (err) {
-                console.log(err);
-            }
-        },
+        //         dispatch(
+        //             saveMTExamInfo({
+        //                 mtExam: exam,
+        //                 questions_list,
+        //             })
+        //         );
+        //     } catch (err) {
+        //         console.log(err);
+        //     }
+        // },
     }),
 });
 

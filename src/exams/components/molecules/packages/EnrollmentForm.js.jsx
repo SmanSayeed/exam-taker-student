@@ -6,12 +6,25 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const EnrollmentForm = ({ singlePackage, onCancel }) => {
+    const {
+        price,
+        discount,
+        discount_type,
+    } = singlePackage || {};
+
+    const discountedPrice =
+        discount && discount_type === "percentage"
+            ? price - price * (discount / 100)
+            : discount && discount_type === "amount"
+                ? price - discount
+                : price;
+
     const form = useForm({
         defaultValues: {
             payment_method: "",
             mobile_number: "",
             transaction_id: "",
-            amount: singlePackage?.discountPrice || singlePackage?.price,
+            amount: discountedPrice || price,
         },
         mode: "onChange",
     });

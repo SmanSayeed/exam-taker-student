@@ -1,22 +1,26 @@
 import { Button } from "@/components/ui/button";
-import { useStartExamMutation } from "@/features/exams/examsApi";
-import { useGetSingleModelTestQuery } from "@/features/packages/packagesApi";
+import { saveMTExamInfo, switchActiveExam } from "@/features/packages/mtExamSlice";
+import { useGetSingleModelTestQuery, useStartMTExamMutation } from "@/features/packages/packagesApi";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
-import { useSelector } from "react-redux";
+import { ArrowRightCircleIcon } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { LoaderSubmit } from "../../atoms/LoaderSubmit";
 import { hasActiveExams } from "./mtexam/examHelpers";
 
 export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const allMTExams = useSelector((state) => state.mtExam.allMTExams);
+
+    const questionsArray = exam?.questions?.split(",") || [];
+    const questionCount = questionsArray.length || 0;
 
     const { data: modelTestData } = useGetSingleModelTestQuery(modelTestId);
     const startTime = modelTestData?.data?.start_time;
     const endTime = modelTestData?.data?.end_time;
     const duration = calculateDuration(startTime, endTime);
-
-    const questionsArray = exam?.questions?.split(",") || [];
-    const questionCount = questionsArray.length || 0;
 
     const now = new Date();
     const isExamsActive = hasActiveExams(startTime, endTime);
@@ -24,7 +28,10 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
     const isExamNotStarted = now < new Date(startTime);
 
     const auth = useSelector((state) => state.auth);
-    const [startMTExam] = useStartExamMutation();
+    const [startMTExam, { isLoading: isExamStarting }] = useStartMTExamMutation();
+
+    // Check if the exam is already started
+    const existingExam = allMTExams.find((item) => item.exam.id === exam?.id);
 
     const handleExamStart = async (event) => {
         event.preventDefault();
@@ -37,7 +44,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
 
         try {
             const response = await startMTExam(payload).unwrap();
-            console.log("response", response);
+            dispatch(saveMTExamInfo(response?.data));
 
             navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
         } catch (err) {
@@ -45,6 +52,13 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
             toast.error(err?.data?.message || "An error occurred");
         }
     };
+
+    const handleSwitchExam = (event) => {
+        event.preventDefault();
+
+        dispatch(switchActiveExam(existingExam));
+        navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
+    }
 
     return (
         <div className="bg-white border border-gray-200 shadow-md rounded-lg p-6 space-y-4">
@@ -79,13 +93,29 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                         {
                             isExamsActive && (
                                 <div>
-                                    {/* start exam button */}
-                                    <Button
-                                        onClick={handleExamStart}
-                                        className="w-full"
-                                    >
-                                        Start Exam
-                                    </Button>
+                                    {
+                                        existingExam ? (
+                                            <Button
+                                                variant="outline"
+                                                onClick={handleSwitchExam}
+                                                className="flex gap-2 text-blue-600"
+                                            >
+                                                Go to {exam?.title} Page <ArrowRightCircleIcon />
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                onClick={handleExamStart}
+                                                className="w-full"
+                                                disabled={isExamStarting}
+                                            >
+                                                {
+                                                    isExamStarting ? (
+                                                        <LoaderSubmit />
+                                                    ) : "Start Exam"
+                                                }
+                                            </Button>
+                                        )
+                                    }
 
                                     <p className="text-sm text-gray-500 mt-2">
                                         The exam is currently active. Click the button to begin.

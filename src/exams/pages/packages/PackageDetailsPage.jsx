@@ -1,9 +1,9 @@
 import { ErrorScreen } from "@/components/error-screen";
 import { useGetSinglePackageQuery } from "@/features/packages/packagesApi";
 import { useParams } from "react-router-dom";
-import Loading from "../components/atoms/Loading";
-import { PackageDetails } from "../components/molecules/packages/PackageDetails";
-import { SubscriptionCard } from "../components/molecules/packages/SubscriptionCard";
+import Loading from "../../components/atoms/Loading";
+import { PackageDetails } from "../../components/molecules/packages/PackageDetails";
+import { SubscriptionCard } from "../../components/molecules/packages/SubscriptionCard";
 
 export default function PackageDetailsPage() {
     const { id: packageId } = useParams();
