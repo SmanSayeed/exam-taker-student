@@ -93,7 +93,7 @@ export const MTDetailsPage = () => {
                             onClick={handleFinishAllExams}
                             className="bg-red-500 hover:bg-red-600 text-white text-lg w-full"
                         >
-                            Finish All Exams
+                            Submit All Exams
                         </Button>
                     </div>
                 )

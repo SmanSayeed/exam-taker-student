@@ -59,15 +59,17 @@ const mtExamSlice = createSlice({
         },
         updateMTMcqAnswer: (state, action) => {
             const { question_id, mcq_question_id, submitted_mcq_option } = action.payload;
-
+        
             // Ensure there's an active exam
             if (state.activeExam) {
+                const { exam } = state.activeExam;
                 const { mcqAnswers } = state.activeExam;
-                
+        
+                // Update mcqAnswers in the active exam
                 const answerIndex = mcqAnswers?.findIndex(
                     (answer) => answer.question_id === question_id
                 );
-
+        
                 if (answerIndex !== -1) {
                     // Update existing answer
                     mcqAnswers[answerIndex] = { question_id, mcq_question_id, submitted_mcq_option };
@@ -75,8 +77,57 @@ const mtExamSlice = createSlice({
                     // Add new answer if it doesn't exist
                     mcqAnswers.push({ question_id, mcq_question_id, submitted_mcq_option });
                 }
+        
+                // Find the corresponding exam in allMTExams and update its mcqAnswers
+                const examIndex = state.allMTExams.findIndex((item) => item.exam.id === exam.id);
+        
+                if (examIndex !== -1) {
+                    const allExamMcqAnswers = state.allMTExams[examIndex].mcqAnswers || [];
+                    const allExamAnswerIndex = allExamMcqAnswers.findIndex(
+                        (answer) => answer.question_id === question_id
+                    );
+        
+                    if (allExamAnswerIndex !== -1) {
+                        // Update existing answer
+                        allExamMcqAnswers[allExamAnswerIndex] = {
+                            question_id,
+                            mcq_question_id,
+                            submitted_mcq_option,
+                        };
+                    } else {
+                        // Add new answer if it doesn't exist
+                        allExamMcqAnswers.push({
+                            question_id,
+                            mcq_question_id,
+                            submitted_mcq_option,
+                        });
+                    }
+        
+                    // Ensure the state is updated
+                    state.allMTExams[examIndex].mcqAnswers = [...allExamMcqAnswers];
+                }
             }
-        },
+        },        
+        // updateMTMcqAnswer: (state, action) => {
+        //     const { question_id, mcq_question_id, submitted_mcq_option } = action.payload;
+
+        //     // Ensure there's an active exam
+        //     if (state.activeExam) {
+        //         const { mcqAnswers } = state.activeExam;
+                
+        //         const answerIndex = mcqAnswers?.findIndex(
+        //             (answer) => answer.question_id === question_id
+        //         );
+
+        //         if (answerIndex !== -1) {
+        //             // Update existing answer
+        //             mcqAnswers[answerIndex] = { question_id, mcq_question_id, submitted_mcq_option };
+        //         } else {
+        //             // Add new answer if it doesn't exist
+        //             mcqAnswers.push({ question_id, mcq_question_id, submitted_mcq_option });
+        //         }
+        //     }
+        // },
         clearMTExamInfo: (state) => {
             state.allMTExams = [];
             state.activeExam = null;
@@ -155,51 +206,4 @@ export default mtExamSlice.reducer;
 // });
 
 // export const { saveMTExamInfo, switchActiveExam, updateMTMcqAnswer, clearMTExamInfo } = mtExamSlice.actions;
-// export default mtExamSlice.reducer;
-
-
-
-
-// import { createSlice } from "@reduxjs/toolkit";
-
-// const initialState = {
-//     mtExam: {},
-//     questions_list: [],
-//     mcqAnswers: []
-// };
-
-// const mtExamSlice = createSlice({
-//     name: "mtExam",
-//     initialState,
-//     reducers: {
-//         saveMTExamInfo: (state, action) => {
-//             state.mtExam = action.payload.mtExam;
-//             state.questions_list = action.payload.questions_list;
-//             state.mcqAnswers = action.payload.questions_list.map(question => {
-//                 const firstMcqQuestionId = question?.mcq_questions?.[0]?.id || null;
-
-//                 return {
-//                     question_id: question.id,
-//                     mcq_question_id: firstMcqQuestionId,
-//                     submitted_mcq_option: null
-//                 }
-//             });
-//         },
-//         updateMTMcqAnswer: (state, action) => {
-//             const { question_id, mcq_question_id, submitted_mcq_option } = action.payload;
-//             const answerIndex = state.mcqAnswers?.findIndex(answer => answer?.question_id === question_id);
-
-//             if (answerIndex !== -1) {
-//               state.mcqAnswers[answerIndex] = { question_id, mcq_question_id, submitted_mcq_option };
-//             }
-//         },
-//         clearMTExamInfo: (state) => {
-//             state.exam = {};
-//             state.questions_list = [];
-//             state.mcqAnswers = [];
-//         }
-//     },
-// });
-
-// export const { saveMTExamInfo, clearMTExamInfo, updateMTMcqAnswer } = mtExamSlice.actions;
 // export default mtExamSlice.reducer;

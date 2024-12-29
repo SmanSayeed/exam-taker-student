@@ -4,7 +4,7 @@ import { useGetSingleModelTestQuery, useStartMTExamMutation } from "@/features/p
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
 import { ArrowRightCircleIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { LoaderSubmit } from "../../atoms/LoaderSubmit";
 import { hasActiveExams } from "./mtexam/examHelpers";
@@ -36,12 +36,6 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
     const handleExamStart = async (event) => {
         event.preventDefault();
 
-        if (existingExam) {
-            dispatch(switchActiveExam(existingExam));
-            navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
-            return;
-        }
-
         const payload = {
             is_second_time: false,
             student_id: auth.student.id,
@@ -59,31 +53,12 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
         }
     };
 
-    // const handleExamStart = async (event) => {
-    //     event.preventDefault();
+    const handleSwitchExam = (event) => {
+        event.preventDefault();
 
-    //     const payload = {
-    //         is_second_time: false,
-    //         student_id: auth.student.id,
-    //         exam_id: exam?.id,
-    //     };
-
-    //     try {
-    //         const response = await startMTExam(payload).unwrap(); 
-
-    //         dispatch(
-    //             saveMTExamInfo({
-    //                 mtExam: response?.data?.exam,
-    //                 questions_list: response?.data?.questions_list,
-    //             })
-    //         );
-
-    //         navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
-    //     } catch (err) {
-    //         console.error(err);
-    //         toast.error(err?.data?.message || "An error occurred");
-    //     }
-    // };
+        dispatch(switchActiveExam(existingExam));
+        navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
+    }
 
     return (
         <div className="bg-white border border-gray-200 shadow-md rounded-lg p-6 space-y-4">
@@ -120,12 +95,13 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                                 <div>
                                     {
                                         existingExam ? (
-                                            <Link
-                                                to={`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`}
-                                                className="flex gap-2 underline text-blue-600"
+                                            <Button
+                                                variant="outline"
+                                                onClick={handleSwitchExam}
+                                                className="flex gap-2 text-blue-600"
                                             >
                                                 Go to {exam?.title} Page <ArrowRightCircleIcon />
-                                            </Link>
+                                            </Button>
                                         ) : (
                                             <Button
                                                 onClick={handleExamStart}
