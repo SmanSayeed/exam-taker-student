@@ -63,6 +63,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selecte
 
     const isOptionalExam = exam?.is_optional === 1;
     const ischeckedOptionalExam = selectedOptionalExams?.length > 0 ? selectedOptionalExams.includes(exam?.id) : false;
+    const isDisabledOptionalExam = isOptionalExam && !ischeckedOptionalExam;
 
     const handleOptionalExamSelection = (event) => {
         const { checked } = event.target;
@@ -74,12 +75,6 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selecte
             // Clear the selection if unchecked
             setSelectedOptionalExams([]);
         }
-
-        // if (checked) {
-        //     setSelectedOptionalExams((prev) => [...prev, exam?.id]);
-        // } else {
-        //     setSelectedOptionalExams((prev) => prev.filter((id) => id !== exam?.id));
-        // }
     };
 
     return (
@@ -144,7 +139,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selecte
                                             <Button
                                                 onClick={handleExamStart}
                                                 className="w-full"
-                                                disabled={isExamStarting || !ischeckedOptionalExam}
+                                                disabled={isExamStarting || isDisabledOptionalExam}
                                             >
                                                 {
                                                     isExamStarting ? (

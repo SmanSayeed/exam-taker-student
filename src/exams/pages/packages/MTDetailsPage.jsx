@@ -17,10 +17,13 @@ import { toast } from "sonner";
 
 export const MTDetailsPage = () => {
     const [selectedOptionalExams, setSelectedOptionalExams] = useState([]);
-    console.log("selectedoptional exams", selectedOptionalExams)
 
     const { packageId, modelTestId } = useParams();
     const auth = useSelector((state) => state.auth);
+    const { allMTExams } = useSelector(state => state.mtExam);
+
+    const allMcqAnswers = allMTExams.flatMap((exam) => exam.mcqAnswers);
+    console.log("allmcqanswers", allMcqAnswers);
 
     const { data: singlePackage } = useGetSinglePackageQuery(packageId);
     const isSubscribed = singlePackage?.data?.is_subscribed;
@@ -46,7 +49,7 @@ export const MTDetailsPage = () => {
         payload.append("examination_id", modelTestId);
         payload.append("student_id", auth.student.id);
         payload.append("type", "mcq");
-        payload.append("mcq_answers", modelTestId);
+        payload.append("mcq_answers", allMcqAnswers);
 
         try {
             const response = await finishAllMTExam(payload).unwrap();
