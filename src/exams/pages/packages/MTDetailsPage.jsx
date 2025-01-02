@@ -2,14 +2,21 @@ import { Button } from "@/components/ui/button";
 import { hasActiveExams } from "@/exams/components/molecules/packages/mtexam/examHelpers";
 import { MTExamTimer } from "@/exams/components/molecules/packages/mtexam/MTExamTimer";
 import { MTExamCard } from "@/exams/components/molecules/packages/MTExamCard";
-import { useGetExamsUnderMTQuery, useGetSingleModelTestQuery, useGetSinglePackageQuery } from "@/features/packages/packagesApi";
+import {
+    useFinishAllMTExamMutation,
+    useGetExamsUnderMTQuery,
+    useGetSingleModelTestQuery,
+    useGetSinglePackageQuery
+} from "@/features/packages/packagesApi";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import { Loader2 } from "lucide-react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export const MTDetailsPage = () => {
-
     const { packageId, modelTestId } = useParams();
+    const auth = useSelector(state => state.auth);
 
     const { data: singlePackage } = useGetSinglePackageQuery(packageId);
     const isSubscribed = singlePackage?.data?.is_subscribed;
@@ -21,10 +28,28 @@ export const MTDetailsPage = () => {
     const endTime = modelTestData?.data?.end_time;
     const isExamsActive = hasActiveExams(startTime, endTime);
 
-    const handleFinishAllExams = (event) => {
+    const [finishAllMTExam, { isLoading: isFinishingExam }] = useFinishAllMTExamMutation();
+
+    const handleFinishAllExams = async (event) => {
         event.preventDefault();
 
-        // finish all exmams api call
+        const payload = new FormData();
+
+        payload.append("examination_id", modelTestId);
+        payload.append("student_id", auth.student.id);
+        payload.append("type", "mcq");
+        payload.append("mcq_answers", modelTestId);
+
+        try {
+            const response = await finishAllMTExam(payload).unwrap();
+            console.log("response", response);
+
+            // dispatch(saveMTExamInfo(response?.data));
+            // navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
+        } catch (err) {
+            console.error(err);
+            toast.error(err?.data?.message || "An error occurred");
+        }
     }
 
     return (
@@ -39,7 +64,6 @@ export const MTDetailsPage = () => {
                     </div>
                 </header>
 
-                {/* Main Content */}
                 <main className="flex-1 w-full max-w-7xl px-6 mt-6">
                     <section className="bg-white shadow rounded-lg p-6">
                         <h2 className="text-xl font-semibold mb-4">Available Exams</h2>
@@ -92,8 +116,9 @@ export const MTDetailsPage = () => {
                         <Button
                             onClick={handleFinishAllExams}
                             className="bg-red-500 hover:bg-red-600 text-white text-lg w-full"
+                            disabled={isFinishingExam}
                         >
-                            Submit All Exams
+                            {isFinishingExam ? "Finishing..." : "Finish All Exams"}
                         </Button>
                     </div>
                 )

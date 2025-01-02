@@ -17,6 +17,7 @@ export const packagesApi = apiSlice.injectEndpoints({
         getExamsUnderMT: builder.query({
             query: (id) => `/model-test-exams/${id}`
         }),
+
         subscribeToPackage: builder.mutation({
             query: (data) => ({
                 url: "/pay",
@@ -24,6 +25,7 @@ export const packagesApi = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+
         startMTExam: builder.mutation({
             query: (data) => ({
                 url: "model-test-exam-start",
@@ -32,22 +34,14 @@ export const packagesApi = apiSlice.injectEndpoints({
             }),
         }),
 
-        // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-
-        //     try {
-        //         const result = await queryFulfilled;
-        //         const { exam, questions_list } = result.data;
-
-        //         dispatch(
-        //             saveMTExamInfo({
-        //                 mtExam: exam,
-        //                 questions_list,
-        //             })
-        //         );
-        //     } catch (err) {
-        //         console.log(err);
-        //     }
-        // },
+        finishAllMTExam: builder.mutation({
+            query: (data) => ({
+                url: "/model-test-exam-finish",
+                method: "POST",
+                body: data,
+            }),
+        }),
+        
     }),
 });
 
@@ -58,5 +52,6 @@ export const {
     useSubscribeToPackageMutation,
     useGetModelTestsByPkgIdQuery,
     useStartMTExamMutation,
-    useGetExamsUnderMTQuery
+    useGetExamsUnderMTQuery,
+    useFinishAllMTExamMutation,
 } = packagesApi;

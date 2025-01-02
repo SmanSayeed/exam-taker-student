@@ -46,11 +46,24 @@ const EnrollmentForm = ({ singlePackage, onCancel }) => {
 
         try {
             const response = await subscribeToPackage(payload).unwrap();
+
             toast.success(response?.message || "");
             form.reset();
         } catch (error) {
             console.error(error);
-            toast.error(error?.data?.message);
+
+            const validationErrors = error?.data?.errors;
+
+            if (validationErrors) {
+                Object.keys(validationErrors).forEach((field) => {
+                    form.setError(field, {
+                        type: "server",
+                        message: validationErrors[field][0],
+                    });
+                });
+            } else {
+                toast.error(error?.data?.message || "Something went wrong");
+            }
         }
     };
 
@@ -75,6 +88,7 @@ const EnrollmentForm = ({ singlePackage, onCancel }) => {
                 <FormField
                     name="payment_method"
                     control={form.control}
+                    rules={{ required: "Please select a payment method" }}
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-md inline-block">Select Any Payment Method</FormLabel>
@@ -104,6 +118,7 @@ const EnrollmentForm = ({ singlePackage, onCancel }) => {
                 <FormField
                     name="mobile_number"
                     control={form.control}
+                    rules={{ required: "Please enter your payment mobile number" }}
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Mobile Number</FormLabel>
@@ -124,6 +139,7 @@ const EnrollmentForm = ({ singlePackage, onCancel }) => {
                 <FormField
                     name="transaction_id"
                     control={form.control}
+                    rules={{ required: "Please enter your transaction id" }}
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Transaction ID</FormLabel>
