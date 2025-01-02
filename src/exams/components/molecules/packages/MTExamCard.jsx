@@ -9,7 +9,8 @@ import { toast } from "sonner";
 import { LoaderSubmit } from "../../atoms/LoaderSubmit";
 import { hasActiveExams } from "./mtexam/examHelpers";
 
-export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
+
+export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selectedOptionalExams, setSelectedOptionalExams }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const allMTExams = useSelector((state) => state.mtExam.allMTExams);
@@ -58,12 +59,40 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
 
         dispatch(switchActiveExam(existingExam));
         navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
-    }
+    };
+
+    const isOptionalExam = exam?.is_optional === 1;
+    const ischeckedOptionalExam = selectedOptionalExams?.length > 0 ? selectedOptionalExams.includes(exam?.id) : false;
+    const isDisabledOptionalExam = isOptionalExam && !ischeckedOptionalExam;
+
+    const handleOptionalExamSelection = (event) => {
+        const { checked } = event.target;
+
+        if (checked) {
+            // Replace the currently selected exam with the new one
+            setSelectedOptionalExams([exam?.id]);
+        } else {
+            // Clear the selection if unchecked
+            setSelectedOptionalExams([]);
+        }
+    };
 
     return (
         <div className="bg-white border border-gray-200 shadow-md rounded-lg p-6 space-y-4">
             <div className="flex justify-between items-center">
-                <h3 className="text-xl font-bold text-gray-800">{exam?.title}</h3>
+                {
+                    isOptionalExam && (
+                        <label className="flex items-center gap-2 text-blue-600 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                onChange={handleOptionalExamSelection}
+                                checked={ischeckedOptionalExam}
+                                className="h-4 w-4"
+                            />
+                            Select as Optional Exam
+                        </label>
+                    )
+                }
                 <span
                     className={`text-sm font-medium px-2 py-1 rounded ${isExamEnded
                         ? "bg-red-100 text-red-600"
@@ -79,6 +108,8 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                             : "Active"}
                 </span>
             </div>
+
+            <h3 className="text-xl font-bold text-gray-800">{exam?.title}</h3>
             <p className="text-gray-600 text-sm">
                 <span className="font-semibold">Duration:</span> {duration} ·{" "}
                 <span className="font-semibold">Questions:</span> {questionCount}
@@ -87,8 +118,10 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                 <span className="font-semibold">Time:</span> {isoDateFormatter(startTime)}{" "}
                 to {isoDateFormatter(endTime)}
             </p>
+
+            {/* Exam Action Buttons */}
             {
-                isSubscribed && (
+                isSubscribed ? (
                     <>
                         {
                             isExamsActive && (
@@ -106,7 +139,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                                             <Button
                                                 onClick={handleExamStart}
                                                 className="w-full"
-                                                disabled={isExamStarting}
+                                                disabled={isExamStarting || isDisabledOptionalExam}
                                             >
                                                 {
                                                     isExamStarting ? (
@@ -138,14 +171,14 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                             )
                         }
                     </>
+                ) : (
+                    <p className="text-sm text-blue-600">
+                        Subscribe to access this exam.
+                    </p>
                 )
             }
-            {!isSubscribed && (
-                <p className="text-sm text-blue-600">
-                    Subscribe to access this exam.
-                </p>
-            )}
         </div>
     );
 };
+
 
