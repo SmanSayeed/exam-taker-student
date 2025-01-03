@@ -45,8 +45,8 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selecte
 
         try {
             const response = await startMTExam(payload).unwrap();
-            dispatch(saveMTExamInfo(response?.data));
 
+            dispatch(saveMTExamInfo(response?.data));
             navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
         } catch (err) {
             console.error(err);
