@@ -103,9 +103,7 @@ const Routes = createBrowserRouter([
         path: "buy-quota",
         element: (
           <PrivateRoutes>
-            <PrivateRoutes>
             <BuyQuotaPage />
-          </PrivateRoutes>
           </PrivateRoutes>
         ),
       },
