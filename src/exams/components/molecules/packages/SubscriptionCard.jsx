@@ -6,14 +6,28 @@ import EnrollmentForm from "./EnrollmentForm.js";
 export function SubscriptionCard({ singlePackage }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const discount = 100; // Example discount value.
+    const {
+        name,
+        price,
+        img: pkgImg,
+        discount,
+        discount_type,
+        is_subscribed: isSubscribed,
+    } = singlePackage || {};
+
+    const discountedPrice =
+        discount && discount_type === "percentage"
+            ? price - price * (discount / 100)
+            : discount && discount_type === "amount"
+                ? price - discount
+                : price;
 
     return (
         <>
             <Card className="container">
-                {singlePackage?.img ? (
+                {pkgImg ? (
                     <img
-                        src={singlePackage?.img}
+                        src={pkgImg}
                         alt="Package Thumbnail"
                         className="rounded-t-md w-full h-60 object-cover"
                     />
@@ -26,23 +40,23 @@ export function SubscriptionCard({ singlePackage }) {
                 <CardContent>
                     <h1
                         className="my-2 text-indigo-700 text-xl font-semibold"
-                        dangerouslySetInnerHTML={{ __html: singlePackage?.name }}
+                        dangerouslySetInnerHTML={{ __html: name }}
                     />
 
                     <div className="py-4 flex items-center justify-start gap-4">
                         <span className="text-gray-700 text-lg">Price:</span>
                         <div className="text-xl font-bold text-purple-600">
-                            ৳{discount || singlePackage?.price}
+                            ৳{discountedPrice || price}
                         </div>
                         {discount && (
                             <div className="text-sm text-red-500 line-through">
-                                ৳{singlePackage?.price}
+                                ৳{price}
                             </div>
                         )}
                     </div>
 
                     {
-                        !singlePackage?.isSubscribed ? (
+                        !isSubscribed ? (
                             <button
                                 className="mt-4 w-full px-6 py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition"
                                 onClick={() => setIsDialogOpen(true)}

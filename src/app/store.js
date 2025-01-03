@@ -2,6 +2,8 @@ import { apiSlice } from "@/features/api/apiSlice";
 import authSliceReducer from "@/features/auth/authSlice";
 import examSliceReducer from "@/features/exams/examSlice";
 import submittedExamSliceReducer from "@/features/exams/submittedExamSlice";
+import mtExamSliceReducer from "@/features/packages/mtExamSlice";
+
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   FLUSH,
@@ -20,13 +22,14 @@ const rootReducer = combineReducers({
   auth: authSliceReducer,
   exam: examSliceReducer,
   submittedExam: submittedExamSliceReducer,
+  mtExam: mtExamSliceReducer
 })
 
 const persistConfig = {
   key: 'root',
   storage,
   version: 1,
-  whitelist: ['auth', 'exam'],
+  whitelist: ['auth', 'exam', 'mtExam'],
   blacklist: [apiSlice.reducerPath],
 };
 

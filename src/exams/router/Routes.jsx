@@ -7,8 +7,10 @@ import ExamHistoryPage from "../pages/ExamHistoryPage";
 import ExamOnGoingPage from "../pages/ExamOnGoingPage";
 import ExamResultPage from "../pages/ExamResultPage";
 import LoginPage from "../pages/LoginPage";
-import PackageDetailsPage from "../pages/PackageDetailsPage";
-import PricingPlansPage from "../pages/PricingPlansPage";
+import { MTDetailsPage } from "../pages/packages/MTDetailsPage";
+import MTExamOnGoingPage from "../pages/packages/MTExamOnGoingPage";
+import PackageDetailsPage from "../pages/packages/PackageDetailsPage";
+import PackagesPage from "../pages/packages/PackagesPage";
 import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
 import RegisterPage from "../pages/RegisterPage";
 import StudentProfilePage from "../pages/StudentProfilePage";
@@ -89,7 +91,9 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/package",
-        element: <PricingPlansPage />,
+        element: (
+          <PackagesPage />
+        ),
       },
       {
         path: "/package/:id",
@@ -99,7 +103,25 @@ const Routes = createBrowserRouter([
         path: "buy-quota",
         element: (
           <PrivateRoutes>
+            <PrivateRoutes>
             <BuyQuotaPage />
+          </PrivateRoutes>
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/package/:packageId/model-test/:modelTestId",
+        element: (
+          <PrivateRoutes>
+            <MTDetailsPage />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/package/:packageId/model-test/:modelTestId/exam-ongoing/:examId",
+        element: (
+          <PrivateRoutes>
+            <MTExamOnGoingPage />
           </PrivateRoutes>
         ),
       },

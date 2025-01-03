@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "../../../../components/ui/input";
 import { Label } from "../../../../components/ui/label";
 
-import { Loader2 } from "lucide-react";
+import { useLoggedInMutation } from "@/features/auth/authApi";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useLoggedInMutation } from "@/features/auth/authApi";
+import { LoaderSubmit } from "../../atoms/LoaderSubmit";
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -83,10 +83,7 @@ const LoginForm = () => {
                 >
                     {
                         isLoading ? (
-                            <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Please wait
-                            </>
+                            <LoaderSubmit />
                         ) : "Login"
                     }
                 </Button>
