@@ -16,6 +16,8 @@ import RegisterPage from "../pages/RegisterPage";
 import StudentProfilePage from "../pages/StudentProfilePage";
 import ExamStartingPage from "./../pages/ExamStartingPage";
 import PrivateRoutes from "./PrivateRoutes";
+import PdfViewerPage from "../pages/PdfViewerPage";
+import BuyQuotaPage from "../pages/BuyQuotaPage";
 
 const Routes = createBrowserRouter([
   {
@@ -95,9 +97,13 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/package/:id",
+        element: <PackageDetailsPage />,
+      },
+      {
+        path: "buy-quota",
         element: (
           <PrivateRoutes>
-            <PackageDetailsPage />
+            <BuyQuotaPage />
           </PrivateRoutes>
         ),
       },
