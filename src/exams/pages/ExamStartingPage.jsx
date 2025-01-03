@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function ExamStartingPage() {
   const auth = useAuth();
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     if (!auth) {
       navigate("/");
