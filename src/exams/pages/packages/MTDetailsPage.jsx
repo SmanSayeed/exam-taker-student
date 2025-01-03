@@ -27,7 +27,6 @@ import {
 export const MTDetailsPage = () => {
     const navigate = useNavigate();
     const { packageId, modelTestId } = useParams();
-    const [selectedOptionalExams, setSelectedOptionalExams] = useState([]);
     const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
 
     const auth = useSelector((state) => state.auth);
@@ -63,9 +62,8 @@ export const MTDetailsPage = () => {
         try {
             const response = await finishAllMTExam(payload).unwrap();
             console.log("response", response);
-            toast.success(response?.message || "All exams finished successfully");
+            toast.success(response?.message || "All exams Submit successfully");
 
-            // dispatch(saveMTExamInfo(response?.data));
             navigate("/mtexam-result");
         } catch (err) {
             console.error(err);
@@ -74,14 +72,6 @@ export const MTDetailsPage = () => {
     };
 
     const handleSubmit = () => {
-        // const skippedQuestions = allMcqAnswers?.filter(answer => answer.submitted_mcq_option === null);
-
-        // if (skippedQuestions?.length > 0) {
-        //     setIsAlertOpen(true);
-        // } else {
-        //     setIsFullSubmitAlertOpen(true);
-        // }
-
         setIsFullSubmitAlertOpen(true);
     };
 
@@ -141,8 +131,6 @@ export const MTDetailsPage = () => {
                                             isSubscribed={isSubscribed}
                                             packageId={packageId}
                                             modelTestId={modelTestId}
-                                            selectedOptionalExams={selectedOptionalExams}
-                                            setSelectedOptionalExams={setSelectedOptionalExams}
                                         />
                                     ))
                                 ) : (
@@ -159,7 +147,7 @@ export const MTDetailsPage = () => {
                         <MTExamTimer startTime={startTime} endTime={endTime} />
 
                         <Button
-                            onClick={submitAllMTExams}
+                            onClick={handleSubmit}
                             className="bg-red-500 hover:bg-red-600 text-white text-lg w-full"
                             disabled={isFinishingExam}
                         >
@@ -175,17 +163,19 @@ export const MTDetailsPage = () => {
                     <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Submission</AlertDialogTitle>
                         <AlertDialogDescription>
-                            You have answered all the questions. Are you sure you want to submit the exam?
+                            Are you sure you want to submit the exam?
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <Button onClick={() => setIsFullSubmitAlertOpen(false)} variant="secondary">
                             Cancel
                         </Button>
-                        <Button onClick={() => {
-                            setIsFullSubmitAlertOpen(false);
-                            // submitAllMTExams();
-                        }}>
+                        <Button
+                            onClick={() => {
+                                setIsFullSubmitAlertOpen(false);
+                                submitAllMTExams();
+                            }}
+                        >
                             Yes, Submit
                         </Button>
                     </AlertDialogFooter>

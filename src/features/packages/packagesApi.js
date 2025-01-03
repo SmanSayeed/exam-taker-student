@@ -1,4 +1,7 @@
+import { persistor } from "@/app/store";
 import { apiSlice } from "../api/apiSlice";
+import { clearMTExamInfo } from "./mtExamSlice";
+import { submittedMTExamInfo } from "./submittedMTExamSlice";
 
 export const packagesApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -40,8 +43,30 @@ export const packagesApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data,
             }),
+
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+
+                try {
+                    const result = await queryFulfilled;
+                    const submittedMTExam = result.data;
+
+                    dispatch(
+                        clearMTExamInfo({
+                            allMTExams: [],
+                            activeExam: {}
+                        })
+                    );
+
+                    localStorage.removeItem('selectedOptionalExam');
+                    persistor.purge(['mtExam']);
+
+                    dispatch(submittedMTExamInfo(submittedMTExam));
+                } catch (err) {
+                    console.log(err);
+                }
+            },
         }),
-        
+
     }),
 });
 
