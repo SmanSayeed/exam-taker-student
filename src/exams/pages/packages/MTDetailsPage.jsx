@@ -8,7 +8,7 @@ import {
 } from "@/features/packages/packagesApi";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -23,12 +23,14 @@ import {
 import { MTExamActions } from "@/exams/components/molecules/packages/mtexam/MTExamActions";
 import { MTExamHeader } from "@/exams/components/molecules/packages/mtexam/MTExamHeader";
 import { MTExamSection } from "@/exams/components/molecules/packages/mtexam/MTExamSection";
+import { updateMTExamSubmittedStatus } from "@/features/packages/submittedMTExamSlice";
 
 export const MTDetailsPage = () => {
     const { packageId, modelTestId } = useParams();
 
+    const dispatch = useDispatch();
     const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
-    const [allExamsSubmitted, setAllExamsSubmitted] = useState(false);
+    // const [allExamsSubmitted, setAllExamsSubmitted] = useState(false);
 
     const auth = useSelector((state) => state.auth);
     const { allMTExams } = useSelector(state => state.mtExam);
@@ -69,7 +71,11 @@ export const MTDetailsPage = () => {
                     toast.success(response?.message || "All exams Submit successfully");
 
                     if (response.status_code === 200 && response.data) {
-                        setAllExamsSubmitted(true);
+                        // setAllExamsSubmitted(true);
+                        dispatch(updateMTExamSubmittedStatus({
+                            modelTestId,
+                            isMTExamsSubmmitted: true
+                        }))
                     }
                 })
             );
@@ -96,7 +102,7 @@ export const MTDetailsPage = () => {
                         isSubscribed={isSubscribed}
                         packageId={packageId}
                         modelTestId={modelTestId}
-                        allExamsSubmitted={allExamsSubmitted}
+                    // allExamsSubmitted={allExamsSubmitted}
                     />
                     <MTExamSection
                         title="Optional Exams"
@@ -106,7 +112,7 @@ export const MTDetailsPage = () => {
                         isSubscribed={isSubscribed}
                         packageId={packageId}
                         modelTestId={modelTestId}
-                        allExamsSubmitted={allExamsSubmitted}
+                    // allExamsSubmitted={allExamsSubmitted}
                     />
                 </main>
 
@@ -118,7 +124,7 @@ export const MTDetailsPage = () => {
                         endTime={endTime}
                         isLoading={isFinishingExam}
                         onExamsSubmit={() => setIsFullSubmitAlertOpen(true)}
-                        allExamsSubmitted={allExamsSubmitted}
+                        // allExamsSubmitted={allExamsSubmitted}
                         modelTestId={modelTestId}
                     />
                 )}
