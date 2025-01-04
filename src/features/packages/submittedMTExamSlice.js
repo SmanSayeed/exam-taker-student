@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    submittedMTExamData: {}
+    submittedMTExamData: {},
+    allMTExamsSubmitted: {}
 };
 
 const submittedMTExamSlice = createSlice({
@@ -11,6 +12,13 @@ const submittedMTExamSlice = createSlice({
         submittedMTExamInfo: (state, action) => {
             state.submittedMTExamData = action.payload;
         },
+        updateMTExamSubmittedStatus: (state, action) => {
+            state.allMTExamsSubmitted = {
+                ...state.allMTExamsSubmitted,
+                modelTestId: action.payload.modelTestId,
+                isMTExamSubmmitted: action.payload.isMTExamSubmmitted
+            };
+        }
     },
 });
 

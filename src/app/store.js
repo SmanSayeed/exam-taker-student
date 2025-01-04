@@ -31,7 +31,7 @@ const persistConfig = {
   key: 'root',
   storage,
   version: 1,
-  whitelist: ['auth', 'exam', 'mtExam'],
+  whitelist: ['auth', 'exam', 'mtExam', "submittedMTExam"],
   blacklist: [apiSlice.reducerPath],
 };
 

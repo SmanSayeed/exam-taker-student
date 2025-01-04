@@ -11,7 +11,7 @@ import { LoaderSubmit } from "../../atoms/LoaderSubmit";
 import { hasActiveExams } from "./mtexam/examHelpers";
 
 
-export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
+export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, allExamsSubmitted }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const allMTExams = useSelector((state) => state.mtExam.allMTExams);
@@ -150,22 +150,26 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId }) => {
                                                 Go to {exam?.title} Page <ArrowRightCircleIcon size={18} />
                                             </Button>
                                         ) : (
-                                            <>
-                                                <Button
-                                                    onClick={handleExamStart}
-                                                    className="w-full"
-                                                    disabled={isExamStarting || isDisabledOptionalExam}
-                                                >
-                                                    {
-                                                        isExamStarting ? (
-                                                            <LoaderSubmit />
-                                                        ) : "Start Exam"
-                                                    }
-                                                </Button>
-                                                <p className="text-sm text-gray-500 mt-2">
-                                                    The exam is currently active. Click the button to begin.
-                                                </p>
-                                            </>
+                                            allExamsSubmitted ? (
+                                                <div className="text-sm text-blue-600">Exam Submitted</div>
+                                            ) : (
+                                                <>
+                                                    <Button
+                                                        onClick={handleExamStart}
+                                                        className="w-full"
+                                                        disabled={isExamStarting || isDisabledOptionalExam}
+                                                    >
+                                                        {
+                                                            isExamStarting ? (
+                                                                <LoaderSubmit />
+                                                            ) : "Start Exam"
+                                                        }
+                                                    </Button>
+                                                    <p className="text-sm text-gray-500 mt-2">
+                                                        The exam is currently active. Click the button to begin.
+                                                    </p>
+                                                </>
+                                            )
                                         )
                                     }
                                 </div>

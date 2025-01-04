@@ -67,6 +67,14 @@ export const packagesApi = apiSlice.injectEndpoints({
             },
         }),
 
+        getAllStuResult: builder.query({
+            query: (modelTestId) => `/model-test-all-students-exam-result/${modelTestId}`
+        }),
+
+        getSingleStuResult: builder.query({
+            query: ({studentId, modelTestId}) => `/model-test-exam-result-with-merit/${studentId}/${modelTestId}`
+        }),
+
     }),
 });
 
@@ -79,4 +87,6 @@ export const {
     useStartMTExamMutation,
     useGetExamsUnderMTQuery,
     useFinishAllMTExamMutation,
+    useGetAllStuResultQuery,
+    useGetSingleStuResultQuery,
 } = packagesApi;
