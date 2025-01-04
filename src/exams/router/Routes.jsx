@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../../App";
 import ErrorPage from "../../ErrorPage";
 import NotFoundPage from "../../NotFoundPage";
+import BuyQuotaPage from "../pages/BuyQuotaPage";
 import ExamAnswersPageForHistory from "../pages/ExamAnswersPageForHistory";
 import ExamHistoryPage from "../pages/ExamHistoryPage";
 import ExamOnGoingPage from "../pages/ExamOnGoingPage";
@@ -9,6 +10,7 @@ import ExamResultPage from "../pages/ExamResultPage";
 import LoginPage from "../pages/LoginPage";
 import { MTDetailsPage } from "../pages/packages/MTDetailsPage";
 import MTExamOnGoingPage from "../pages/packages/MTExamOnGoingPage";
+import MTExamResultPage from "../pages/packages/MTExamResultPage";
 import PackageDetailsPage from "../pages/packages/PackageDetailsPage";
 import PackagesPage from "../pages/packages/PackagesPage";
 import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
@@ -16,8 +18,6 @@ import RegisterPage from "../pages/RegisterPage";
 import StudentProfilePage from "../pages/StudentProfilePage";
 import ExamStartingPage from "./../pages/ExamStartingPage";
 import PrivateRoutes from "./PrivateRoutes";
-import PdfViewerPage from "../pages/PdfViewerPage";
-import BuyQuotaPage from "../pages/BuyQuotaPage";
 
 const Routes = createBrowserRouter([
   {
@@ -120,6 +120,14 @@ const Routes = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <MTExamOnGoingPage />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/mtexam-result",
+        element: (
+          <PrivateRoutes>
+            <MTExamResultPage />
           </PrivateRoutes>
         ),
       },

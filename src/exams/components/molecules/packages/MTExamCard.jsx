@@ -3,6 +3,7 @@ import { saveMTExamInfo, switchActiveExam } from "@/features/packages/mtExamSlic
 import { useGetSingleModelTestQuery, useStartMTExamMutation } from "@/features/packages/packagesApi";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
 import { ArrowRightCircleIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -10,10 +11,21 @@ import { LoaderSubmit } from "../../atoms/LoaderSubmit";
 import { hasActiveExams } from "./mtexam/examHelpers";
 
 
-export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selectedOptionalExams, setSelectedOptionalExams }) => {
+export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, allExamsSubmitted }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const allMTExams = useSelector((state) => state.mtExam.allMTExams);
+
+    const [selectedOptionalExam, setSelectedOptionalExam] = useState([]);
+
+    // Load initial optional exam selection from localStorage
+    useEffect(() => {
+        const storedOptionalExam = localStorage.getItem("selectedOptionalExam");
+
+        if (storedOptionalExam) {
+            setSelectedOptionalExam(JSON.parse(storedOptionalExam));
+        }
+    }, []);
 
     const questionsArray = exam?.questions?.split(",") || [];
     const questionCount = questionsArray.length || 0;
@@ -45,8 +57,8 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selecte
 
         try {
             const response = await startMTExam(payload).unwrap();
-            dispatch(saveMTExamInfo(response?.data));
 
+            dispatch(saveMTExamInfo(response?.data));
             navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
         } catch (err) {
             console.error(err);
@@ -61,21 +73,22 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selecte
         navigate(`/package/${packageId}/model-test/${modelTestId}/exam-ongoing/${exam?.id}`);
     };
 
-    const isOptionalExam = exam?.is_optional === 1;
-    const ischeckedOptionalExam = selectedOptionalExams?.length > 0 ? selectedOptionalExams.includes(exam?.id) : false;
-    const isDisabledOptionalExam = isOptionalExam && !ischeckedOptionalExam;
-
     const handleOptionalExamSelection = (event) => {
         const { checked } = event.target;
 
         if (checked) {
-            // Replace the currently selected exam with the new one
-            setSelectedOptionalExams([exam?.id]);
+            const updatedSelection = [exam?.id]; // Replace with current exam ID
+            setSelectedOptionalExam(updatedSelection);
+            localStorage.setItem("selectedOptionalExam", JSON.stringify(updatedSelection));
         } else {
-            // Clear the selection if unchecked
-            setSelectedOptionalExams([]);
+            setSelectedOptionalExam([]);
+            localStorage.removeItem("selectedOptionalExam");
         }
     };
+
+    const isOptionalExam = exam?.is_optional === 1;
+    const ischeckedOptionalExam = selectedOptionalExam?.includes(exam?.id);
+    const isDisabledOptionalExam = isOptionalExam && !ischeckedOptionalExam;
 
     return (
         <div className="bg-white border border-gray-200 shadow-md rounded-lg p-6 space-y-4">
@@ -88,6 +101,7 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selecte
                                 onChange={handleOptionalExamSelection}
                                 checked={ischeckedOptionalExam}
                                 className="h-4 w-4"
+                                disabled={isExamEnded || isExamNotStarted}
                             />
                             Select as Optional Exam
                         </label>
@@ -133,26 +147,31 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, selecte
                                                 onClick={handleSwitchExam}
                                                 className="flex gap-2 text-blue-600"
                                             >
-                                                Go to {exam?.title} Page <ArrowRightCircleIcon />
+                                                Go to {exam?.title} Page <ArrowRightCircleIcon size={18} />
                                             </Button>
                                         ) : (
-                                            <Button
-                                                onClick={handleExamStart}
-                                                className="w-full"
-                                                disabled={isExamStarting || isDisabledOptionalExam}
-                                            >
-                                                {
-                                                    isExamStarting ? (
-                                                        <LoaderSubmit />
-                                                    ) : "Start Exam"
-                                                }
-                                            </Button>
+                                            allExamsSubmitted ? (
+                                                <div className="text-sm text-blue-600">Exam Submitted</div>
+                                            ) : (
+                                                <>
+                                                    <Button
+                                                        onClick={handleExamStart}
+                                                        className="w-full"
+                                                        disabled={isExamStarting || isDisabledOptionalExam}
+                                                    >
+                                                        {
+                                                            isExamStarting ? (
+                                                                <LoaderSubmit />
+                                                            ) : "Start Exam"
+                                                        }
+                                                    </Button>
+                                                    <p className="text-sm text-gray-500 mt-2">
+                                                        The exam is currently active. Click the button to begin.
+                                                    </p>
+                                                </>
+                                            )
                                         )
                                     }
-
-                                    <p className="text-sm text-gray-500 mt-2">
-                                        The exam is currently active. Click the button to begin.
-                                    </p>
                                 </div>
                             )
                         }

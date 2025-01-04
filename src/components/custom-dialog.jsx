@@ -1,4 +1,4 @@
-export function CustomDialog({ children, isOpen, setIsOpen, title, description }) {
+export function CustomDialog({ children, isOpen, setIsOpen, title = "", description = "" }) {
 
     return (
         <div

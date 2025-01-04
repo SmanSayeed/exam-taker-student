@@ -3,6 +3,7 @@ import authSliceReducer from "@/features/auth/authSlice";
 import examSliceReducer from "@/features/exams/examSlice";
 import submittedExamSliceReducer from "@/features/exams/submittedExamSlice";
 import mtExamSliceReducer from "@/features/packages/mtExamSlice";
+import submittedMTExamSliceReducer from "@/features/packages/submittedMTExamSlice";
 
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   auth: authSliceReducer,
   exam: examSliceReducer,
   submittedExam: submittedExamSliceReducer,
-  mtExam: mtExamSliceReducer
+  mtExam: mtExamSliceReducer,
+  submittedMTExam: submittedMTExamSliceReducer
 })
 
 const persistConfig = {
