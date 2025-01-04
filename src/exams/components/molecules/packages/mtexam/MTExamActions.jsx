@@ -16,7 +16,7 @@ export const MTExamActions = ({ isActive, startTime, endTime, isLoading, onExams
             if (endDate.getTime() > Date.now()) {
                 toast.error('You can not view results before the end time of the exam.');
             } else {
-                // single student result shown here
+                // do something with result data with merit
             }
         } else {
             onExamsSubmit();

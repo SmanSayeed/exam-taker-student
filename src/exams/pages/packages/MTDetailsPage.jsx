@@ -8,10 +8,11 @@ import {
 } from "@/features/packages/packagesApi";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { CustomDialog } from "@/components/custom-dialog";
 import {
     AlertDialog,
     AlertDialogContent,
@@ -23,14 +24,14 @@ import {
 import { MTExamActions } from "@/exams/components/molecules/packages/mtexam/MTExamActions";
 import { MTExamHeader } from "@/exams/components/molecules/packages/mtexam/MTExamHeader";
 import { MTExamSection } from "@/exams/components/molecules/packages/mtexam/MTExamSection";
-import { updateMTExamSubmittedStatus } from "@/features/packages/submittedMTExamSlice";
+import { WelcomeBox } from "@/exams/components/molecules/packages/mtexam/WelcomeBox";
 
 export const MTDetailsPage = () => {
     const { packageId, modelTestId } = useParams();
 
-    const dispatch = useDispatch();
     const [isFullSubmitAlertOpen, setIsFullSubmitAlertOpen] = useState(false);
-    // const [allExamsSubmitted, setAllExamsSubmitted] = useState(false);
+    const [allExamsSubmitted, setAllExamsSubmitted] = useState(false);
+    const [isResultModalOpen, setIsResultModalOpen] = useState(false);
 
     const auth = useSelector((state) => state.auth);
     const { allMTExams } = useSelector(state => state.mtExam);
@@ -71,11 +72,8 @@ export const MTDetailsPage = () => {
                     toast.success(response?.message || "All exams Submit successfully");
 
                     if (response.status_code === 200 && response.data) {
-                        // setAllExamsSubmitted(true);
-                        dispatch(updateMTExamSubmittedStatus({
-                            modelTestId,
-                            isMTExamsSubmmitted: true
-                        }))
+                        setAllExamsSubmitted(true);
+                        setIsResultModalOpen(true);
                     }
                 })
             );
@@ -87,6 +85,17 @@ export const MTDetailsPage = () => {
 
     return (
         <>
+            {/* Welcome Modal After Exam Submission */}
+            <CustomDialog
+                isOpen={isResultModalOpen}
+                setIsOpen={setIsResultModalOpen}
+            >
+                <WelcomeBox
+                    packageId={packageId}
+                    modelTestId={modelTestId}
+                />
+            </CustomDialog>
+
             <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
                 {/* Header Section */}
                 <MTExamHeader
@@ -102,7 +111,7 @@ export const MTDetailsPage = () => {
                         isSubscribed={isSubscribed}
                         packageId={packageId}
                         modelTestId={modelTestId}
-                    // allExamsSubmitted={allExamsSubmitted}
+                        allExamsSubmitted={allExamsSubmitted}
                     />
                     <MTExamSection
                         title="Optional Exams"
@@ -112,7 +121,7 @@ export const MTDetailsPage = () => {
                         isSubscribed={isSubscribed}
                         packageId={packageId}
                         modelTestId={modelTestId}
-                    // allExamsSubmitted={allExamsSubmitted}
+                        allExamsSubmitted={allExamsSubmitted}
                     />
                 </main>
 
@@ -124,7 +133,7 @@ export const MTDetailsPage = () => {
                         endTime={endTime}
                         isLoading={isFinishingExam}
                         onExamsSubmit={() => setIsFullSubmitAlertOpen(true)}
-                        // allExamsSubmitted={allExamsSubmitted}
+                        allExamsSubmitted={allExamsSubmitted}
                         modelTestId={modelTestId}
                     />
                 )}

@@ -15,8 +15,6 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, allExam
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const allMTExams = useSelector((state) => state.mtExam.allMTExams);
-    const mtExamsSubmissionStatus = useSelector((state) => state.submittedMTExam.mtExamsSubmissionStatus);
-    // const isMTExamsSubmmitted = mtExamsSubmissionStatus?.includes(modelTestId);
 
     const [selectedOptionalExam, setSelectedOptionalExam] = useState([]);
 

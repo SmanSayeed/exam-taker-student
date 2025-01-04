@@ -20,7 +20,7 @@ export const MTExamSection = ({ title, exams, isLoading, description, isSubscrib
                                 isSubscribed={isSubscribed}
                                 packageId={packageId}
                                 modelTestId={modelTestId}
-                            // allExamsSubmitted={allExamsSubmitted}
+                                allExamsSubmitted={allExamsSubmitted}
                             />
                         ))
                     ) : (
