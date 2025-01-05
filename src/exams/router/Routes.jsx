@@ -124,7 +124,7 @@ const Routes = createBrowserRouter([
         ),
       },
       {
-        path: "/mtexam-result",
+        path: "model-test/:modelTestId/mtexam-result",
         element: (
           <PrivateRoutes>
             <MTExamResultPage />

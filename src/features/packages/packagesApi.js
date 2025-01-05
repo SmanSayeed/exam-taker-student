@@ -72,7 +72,7 @@ export const packagesApi = apiSlice.injectEndpoints({
         }),
 
         getSingleStuResult: builder.query({
-            query: ({studentId, modelTestId}) => `/model-test-exam-result-with-merit/${studentId}/${modelTestId}`
+            query: ({modelTestId, studentId}) => `/model-test-exam-result-with-merit/${modelTestId}/${studentId}`
         }),
 
     }),

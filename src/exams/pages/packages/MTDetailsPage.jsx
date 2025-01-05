@@ -93,6 +93,7 @@ export const MTDetailsPage = () => {
                 <WelcomeBox
                     packageId={packageId}
                     modelTestId={modelTestId}
+                    setIsResultModalOpen={setIsResultModalOpen}
                 />
             </CustomDialog>
 
@@ -100,6 +101,7 @@ export const MTDetailsPage = () => {
                 {/* Header Section */}
                 <MTExamHeader
                     title={parseHtmlContent(modelTestData?.data?.title) || "Model Test Details"}
+                    modelTestId={modelTestId}
                 />
 
                 {/* Main Section */}
