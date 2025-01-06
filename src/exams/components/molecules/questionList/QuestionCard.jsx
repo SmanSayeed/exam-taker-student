@@ -1,9 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
+import { Check } from "lucide-react";
 import TagsTitle from "./TagsTitle";
 import { ViewModal } from "./ViewModal";
 
-export default function QuestionCard({ data: questionData, refetch }) {
+export default function QuestionCard({ data: questionData, index }) {
   const { id, title, mcq_questions, tags, images } = questionData || {};
 
   const tagIds = tags ? tags.split(",").map(tagId => parseInt(tagId, 10)) : [];
@@ -11,7 +12,7 @@ export default function QuestionCard({ data: questionData, refetch }) {
   return (
     <Card className="p-4 pr-10 relative group shadow-md my3 hover:shadow-lg duration-500">
       <span className="text-xs font-semibold absolute top-0 left-0 px-2 py-0 rounded-br bg-gray-400 text-primary-foreground ">
-        #{id}
+        # {index + 1}
       </span>
 
       {/* diaplay question title and tagnames */}
@@ -48,9 +49,17 @@ export default function QuestionCard({ data: questionData, refetch }) {
               key={option.id}
               className="flex items-center gap-3 border rounded-sm p-2 "
             >
-              <p className="h-8 w-8 flex items-center justify-center border rounded-full">
-                {index + 1}
-              </p>
+              {
+                option?.is_correct ? (
+                  <p className="h-8 w-8 flex items-center justify-center border rounded-full">
+                    <Check className="text-green-600" />
+                  </p>
+                ) : (
+                  <p className="h-8 w-8 flex items-center justify-center border rounded-full">
+                    {index + 1}
+                  </p>
+                )
+              }
               <p>{parseHtmlContent(option.mcq_question_text)}</p>
             </li>
           ))}

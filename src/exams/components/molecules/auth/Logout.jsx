@@ -31,9 +31,9 @@ const Logout = () => {
 
     const handleLogout = async () => {
         try {
-            const { data: response } = await logout(token);
+            const response = await logout(token);
             setOpen(false);
-            toast.success(response?.message);
+            toast.success(response?.message || "Logout Successfull");
             navigate("/");
         } catch (err) {
             console.error(err);
