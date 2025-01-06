@@ -1,25 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { useGetSingleStuResultQuery } from "@/features/packages/packagesApi";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { MTExamTimer } from "./MTExamTimer";
 
 export const MTExamActions = ({ isActive, startTime, endTime, isLoading, onExamsSubmit, allExamsSubmitted, modelTestId }) => {
-    const auth = useSelector(state => state.auth);
+    const navigate = useNavigate();
 
-    const { data: studentResultData } = useGetSingleStuResultQuery({ studentId: auth.student.id, modelTestId });
+    const endDate = new Date(endTime);
+    const isExamEnded = endDate.getTime() < Date.now();
 
-    const handleSubmit = () => {
-        if (allExamsSubmitted) {
-            const endDate = new Date(endTime);
-
-            if (endDate.getTime() > Date.now()) {
-                toast.error('You can not view results before the end time of the exam.');
-            } else {
-                // do something with result data with merit
-            }
+    const handleResultShow = () => {
+        if (!isExamEnded) {
+            toast.error('You can not view results before the end time of the exam.');
         } else {
-            onExamsSubmit();
+            navigate(`/model-test/${modelTestId}/mtexam-result`);
         }
     }
 
@@ -34,13 +28,24 @@ export const MTExamActions = ({ isActive, startTime, endTime, isLoading, onExams
                 )
             }
 
-            <Button
-                onClick={handleSubmit}
-                className={`text-white text-lg w-full ${allExamsSubmitted ? 'bg-blue-500 hover:bg-blue-600' : 'bg-red-500 hover:bg-red-600'}`}
-                disabled={isLoading}
-            >
-                {isLoading ? "Submitting..." : allExamsSubmitted ? "View Results" : "Finish All Exams"}
-            </Button>
+            {
+                allExamsSubmitted || isExamEnded ? (
+                    <Button
+                        onClick={handleResultShow}
+                        className="text-lg w-full bg-blue-600 hover:bg-blue-800"
+                    >
+                        View Result
+                    </Button>
+                ) : (
+                    <Button
+                        onClick={() => onExamsSubmit()}
+                        className="text-white text-lg w-full bg-red-500 hover:bg-red-600"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? "Submitting..." : "Finish All Exams"}
+                    </Button>
+                )
+            }
         </div>
     );
 }
