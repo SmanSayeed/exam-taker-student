@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { updateMcqAnswer } from "@/features/exams/examSlice";
 import DOMPurify from "dompurify";
-import { BookmarkPlus } from "lucide-react";
+// import { BookmarkPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -52,7 +52,7 @@ export default function McqExamCard({ queIndex, question }) {
                     <p className="text-left text-base">{parseHtmlContent(title)} </p>
                 </div>
                 <div>
-                    <BookmarkPlus size={20} className="cursor-pointer" />
+                    {/* <BookmarkPlus size={20} className="cursor-pointer" /> */}
                 </div>
             </div>
 
