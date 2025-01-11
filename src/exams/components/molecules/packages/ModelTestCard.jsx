@@ -1,10 +1,16 @@
-import { Badge } from "@/components/ui/badge";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
+import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import { Pen } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const ModelTestCard = ({ singleMT, isSubscribed, packageId }) => {
     const duration = calculateDuration(singleMT.start_time, singleMT.end_time);
+    const startTime = singleMT?.start_time;
+    const endTime = singleMT?.end_time;
+
+    const now = new Date();
+    const isExamEnded = new Date(endTime) < now;
+    const isExamNotStarted = now < new Date(startTime);
 
     return (
         <Link
@@ -36,8 +42,9 @@ export const ModelTestCard = ({ singleMT, isSubscribed, packageId }) => {
                 </div>
             </div>
 
-            {/* Routine Section */}
             <div className="bg-indigo-50 text-gray-700 text-center py-3 px-4 rounded-b-lg shadow-inner">
+                <h3 className="text-center">{parseHtmlContent(singleMT?.title)}</h3>
+
                 <div className="text-lg font-semibold text-indigo-700 mb-2">
                     {duration}
                 </div>
@@ -59,9 +66,22 @@ export const ModelTestCard = ({ singleMT, isSubscribed, packageId }) => {
             </div>
 
             {isSubscribed && (
-                <Badge variant="green" className="absolute top-1 right-1">
-                    Subscribed
-                </Badge>
+                <div className="absolute top-1 right-1">
+                    <span
+                        className={`text-sm font-medium px-2 py-1 rounded ${isExamEnded
+                            ? "bg-red-100 text-red-600"
+                            : isExamNotStarted
+                                ? "bg-yellow-100 text-yellow-600"
+                                : "bg-green-100 text-green-600"
+                            }`}
+                    >
+                        {isExamEnded
+                            ? "Ended"
+                            : isExamNotStarted
+                                ? "Not Started"
+                                : "Active"}
+                    </span>
+                </div>
             )}
         </Link>
     )

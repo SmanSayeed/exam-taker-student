@@ -15,8 +15,6 @@ export const PackageCard = ({ singlePackage }) => {
         is_subscribed: isSubscribed,
     } = singlePackage || {};
 
-    // const packageTags = ["Best Seller", "New", "Discounted"];
-
     const baseURL = "https://loopsexam.xyz";
     const imageURL = `${baseURL}${pkgImg}`;
 
@@ -29,20 +27,6 @@ export const PackageCard = ({ singlePackage }) => {
 
     return (
         <Card className="relative bg-gradient-to-b from-blue-500 to-gray-500 text-white rounded-xl overflow-hidden shadow-lg">
-            {/* Highlighted Tags Section */}
-            {/* {packageTags.length > 0 && (
-                <div className="flex gap-2 absolute z-10">
-                    {packageTags.map((tag, index) => (
-                        <span
-                            key={index}
-                            className="bg-yellow-400 text-black text-xs px-2 py-1 rounded-full shadow-md font-semibold"
-                        >
-                            {tag}
-                        </span>
-                    ))}
-                </div>
-            )} */}
-
             {/* Cover Image Section */}
             {
                 pkgImg ? (
@@ -86,7 +70,7 @@ export const PackageCard = ({ singlePackage }) => {
             </div>
 
             {isSubscribed && (
-                <Badge className="absolute top-0 py-1 text-black bg-green-500 right-1 z-10">
+                <Badge className="absolute top-0 right-0 py-1 text-black bg-green-500 z-10">
                     Subscribed
                 </Badge>
             )}
