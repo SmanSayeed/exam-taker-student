@@ -1,6 +1,3 @@
-import { useGetAllPackagesQuery } from "@/features/packages/packagesApi";
-import Loading from "../../components/atoms/Loading";
-
 import {
   Tabs,
   TabsContent,
@@ -8,11 +5,15 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { PackageCard } from "@/exams/components/molecules/packages/PackageCard";
-import { useGetCategoryQuery } from "@/features/categories/categoriesApi";
+import { useGetAllPkgCatsQuery, useGetCategoryQuery } from "@/features/categories/categoriesApi";
+import { useGetAllPackagesQuery } from "@/features/packages/packagesApi";
+import Loading from "../../components/atoms/Loading";
 
 const PackagesPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
   const { data: allSections } = useGetCategoryQuery("sections");
+  const { data: allPkgCats } = useGetAllPkgCatsQuery();
+  console.log("allpkgcats", allPkgCats)
 
   // const auth = useSelector((state) => state.auth);
 

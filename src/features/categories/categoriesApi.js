@@ -14,10 +14,14 @@ export const categoriesApi = apiSlice.injectEndpoints({
                 return `/category/${category}/${id}`
             },
         }),
+        getAllPkgCats: builder.query({
+            query: () => "package-categories",
+        }),
     }),
 });
 
 export const {
     useGetCategoryQuery,
-    useGetCategoryByIdQuery
+    useGetCategoryByIdQuery,
+    useGetAllPkgCatsQuery
 } = categoriesApi;
