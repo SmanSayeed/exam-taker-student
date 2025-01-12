@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useBuyQuotaMutation } from "@/features/quota/quotaApi";
 
-
 const BuyQuotaPage = () => {
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
@@ -31,7 +30,9 @@ const BuyQuotaPage = () => {
 
     try {
       const response = await buyQuota(payload).unwrap();
-      toast.success("Quota purchased successfully!");
+      toast.success(
+        "The quota purchase request has been processed successfully! Please wait for approval."
+      )
       navigate("/exams"); // Redirect to dashboard or a relevant page
     } catch (err) {
       toast.error(
@@ -43,6 +44,20 @@ const BuyQuotaPage = () => {
   return (
     <div className="max-w-lg mx-auto mt-10 p-6 bg-white shadow rounded">
       <h1 className="text-2xl font-bold mb-6 text-center">Buy Quota</h1>
+
+      {/* Recipient Info Section */}
+      <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded">
+        <h2 className="text-lg font-semibold mb-2">Recipient Information</h2>
+        <p className="text-sm mb-1">
+          Please send your payment to the following bKash number:
+        </p>
+        <p className="text-lg font-bold">+88017********</p>
+        <p className="text-sm mt-2">
+          After completing the transaction, provide the Transaction ID below to
+          proceed.
+        </p>
+      </div>
+
       <form onSubmit={handleSubmit(handleBuyQuota)} className="space-y-4">
         <div>
           <Label htmlFor="mobile_number" className="block text-sm font-medium">
