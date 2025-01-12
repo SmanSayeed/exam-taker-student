@@ -5,15 +5,16 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { PackageCard } from "@/exams/components/molecules/packages/PackageCard";
-import { useGetAllPkgCatsQuery, useGetCategoryQuery } from "@/features/categories/categoriesApi";
+import { useGetAllPkgCatsQuery } from "@/features/categories/categoriesApi";
 import { useGetAllPackagesQuery } from "@/features/packages/packagesApi";
+import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import Loading from "../../components/atoms/Loading";
 
 const PackagesPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
-  const { data: allSections } = useGetCategoryQuery("sections");
   const { data: allPkgCats } = useGetAllPkgCatsQuery();
-  console.log("allpkgcats", allPkgCats)
+
+  const additionalPkgCats = allPkgCats?.data && allPkgCats?.data?.filter(item => item.additional_package_category);
 
   // const auth = useSelector((state) => state.auth);
 
@@ -57,16 +58,21 @@ const PackagesPage = () => {
 
       {/* Tabs for Categories */}
       {
-        allSections?.data?.data?.length > 0 ? (
+        sortedPackages.length > 0 ? (
           <Tabs defaultValue="all" className="w-full">
             <div className="flex justify-center mb-8">
               <TabsList className="inline-flex items-center gap-4">
                 <TabsTrigger value="all">All</TabsTrigger>
-                {allSections?.data?.data?.map((section) => (
-                  <TabsTrigger key={section?.id} value={section?.title}>
-                    {section?.title}
-                  </TabsTrigger>
-                ))}
+                {
+                  additionalPkgCats.map((item) => (
+                    <TabsTrigger
+                      key={item?.additional_package_category?.id}
+                      value={item?.additional_package_category?.name}
+                    >
+                      {parseHtmlContent(item?.additional_package_category?.name)}
+                    </TabsTrigger>
+                  ))
+                }
               </TabsList>
             </div>
 
@@ -89,22 +95,23 @@ const PackagesPage = () => {
 
             {/* Dynamic Category Tabs */}
             {
-              allSections?.data?.data.map((section) => {
-                const packagesForSection = sortedPackages.filter(
-                  (pkg) => pkg.section_id === section.id
-                );
+              additionalPkgCats.map((item) => {
+                const packagesForAdditionalCats = sortedPackages.filter((pkg) => pkg?.id === item?.package_id);
 
                 return (
-                  <TabsContent key={section.id} value={section.title}>
+                  <TabsContent
+                    key={item?.additional_package_category?.id}
+                    value={item?.additional_package_category?.name}
+                  >
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                       {
-                        packagesForSection.length > 0 ? (
-                          packagesForSection.map((item) => (
+                        packagesForAdditionalCats.length > 0 ? (
+                          packagesForAdditionalCats.map((item) => (
                             <PackageCard key={item.id} singlePackage={item} />
                           ))
                         ) : (
                           <p className="col-span-3 text-center text-gray-500">
-                            No packages available for {section.title}.
+                            No packages available for {parseHtmlContent(item?.additional_package_category?.name)}.
                           </p>
                         )
                       }
@@ -115,10 +122,10 @@ const PackagesPage = () => {
             }
           </Tabs>
         ) : (
-          <p className="text-center text-gray-500">Loading categories...</p>
+          <p className="text-center text-gray-500 text-2xl">No Package Available</p>
         )
       }
-    </div>
+    </div >
   );
 };
 
