@@ -12,11 +12,7 @@ const parseHtmlContent = (htmlContent) => {
 };
 
 export function CreativeExamForMT({ queIndex, question }) {
-    console.log("question", question)
-    const { id: question_id, title, creative_questions } = question || {};
-
-    // const dispatch = useDispatch();
-    // const { mcqAnswers } = useSelector((state) => state.mtExam.activeExam);
+    const { title, creative_questions } = question || {};
 
     return (
         <Card className="p-4 relative group shadow-md my-3 hover:shadow-lg dark:bg-gray-100 dark:text-black duration-500">
@@ -43,7 +39,7 @@ export function CreativeExamForMT({ queIndex, question }) {
                     </div>
                 ))
                 }
-            </div >
+            </div>
         </Card >
     );
 }
