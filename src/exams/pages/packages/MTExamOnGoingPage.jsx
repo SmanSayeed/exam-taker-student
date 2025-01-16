@@ -2,6 +2,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
+import { CreativeExamForMT } from "@/exams/components/molecules/packages/mtexam/CreativeExamForMT";
 import { McqExamCardForMT } from "@/exams/components/molecules/packages/mtexam/McqExamCardForMT";
 import { MTExamTimer } from "@/exams/components/molecules/packages/mtexam/MTExamTimer";
 import { useGetSingleModelTestQuery } from "@/features/packages/packagesApi";
@@ -36,9 +37,21 @@ export default function MTExamOnGoingPage() {
                 </Card>
 
                 <div className="text-center">
+                    {/* mcq exam question */}
                     {exam.type === "mcq" && (
                         questions_list.map((question, index) => (
                             <McqExamCardForMT
+                                key={question?.id}
+                                queIndex={index}
+                                question={question}
+                            />
+                        ))
+                    )}
+
+                    {/* creative exam question */}
+                    {exam.type === "creative" && (
+                        questions_list.map((question, index) => (
+                            <CreativeExamForMT
                                 key={question?.id}
                                 queIndex={index}
                                 question={question}

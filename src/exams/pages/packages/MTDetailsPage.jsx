@@ -139,7 +139,7 @@ export const MTDetailsPage = () => {
                         modelTestId={modelTestId}
                     />
                 )}
-            </div >
+            </div>
 
             {/* Full Submission Confirmation Alert Dialog */}
             <AlertDialog AlertDialog open={isFullSubmitAlertOpen} onOpenChange={setIsFullSubmitAlertOpen} >

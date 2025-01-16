@@ -1,7 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { updateMTMcqAnswer } from "@/features/packages/mtExamSlice";
 import DOMPurify from "dompurify";
-import { BookmarkPlus } from "lucide-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -46,9 +45,6 @@ export function McqExamCardForMT({ queIndex, question }) {
                 <div className="flex gap-2">
                     <p className="text-base">{queIndex + 1}. </p>
                     <p className="text-left text-base">{parseHtmlContent(title)}</p>
-                </div>
-                <div>
-                    <BookmarkPlus size={20} className="cursor-pointer" />
                 </div>
             </div>
 
