@@ -60,7 +60,8 @@ export const MTDetailsPage = () => {
                 "examination_id": mtexam?.exam?.id,
                 "student_id": auth.student.id,
                 "type": mtexam?.exam?.type,
-                "mcq_answers": mtexam?.mcqAnswers
+                "mcq_answers": mtexam?.mcqAnswers,
+                "file_url": "https://loopsexam.xyz/storage/answer_files/creative_105_878_2025_01_16_073643.pdf" // file cdn_url
             }
         });
 

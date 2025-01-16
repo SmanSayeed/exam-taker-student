@@ -1,18 +1,21 @@
 import { Card, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CreativeExamForMT } from "@/exams/components/molecules/packages/mtexam/CreativeExamForMT";
 import { McqExamCardForMT } from "@/exams/components/molecules/packages/mtexam/McqExamCardForMT";
 import { MTExamTimer } from "@/exams/components/molecules/packages/mtexam/MTExamTimer";
 import { NormalExamForMT } from "@/exams/components/molecules/packages/mtexam/NormalExamForMT";
 import { useGetAnsweredFileQuery, useUploadAnswerFileMutation } from "@/features/packages/mtExamsApi";
+import { updateFileUrl } from "@/features/packages/mtExamSlice";
 import { useGetSingleModelTestQuery } from "@/features/packages/packagesApi";
 import { calculateDuration } from "@/helpers/dateFormatter";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function MTExamOnGoingPage() {
+    const dispatch = useDispatch();
+
     const { student } = useSelector((state) => state.auth);
     const { activeExam } = useSelector((state) => state.mtExam);
     const { exam, questions_list } = activeExam || {};
@@ -28,21 +31,24 @@ export default function MTExamOnGoingPage() {
         id: exam?.id,
         params: { "student_id": student.id },
     });
-    console.log("answeredFile", answeredFile)
-    const [uploadedFile, setUploadedFile] = useState(null);
+    const [uploadedFile, setUploadedFile] = useState({
+        name: "",
+        size: null,
+        id: null,
+    });
 
     useEffect(() => {
         if (answeredFile?.data?.file) {
             const fileData = answeredFile.data.file;
 
-            setUploadedFile({
+            setUploadedFile(prev => ({
+                ...prev,
                 name: fileData.original_filename,
                 size: (fileData.file_size / 1024 / 1024).toFixed(2),
                 id: fileData.id,
-            });
+            }));
         }
     }, [answeredFile?.data?.file]);
-
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -52,7 +58,6 @@ export default function MTExamOnGoingPage() {
         const file = e.target.files[0];
         if (!file) return;
 
-        // File size validation (max 10 MB)
         if (file.size > 10 * 1024 * 1024) {
             alert("File size exceeds the limit of 10MB.");
             return;
@@ -68,10 +73,15 @@ export default function MTExamOnGoingPage() {
             toast.success(response.message || "file uploaded successfully");
 
             setUploadedFile({
-                name: file.name || response?.data?.file?.original_filename,
-                size: ((file.size || response?.data?.file?.file_size) / 1024 / 1024).toFixed(2), // Size in MB
+                name: file.name,
+                size: (file.size / 1024 / 1024).toFixed(2),
                 id: response?.data?.file?.id,
             });
+
+            dispatch(updateFileUrl({
+                examId: exam?.id,
+                fileUrl: response?.data?.file?.cdn_url
+            }));
         } catch (error) {
             console.error(error);
             toast.error(error?.data?.message);
@@ -112,37 +122,43 @@ export default function MTExamOnGoingPage() {
                 </div>
 
                 {/* File Upload Section */}
-                <div className="mt-6">
-                    <label className="block font-medium text-gray-700 mb-2">Upload Answer File((Max file size: 10MB))</label>
-                    <div className="flex items-center gap-4">
-                        <label
-                            htmlFor="file-upload"
-                            className="cursor-pointer px-4 py-2 bg-blue-100 text-blue-700 font-semibold rounded-lg border border-blue-600 hover:bg-green-200"
-                        >
-                            {isUploading ? "Uploading..." : "Attach File"}
-                            <input
-                                type="file"
-                                id="file-upload"
-                                accept=".pdf,.doc,.docx"
-                                className="hidden"
-                                onChange={handleFileUpload}
-                                disabled={isUploading}
-                            />
-                        </label>
-                    </div>
-
-                    {/* File Preview Section */}
-                    {uploadedFile && (
-                        <div className="mt-4 bg-blue-50 rounded-lg p-4 flex justify-between items-center">
-                            <div className="flex items-center gap-2">
-                                <span className="text-blue-600">📎</span>
-                                <p className="text-gray-800 text-sm">
-                                    {uploadedFile?.original_filename} <span className="text-gray-500">({uploadedFile?.file_size}MB)</span>
-                                </p>
+                {
+                    (exam.type === "creative" || exam.type === "normal") && (
+                        <div className="mt-6">
+                            <label className="block font-medium text-gray-700 mb-2">
+                                Upload Answer File((Max file size: 10MB))
+                            </label>
+                            <div className="flex items-center gap-4">
+                                <label
+                                    htmlFor="file-upload"
+                                    className="cursor-pointer px-4 py-2 bg-blue-100 text-blue-700 font-semibold rounded-lg border border-blue-600 hover:bg-green-200"
+                                >
+                                    {isUploading ? "Uploading..." : "Attach File"}
+                                    <input
+                                        type="file"
+                                        id="file-upload"
+                                        accept=".pdf,.doc,.docx"
+                                        className="hidden"
+                                        onChange={handleFileUpload}
+                                        disabled={isUploading}
+                                    />
+                                </label>
                             </div>
+
+                            {/* File Preview Section */}
+                            {uploadedFile && (
+                                <div className="mt-4 bg-blue-50 rounded-lg p-4 flex justify-between items-center">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-blue-600">📎</span>
+                                        <p className="text-gray-800 text-sm">
+                                            {uploadedFile.name} <span className="text-gray-500">({uploadedFile.size}MB)</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
+                    )
+                }
             </div>
 
             {/* MTExam Timer */}
