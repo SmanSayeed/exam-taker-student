@@ -1,5 +1,5 @@
 import { Card, CardTitle } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CreativeExamForMT } from "@/exams/components/molecules/packages/mtexam/CreativeExamForMT";
@@ -27,28 +27,6 @@ export default function MTExamOnGoingPage() {
     const duration = calculateDuration(startTime, endTime);
 
     const [uploadAnswerFile, { isLoading: isUploading }] = useUploadAnswerFileMutation();
-    // const { data: answeredFile } = useGetAnsweredFileQuery({
-    //     id: exam?.id,
-    //     params: { "student_id": student.id },
-    // });
-    const [uploadedFile, setUploadedFile] = useState({
-        name: "",
-        size: null,
-        id: null,
-    });
-
-    // useEffect(() => {
-    //     if (answeredFile?.data?.file) {
-    //         const fileData = answeredFile.data.file;
-
-    //         setUploadedFile(prev => ({
-    //             ...prev,
-    //             name: fileData.original_filename,
-    //             size: (fileData.file_size / 1024 / 1024).toFixed(2),
-    //             id: fileData.id,
-    //         }));
-    //     }
-    // }, [answeredFile?.data?.file]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -72,18 +50,12 @@ export default function MTExamOnGoingPage() {
             const response = await uploadAnswerFile(payload).unwrap();
             toast.success(response.message || "file uploaded successfully");
 
-            setUploadedFile({
-                name: file.name,
-                size: (file.size / 1024 / 1024).toFixed(2),
-                id: response?.data?.file?.id,
-            });
-
             dispatch(updateFileUrl({
                 examId: exam?.id,
                 fileUrl: {
                     cdn_url: response?.data?.file?.cdn_url,
                     file_name: response?.data?.file?.original_filename,
-                    file_size: response?.data?.file?.file_size,
+                    file_size: (response?.data?.file?.file_size / 1024 / 1024).toFixed(2),
                 }
             }));
         } catch (error) {
@@ -150,12 +122,12 @@ export default function MTExamOnGoingPage() {
                             </div>
 
                             {/* File Preview Section */}
-                            {uploadedFile && (
+                            {fileUrl && (
                                 <div className="mt-4 bg-blue-50 rounded-lg p-4 flex justify-between items-center">
                                     <div className="flex items-center gap-2">
                                         <span className="text-blue-600">📎</span>
                                         <p className="text-gray-800 text-sm">
-                                            {uploadedFile.name} <span className="text-gray-500">({uploadedFile.size}MB)</span>
+                                            {fileUrl.file_name} <span className="text-gray-500">({fileUrl.file_size}MB)</span>
                                         </p>
                                     </div>
                                 </div>
