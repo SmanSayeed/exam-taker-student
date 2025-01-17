@@ -19,6 +19,7 @@ const mtExamSlice = createSlice({
                 state.allMTExams.push({
                     ...action.payload,
                     mcqAnswers: action.payload.mcqAnswers || [],
+                    fileUrl: action.payload.fileUrl || null, // Add fileUrl
                 });
             } else {
                 // Update the existing exam's mcqAnswers if it exists
@@ -26,12 +27,14 @@ const mtExamSlice = createSlice({
                     ...(state.allMTExams[existingExamIndex].mcqAnswers || []),
                     ...(action.payload.mcqAnswers || []),
                 ];
+                state.allMTExams[existingExamIndex].fileUrl = action.payload.fileUrl || null; // Update fileUrl
             }
 
             // Set the active exam to the one just saved
             state.activeExam = {
                 ...action.payload,
                 mcqAnswers: action.payload.mcqAnswers || [],
+                fileUrl: action.payload.fileUrl || null, // Add fileUrl
             };
         },
         switchActiveExam: (state, action) => {
@@ -45,8 +48,10 @@ const mtExamSlice = createSlice({
                     const activeExamIndex = state.allMTExams.findIndex(
                         (item) => item.exam.id === state.activeExam.exam.id
                     );
+
                     if (activeExamIndex !== -1) {
                         state.allMTExams[activeExamIndex].mcqAnswers = state.activeExam.mcqAnswers;
+                        state.allMTExams[activeExamIndex].fileUrl = state.activeExam.fileUrl; // Persist fileUrl
                     }
                 }
 
@@ -54,6 +59,7 @@ const mtExamSlice = createSlice({
                 state.activeExam = {
                     ...existingExam,
                     mcqAnswers: [...existingExam.mcqAnswers],
+                    fileUrl: existingExam.fileUrl || null, // Set fileUrl
                 };
             }
         },
@@ -106,6 +112,38 @@ const mtExamSlice = createSlice({
                 }
             }
         },
+        // updateFileUrl: (state, action) => {
+        //     const { examId, fileUrl,  } = action.payload;
+
+        //     if (state.activeExam?.exam.id === examId) {
+        //         state.activeExam.fileUrl = fileUrl; // Update fileUrl for activeExam
+        //     }
+
+        //     const examIndex = state.allMTExams.findIndex((item) => item.exam.id === examId);
+
+        //     if (examIndex !== -1) {
+        //         state.allMTExams[examIndex].fileUrl = fileUrl; // Update fileUrl in allMTExams
+        //     }
+        // },
+        updateFileUrl: (state, action) => {
+            const { examId, fileUrl } = action.payload;
+        
+            const validFileUrl = {
+                cdn_url: fileUrl.cdn_url || null,
+                file_name: fileUrl.file_name || null,
+                file_size: fileUrl.file_size || null,
+            };
+        
+            if (state.activeExam?.exam.id === examId) {
+                state.activeExam.fileUrl = validFileUrl;
+            }
+        
+            const examIndex = state.allMTExams.findIndex((item) => item.exam.id === examId);
+        
+            if (examIndex !== -1) {
+                state.allMTExams[examIndex].fileUrl = validFileUrl;
+            }
+        },        
         clearMTExamInfo: (state) => {
             state.allMTExams = [];
             state.activeExam = null;
@@ -118,5 +156,6 @@ export const {
     switchActiveExam,
     updateMTMcqAnswer,
     clearMTExamInfo,
+    updateFileUrl
 } = mtExamSlice.actions;
 export default mtExamSlice.reducer;

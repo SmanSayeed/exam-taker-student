@@ -60,7 +60,9 @@ export const MTDetailsPage = () => {
                 "examination_id": mtexam?.exam?.id,
                 "student_id": auth.student.id,
                 "type": mtexam?.exam?.type,
-                "mcq_answers": mtexam?.mcqAnswers
+                "mcq_answers": mtexam?.mcqAnswers,
+                "file_url": mtexam?.fileUrl.cdn_url
+
             }
         });
 
@@ -139,7 +141,7 @@ export const MTDetailsPage = () => {
                         modelTestId={modelTestId}
                     />
                 )}
-            </div >
+            </div>
 
             {/* Full Submission Confirmation Alert Dialog */}
             <AlertDialog AlertDialog open={isFullSubmitAlertOpen} onOpenChange={setIsFullSubmitAlertOpen} >
