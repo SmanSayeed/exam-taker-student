@@ -112,19 +112,38 @@ const mtExamSlice = createSlice({
                 }
             }
         },
+        // updateFileUrl: (state, action) => {
+        //     const { examId, fileUrl,  } = action.payload;
+
+        //     if (state.activeExam?.exam.id === examId) {
+        //         state.activeExam.fileUrl = fileUrl; // Update fileUrl for activeExam
+        //     }
+
+        //     const examIndex = state.allMTExams.findIndex((item) => item.exam.id === examId);
+
+        //     if (examIndex !== -1) {
+        //         state.allMTExams[examIndex].fileUrl = fileUrl; // Update fileUrl in allMTExams
+        //     }
+        // },
         updateFileUrl: (state, action) => {
             const { examId, fileUrl } = action.payload;
-
+        
+            const validFileUrl = {
+                cdn_url: fileUrl.cdn_url || null,
+                file_name: fileUrl.file_name || null,
+                file_size: fileUrl.file_size || null,
+            };
+        
             if (state.activeExam?.exam.id === examId) {
-                state.activeExam.fileUrl = fileUrl; // Update fileUrl for activeExam
+                state.activeExam.fileUrl = validFileUrl;
             }
-
+        
             const examIndex = state.allMTExams.findIndex((item) => item.exam.id === examId);
-
+        
             if (examIndex !== -1) {
-                state.allMTExams[examIndex].fileUrl = fileUrl; // Update fileUrl in allMTExams
+                state.allMTExams[examIndex].fileUrl = validFileUrl;
             }
-        },
+        },        
         clearMTExamInfo: (state) => {
             state.allMTExams = [];
             state.activeExam = null;

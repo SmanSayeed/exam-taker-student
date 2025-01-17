@@ -6,7 +6,7 @@ import { CreativeExamForMT } from "@/exams/components/molecules/packages/mtexam/
 import { McqExamCardForMT } from "@/exams/components/molecules/packages/mtexam/McqExamCardForMT";
 import { MTExamTimer } from "@/exams/components/molecules/packages/mtexam/MTExamTimer";
 import { NormalExamForMT } from "@/exams/components/molecules/packages/mtexam/NormalExamForMT";
-import { useGetAnsweredFileQuery, useUploadAnswerFileMutation } from "@/features/packages/mtExamsApi";
+import { useUploadAnswerFileMutation } from "@/features/packages/mtExamsApi";
 import { updateFileUrl } from "@/features/packages/mtExamSlice";
 import { useGetSingleModelTestQuery } from "@/features/packages/packagesApi";
 import { calculateDuration } from "@/helpers/dateFormatter";
@@ -18,7 +18,7 @@ export default function MTExamOnGoingPage() {
 
     const { student } = useSelector((state) => state.auth);
     const { activeExam } = useSelector((state) => state.mtExam);
-    const { exam, questions_list } = activeExam || {};
+    const { exam, questions_list, fileUrl } = activeExam || {};
 
     const { modelTestId } = useParams();
     const { data: modelTestData } = useGetSingleModelTestQuery(modelTestId);
@@ -27,28 +27,28 @@ export default function MTExamOnGoingPage() {
     const duration = calculateDuration(startTime, endTime);
 
     const [uploadAnswerFile, { isLoading: isUploading }] = useUploadAnswerFileMutation();
-    const { data: answeredFile } = useGetAnsweredFileQuery({
-        id: exam?.id,
-        params: { "student_id": student.id },
-    });
+    // const { data: answeredFile } = useGetAnsweredFileQuery({
+    //     id: exam?.id,
+    //     params: { "student_id": student.id },
+    // });
     const [uploadedFile, setUploadedFile] = useState({
         name: "",
         size: null,
         id: null,
     });
 
-    useEffect(() => {
-        if (answeredFile?.data?.file) {
-            const fileData = answeredFile.data.file;
+    // useEffect(() => {
+    //     if (answeredFile?.data?.file) {
+    //         const fileData = answeredFile.data.file;
 
-            setUploadedFile(prev => ({
-                ...prev,
-                name: fileData.original_filename,
-                size: (fileData.file_size / 1024 / 1024).toFixed(2),
-                id: fileData.id,
-            }));
-        }
-    }, [answeredFile?.data?.file]);
+    //         setUploadedFile(prev => ({
+    //             ...prev,
+    //             name: fileData.original_filename,
+    //             size: (fileData.file_size / 1024 / 1024).toFixed(2),
+    //             id: fileData.id,
+    //         }));
+    //     }
+    // }, [answeredFile?.data?.file]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -80,7 +80,11 @@ export default function MTExamOnGoingPage() {
 
             dispatch(updateFileUrl({
                 examId: exam?.id,
-                fileUrl: response?.data?.file?.cdn_url
+                fileUrl: {
+                    cdn_url: response?.data?.file?.cdn_url,
+                    file_name: response?.data?.file?.original_filename,
+                    file_size: response?.data?.file?.file_size,
+                }
             }));
         } catch (error) {
             console.error(error);
