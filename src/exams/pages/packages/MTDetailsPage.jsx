@@ -54,15 +54,18 @@ export const MTDetailsPage = () => {
     const submitAllMTExams = async (event) => {
         event.preventDefault();
 
+        console.log("all mtt exams", allMTExams)
+
         // Prepared payload for all exams
         const preparedPayload = allMTExams?.map(mtexam => {
+            console.log("mtexam cdn url", mtexam)
+
             return {
                 "examination_id": mtexam?.exam?.id,
                 "student_id": auth.student.id,
                 "type": mtexam?.exam?.type,
                 "mcq_answers": mtexam?.mcqAnswers,
-                "file_url": mtexam?.fileUrl.cdn_url
-
+                "file_url": mtexam?.fileUrl?.cdn_url
             }
         });
 

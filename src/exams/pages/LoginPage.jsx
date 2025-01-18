@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import LoginForm from './../components/molecules/auth/LoginForm';
 
 const LoginPage = () => {
@@ -20,9 +21,12 @@ const LoginPage = () => {
             <div className="px-2">
                 <Card className="mx-auto max-w-sm w-full mt-20 md:mt-12 ">
                     <CardHeader>
-                        <CardTitle className="text-2xl">
-                            Login
-                        </CardTitle>
+                        <div className="flex justify-between w-100 items-center">
+                            <CardTitle className="text-2xl">
+                                Login
+                            </CardTitle>
+                            <Link to="/registration" className="underline text-blue-400">Register</Link>
+                        </div>
                         <CardDescription>
                             Enter your email below to login to your account
                         </CardDescription>
