@@ -105,6 +105,7 @@ export const MTDetailsPage = () => {
             <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
                 {/* Header Section */}
                 <MTExamHeader
+                    packageId={packageId}
                     title={parseHtmlContent(modelTestData?.data?.title) || "Model Test Details"}
                     modelTestId={modelTestId}
                 />

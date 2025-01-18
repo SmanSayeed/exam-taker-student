@@ -94,33 +94,39 @@ export const MTExamCard = ({ exam, isSubscribed, packageId, modelTestId, allExam
         <div className="bg-white border border-gray-200 shadow-md rounded-lg p-6 space-y-4">
             <div className="flex justify-between items-center">
                 {
-                    isOptionalExam && (
-                        <label className="flex items-center gap-2 text-blue-600 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                onChange={handleOptionalExamSelection}
-                                checked={ischeckedOptionalExam}
-                                className="h-4 w-4"
-                                disabled={isExamEnded || isExamNotStarted}
-                            />
-                            Select as Optional Exam
-                        </label>
+                    isSubscribed && (
+                        <>
+                            {
+                                isOptionalExam && (
+                                    <label className="flex items-center gap-2 text-blue-600 cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            onChange={handleOptionalExamSelection}
+                                            checked={ischeckedOptionalExam}
+                                            className="h-4 w-4"
+                                            disabled={isExamEnded || isExamNotStarted}
+                                        />
+                                        Select as Optional Exam
+                                    </label>
+                                )
+                            }
+                            <span
+                                className={`text-sm font-medium px-2 py-1 rounded ${isExamEnded
+                                    ? "bg-red-100 text-red-600"
+                                    : isExamNotStarted
+                                        ? "bg-yellow-100 text-yellow-600"
+                                        : "bg-green-100 text-green-600"
+                                    }`}
+                            >
+                                {isExamEnded
+                                    ? "Ended"
+                                    : isExamNotStarted
+                                        ? "Not Started"
+                                        : "Active"}
+                            </span>
+                        </>
                     )
                 }
-                <span
-                    className={`text-sm font-medium px-2 py-1 rounded ${isExamEnded
-                        ? "bg-red-100 text-red-600"
-                        : isExamNotStarted
-                            ? "bg-yellow-100 text-yellow-600"
-                            : "bg-green-100 text-green-600"
-                        }`}
-                >
-                    {isExamEnded
-                        ? "Ended"
-                        : isExamNotStarted
-                            ? "Not Started"
-                            : "Active"}
-                </span>
             </div>
 
             <h3 className="text-xl font-bold text-gray-800">{exam?.title}</h3>
