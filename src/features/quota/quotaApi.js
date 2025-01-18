@@ -9,7 +9,12 @@ export const quotaApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getMaxFreeExam: builder.query({
+      query: () => ({
+        url: "/config/maximum-free-exam",
+      }),
+    }),
   }),
 });
 
-export const { useBuyQuotaMutation } = quotaApi;
+export const { useBuyQuotaMutation, useGetMaxFreeExamQuery } = quotaApi;
