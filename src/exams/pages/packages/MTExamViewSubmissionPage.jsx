@@ -1,6 +1,8 @@
 import { Card, CardTitle } from "@/components/ui/card";
 import Loading from "@/exams/components/atoms/Loading";
+import { CreativeQuesForSubmissionView } from "@/exams/components/molecules/packages/mtexam/mtexamresult/CreativeQuesForSubmissionView";
 import { McqQuesForSubmissionView } from "@/exams/components/molecules/packages/mtexam/mtexamresult/McqQuesForSubmissionView";
+import { NormalQuesForSubmissionView } from "@/exams/components/molecules/packages/mtexam/mtexamresult/NormalQuesForSubmissionView";
 import { useGetAllStuResultQuery } from "@/features/packages/mtExamsApi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -45,16 +47,24 @@ const MTExamViewSubmissionPage = () => {
                         ))}
 
                     {/* creative question exam question */}
-                    {/* {exam.type === "creative" &&
-                        questions_list.map((question, index) => (
-                            <CreativeExamForMT key={question?.id} queIndex={index} question={question} />
-                        ))} */}
+                    {foundExam?.type === "creative" &&
+                        foundExam?.questions.map((question, index) => (
+                            <CreativeQuesForSubmissionView
+                                key={question?.id}
+                                queIndex={index}
+                                question={question}
+                            />
+                        ))}
 
                     {/* normal question exam question */}
-                    {/* {exam.type === "normal" &&
-                        questions_list.map((question, index) => (
-                            <NormalExamForMT key={question?.id} queIndex={index} question={question} />
-                        ))} */}
+                    {foundExam?.type === "normal" &&
+                        foundExam?.questions.map((question, index) => (
+                            <NormalQuesForSubmissionView
+                                key={question?.id}
+                                queIndex={index}
+                                question={question}
+                            />
+                        ))}
                 </div>
             </div>
         </div>

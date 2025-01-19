@@ -3,7 +3,6 @@ import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import DOMPurify from "dompurify";
 
 export const McqQuesForSubmissionView = ({ question, queIndex }) => {
-    console.log("quetion", question)
     const { title, mcq_options, student_answer } = question || {};
 
     return (
