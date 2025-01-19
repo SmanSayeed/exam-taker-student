@@ -20,8 +20,6 @@ const PackagesPage = () => {
 
   const includedPkgCats = allPkgCats?.data && allPkgCats?.data?.filter(item => item?.additional_package_category);
 
-  console.log("includedPkgCats", includedPkgCats)
-
   // Extract unique additional package categories
   const uniqueAdditionalPkgCats = includedPkgCats?.reduce((acc, current) => {
     const isDuplicate = acc.some(
@@ -34,8 +32,6 @@ const PackagesPage = () => {
 
     return acc;
   }, []);
-
-  console.log("uniqueAdditionalPkgCats", uniqueAdditionalPkgCats);
 
   if (isLoading) {
     return <Loading />;
