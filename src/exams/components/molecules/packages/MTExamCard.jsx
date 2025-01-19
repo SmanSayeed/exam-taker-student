@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { useStartMTExamMutation } from "@/features/packages/mtExamsApi";
 import { saveMTExamInfo, switchActiveExam } from "@/features/packages/mtExamSlice";
-import { useGetSingleModelTestQuery, useStartMTExamMutation } from "@/features/packages/packagesApi";
+import { useGetSingleModelTestQuery } from "@/features/packages/packagesApi";
 import { calculateDuration, isoDateFormatter } from "@/helpers/dateFormatter";
 import { ArrowRightCircleIcon } from "lucide-react";
 import { useEffect, useState } from "react";

@@ -2,7 +2,7 @@ import Loading from "@/exams/components/atoms/Loading";
 import { MTExamListForResult } from "@/exams/components/molecules/packages/mtexam/mtexamresult/MTExamListForResult";
 import { ResultsHeader } from "@/exams/components/molecules/packages/mtexam/mtexamresult/ResultsHeader";
 import { StatisticsGrid } from "@/exams/components/molecules/packages/mtexam/mtexamresult/StatisticsGrid";
-import { useGetSingleStuResultQuery } from "@/features/packages/packagesApi";
+import { useGetSingleStuResultQuery } from "@/features/packages/mtExamsApi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 

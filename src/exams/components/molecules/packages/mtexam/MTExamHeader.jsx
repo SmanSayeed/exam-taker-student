@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import { useGetSinglePackageQuery, useGetSingleStuResultQuery } from "@/features/packages/packagesApi";
+import { useGetSingleStuResultQuery } from "@/features/packages/mtExamsApi";
+import { useGetSinglePackageQuery } from "@/features/packages/packagesApi";
 import { useSelector } from "react-redux";
 
 export const MTExamHeader = ({ title, modelTestId, packageId }) => {

@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { hasActiveExams } from "@/exams/components/molecules/packages/mtexam/examHelpers";
 import {
-    useFinishAllMTExamMutation,
     useGetExamsUnderMTQuery,
     useGetSingleModelTestQuery,
     useGetSinglePackageQuery,
@@ -25,6 +24,7 @@ import { MTExamActions } from "@/exams/components/molecules/packages/mtexam/MTEx
 import { MTExamHeader } from "@/exams/components/molecules/packages/mtexam/MTExamHeader";
 import { MTExamSection } from "@/exams/components/molecules/packages/mtexam/MTExamSection";
 import { WelcomeBox } from "@/exams/components/molecules/packages/mtexam/WelcomeBox";
+import { useFinishAllMTExamMutation } from "@/features/packages/mtExamsApi";
 
 export const MTDetailsPage = () => {
     const { packageId, modelTestId } = useParams();
