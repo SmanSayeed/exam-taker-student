@@ -1,8 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
 
-export const ResultsHeader = ({ modelTestDetails, combinedResult }) => {
-    const progressWidth = ((combinedResult?.total_obtained_marks / modelTestDetails?.full_mark) * 100).toFixed(2);
+export const ResultsHeader = ({ modelTestDetails, totalMarks }) => {
+    // const progressWidth = ((combinedResult?.total_obtained_marks / modelTestDetails?.full_mark) * 100).toFixed(2);
 
     return (
         <Card className="p-6 my-6">
@@ -17,8 +17,8 @@ export const ResultsHeader = ({ modelTestDetails, combinedResult }) => {
                 <div className="flex items-center gap-4 mx-auto md:mx-0">
                     <div className="text-center">
                         <div className="text-3xl font-bold text-primary">
-                            {combinedResult?.total_obtained_marks}
-                            <span className="text-base text-muted-foreground">/{modelTestDetails?.full_mark}</span>
+                            {totalMarks}
+                            {/* <span className="text-base text-muted-foreground">/{modelTestDetails?.full_mark}</span> */}
                         </div>
                         <p className="text-sm text-muted-foreground">Total Score</p>
                     </div>
@@ -33,12 +33,12 @@ export const ResultsHeader = ({ modelTestDetails, combinedResult }) => {
                     </div>
                 </div>
             </div>
-            <div className="relative w-full bg-gray-700 h-2 rounded mt-4">
+            {/* <div className="relative w-full bg-gray-700 h-2 rounded mt-4">
                 <div
                     className="absolute top-0 left-0 bg-blue-500 h-2 rounded"
                     style={{ width: `${progressWidth}%` }}
                 ></div>
-            </div>
+            </div> */}
         </Card>
     );
 };

@@ -1,8 +1,7 @@
 import Loading from "@/exams/components/atoms/Loading";
 import { MTExamListForResult } from "@/exams/components/molecules/packages/mtexam/mtexamresult/MTExamListForResult";
 import { ResultsHeader } from "@/exams/components/molecules/packages/mtexam/mtexamresult/ResultsHeader";
-import { StatisticsGrid } from "@/exams/components/molecules/packages/mtexam/mtexamresult/StatisticsGrid";
-import { useGetSingleStuResultQuery } from "@/features/packages/mtExamsApi";
+import { useGetAllStuResultQuery } from "@/features/packages/mtExamsApi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -10,30 +9,39 @@ const MTExamResultPage = () => {
     const { modelTestId } = useParams();
     const auth = useSelector((state) => state.auth);
 
-    const { data: studentResultData, isLoading: isMTExamResultLoading } = useGetSingleStuResultQuery({
-        modelTestId: modelTestId,
-        studentId: auth.student.id,
-    });
+    // const { data: studentResultData, isLoading: isMTExamResultLoading } = useGetSingleStuResultQuery({
+    //     studentId: auth.student.id,
+    //     modelTestId: modelTestId,
+    // });
+
+    const { data: allStuResultData, isLoading: isMTExamResultLoading } = useGetAllStuResultQuery(modelTestId);
+
+    const { model_test_details, students_results, total_participants } = allStuResultData?.message || {};
+
+    const foundStuResultDetails = students_results?.find(stu => stu?.student_details?.id === auth.student.id);
 
     if (isMTExamResultLoading) {
         return <Loading />;
     }
 
-    const { model_test_details, combined_result, all_examination_details } = studentResultData?.message || {};
+    // const { model_test_details, result_summary, examination_details } = studentResultData?.message || {};
 
     return (
         <div className="px-5 w-full">
             {/* Result Header Section */}
-            <ResultsHeader modelTestDetails={model_test_details} combinedResult={combined_result} />
+            <ResultsHeader
+                modelTestDetails={model_test_details}
+                totalMarks={foundStuResultDetails?.total_marks}
+            />
 
             {/* Statistics Section */}
-            <StatisticsGrid combinedResult={combined_result} />
+            {/* <StatisticsGrid combinedResult={combined_result} /> */}
 
             {/* All Examination Details Section */}
             <div className="mt-10">
                 <h2 className="text-lg font-bold mb-5">All Exam Submissions</h2>
                 <MTExamListForResult
-                    allExaminations={all_examination_details}
+                    allExaminations={foundStuResultDetails?.examinations}
                     modelTestId={modelTestId}
                 />
             </div>

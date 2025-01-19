@@ -48,7 +48,7 @@ export const mtExamsApi = apiSlice.injectEndpoints({
         }),
 
         getSingleStuResult: builder.query({
-            query: ({modelTestId, studentId}) => `/model-test-exam-result-with-merit/${modelTestId}/${studentId}`
+            query: ({studentId, modelTestId}) => `/model-test-exam-result-with-merit/${studentId}/${modelTestId}`
         }),
 
         uploadAnswerFile: builder.mutation({

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export const MTExamListForResult = ({ allExaminations, onSubmissionView, modelTestId }) => {
+export const MTExamListForResult = ({ allExaminations, modelTestId }) => {
     if (!allExaminations || allExaminations.length === 0) {
         return <p className="text-gray-500">No examinations available.</p>;
     }
