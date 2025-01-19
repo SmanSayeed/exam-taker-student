@@ -5,33 +5,34 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { PackageCard } from "@/exams/components/molecules/packages/PackageCard";
-import { useGetAllPkgCatsQuery } from "@/features/categories/categoriesApi";
+import { useGetAllPkgCatsQuery, useGetPkgCatsQuery } from "@/features/categories/categoriesApi";
 import { useGetAllPackagesQuery } from "@/features/packages/packagesApi";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import Loading from "../../components/atoms/Loading";
 
 const PackagesPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
+  const { data: pkgCats } = useGetPkgCatsQuery();
   const { data: allPkgCats } = useGetAllPkgCatsQuery();
 
   const sortedPackages = allPackages?.data?.length > 0
     ? allPackages?.data.toSorted((a, b) => new Date(b.created_at) - new Date(a.created_at))
     : [];
 
-  const includedPkgCats = allPkgCats?.data && allPkgCats?.data?.filter(item => item?.additional_package_category);
+  // const includedPkgCats = allPkgCats?.data && allPkgCats?.data?.filter(item => item?.additional_package_category);
 
   // Extract unique additional package categories
-  const uniqueAdditionalPkgCats = includedPkgCats?.reduce((acc, current) => {
-    const isDuplicate = acc.some(
-      item => item.id === current.additional_package_category.id
-    );
+  // const uniqueAdditionalPkgCats = includedPkgCats?.reduce((acc, current) => {
+  //   const isDuplicate = acc.some(
+  //     item => item.id === current.additional_package_category.id
+  //   );
 
-    if (!isDuplicate) {
-      acc.push(current.additional_package_category);
-    }
+  //   if (!isDuplicate) {
+  //     acc.push(current.additional_package_category);
+  //   }
 
-    return acc;
-  }, []);
+  //   return acc;
+  // }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -70,7 +71,7 @@ const PackagesPage = () => {
               <TabsList className="inline-flex items-center gap-4">
                 <TabsTrigger value="all">All</TabsTrigger>
                 {
-                  uniqueAdditionalPkgCats && uniqueAdditionalPkgCats.map((item) => (
+                  allPkgCats?.data && allPkgCats?.data.map((item) => (
                     <TabsTrigger
                       key={item.id}
                       value={item.name}
@@ -101,8 +102,8 @@ const PackagesPage = () => {
 
             {/* Dynamic Category Tabs */}
             {
-              includedPkgCats && includedPkgCats.map((item) => {
-                const packagesForAdditionalCats = sortedPackages.filter((pkg) => pkg?.id === item?.package_id);
+              allPkgCats?.data && allPkgCats?.data.map((item) => {
+                const packagesForAdditionalCats = pkgCats?.data?.filter((pkg) => pkg?.additional_package_category_id === item?.id);
 
                 return (
                   <TabsContent
