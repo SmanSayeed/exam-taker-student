@@ -11,6 +11,7 @@ import LoginPage from "../pages/LoginPage";
 import { MTDetailsPage } from "../pages/packages/MTDetailsPage";
 import MTExamOnGoingPage from "../pages/packages/MTExamOnGoingPage";
 import MTExamResultPage from "../pages/packages/MTExamResultPage";
+import MTExamViewSubmissionPage from "../pages/packages/MTExamViewSubmissionPage";
 import PackageDetailsPage from "../pages/packages/PackageDetailsPage";
 import PackagesPage from "../pages/packages/PackagesPage";
 import QuestionListForStudentPage from "../pages/QuestionListForStudentPage";
@@ -124,10 +125,18 @@ const Routes = createBrowserRouter([
         ),
       },
       {
-        path: "model-test/:modelTestId/mtexam-result",
+        path: "/model-test/:modelTestId/mtexam-result",
         element: (
           <PrivateRoutes>
             <MTExamResultPage />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/model-test/:modelTestId/mtexam-result/:examId",
+        element: (
+          <PrivateRoutes>
+            <MTExamViewSubmissionPage />
           </PrivateRoutes>
         ),
       },

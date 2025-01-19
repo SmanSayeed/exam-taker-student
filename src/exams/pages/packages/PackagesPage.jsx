@@ -5,27 +5,34 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { PackageCard } from "@/exams/components/molecules/packages/PackageCard";
-import { useGetAllPkgCatsQuery } from "@/features/categories/categoriesApi";
+import { useGetAllPkgCatsQuery, useGetPkgCatsQuery } from "@/features/categories/categoriesApi";
 import { useGetAllPackagesQuery } from "@/features/packages/packagesApi";
 import { parseHtmlContent } from "@/utils/parseHtmlContent";
 import Loading from "../../components/atoms/Loading";
 
 const PackagesPage = () => {
   const { data: allPackages, isLoading } = useGetAllPackagesQuery();
+  const { data: pkgCats } = useGetPkgCatsQuery();
   const { data: allPkgCats } = useGetAllPkgCatsQuery();
-
-  const additionalPkgCats = allPkgCats?.data && allPkgCats?.data?.filter(item => item.additional_package_category);
-
-  // const auth = useSelector((state) => state.auth);
-
-  // Filter packages based on student section_id or show all packages if section_id is missing
-  // const filteredPackages = allPackages?.data?.filter((pkg) =>
-  //   !auth?.student?.section_id || pkg?.section_id === auth.student.section_id
-  // );
 
   const sortedPackages = allPackages?.data?.length > 0
     ? allPackages?.data.toSorted((a, b) => new Date(b.created_at) - new Date(a.created_at))
     : [];
+
+  // const includedPkgCats = allPkgCats?.data && allPkgCats?.data?.filter(item => item?.additional_package_category);
+
+  // Extract unique additional package categories
+  // const uniqueAdditionalPkgCats = includedPkgCats?.reduce((acc, current) => {
+  //   const isDuplicate = acc.some(
+  //     item => item.id === current.additional_package_category.id
+  //   );
+
+  //   if (!isDuplicate) {
+  //     acc.push(current.additional_package_category);
+  //   }
+
+  //   return acc;
+  // }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -64,12 +71,12 @@ const PackagesPage = () => {
               <TabsList className="inline-flex items-center gap-4">
                 <TabsTrigger value="all">All</TabsTrigger>
                 {
-                  additionalPkgCats.map((item) => (
+                  allPkgCats?.data && allPkgCats?.data.map((item) => (
                     <TabsTrigger
-                      key={item?.additional_package_category?.id}
-                      value={item?.additional_package_category?.name}
+                      key={item.id}
+                      value={item.name}
                     >
-                      {parseHtmlContent(item?.additional_package_category?.name)}
+                      {parseHtmlContent(item.name)}
                     </TabsTrigger>
                   ))
                 }
@@ -95,24 +102,20 @@ const PackagesPage = () => {
 
             {/* Dynamic Category Tabs */}
             {
-              additionalPkgCats.map((item) => {
-                const packagesForAdditionalCats = sortedPackages.filter((pkg) => pkg?.id === item?.package_id);
+              allPkgCats?.data && allPkgCats?.data.map((item) => {
+                const packagesForAdditionalCats = pkgCats?.data?.filter((pkg) => pkg?.additional_package_category_id === item?.id);
 
                 return (
                   <TabsContent
-                    key={item?.additional_package_category?.id}
+                    key={`${item?.additional_package_category?.id}-${item?.additional_package_category?.name}`}
                     value={item?.additional_package_category?.name}
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
                       {
-                        packagesForAdditionalCats.length > 0 ? (
-                          packagesForAdditionalCats.map((item) => (
-                            <PackageCard key={item.id} singlePackage={item} />
+                        packagesForAdditionalCats && (
+                          packagesForAdditionalCats.map((pkgItem) => (
+                            <PackageCard key={pkgItem.id} singlePackage={pkgItem} />
                           ))
-                        ) : (
-                          <p className="col-span-3 text-center text-gray-500">
-                            No packages available for {parseHtmlContent(item?.additional_package_category?.name)}.
-                          </p>
                         )
                       }
                     </div>

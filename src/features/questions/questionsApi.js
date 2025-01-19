@@ -27,9 +27,11 @@ export const questionsApi = apiSlice.injectEndpoints({
         return `que/all?${queryParams}`;
       },
     }),
+
     getSingleQuestions: builder.query({
       query: (id) => `/que/single/${id}`,
     }),
+
     createQuestion: builder.mutation({
       query: (data) => ({
         url: "/que/create",
@@ -60,12 +62,14 @@ export const questionsApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
     deleteQuestion: builder.mutation({
       query: (id) => ({
         url: `que/delete/${id}`,
         method: "DELETE",
       }),
     }),
+
     editQuestion: builder.mutation({
       query: ({ id, data }) => ({
         url: `que/update/${id}`,
@@ -96,6 +100,7 @@ export const questionsApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    
     questionSearch: builder.query({
       query: (data) => ({
         url: "/que/search",

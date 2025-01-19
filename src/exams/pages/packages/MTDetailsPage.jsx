@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { hasActiveExams } from "@/exams/components/molecules/packages/mtexam/examHelpers";
 import {
-    useFinishAllMTExamMutation,
     useGetExamsUnderMTQuery,
     useGetSingleModelTestQuery,
     useGetSinglePackageQuery,
@@ -25,6 +24,7 @@ import { MTExamActions } from "@/exams/components/molecules/packages/mtexam/MTEx
 import { MTExamHeader } from "@/exams/components/molecules/packages/mtexam/MTExamHeader";
 import { MTExamSection } from "@/exams/components/molecules/packages/mtexam/MTExamSection";
 import { WelcomeBox } from "@/exams/components/molecules/packages/mtexam/WelcomeBox";
+import { useFinishAllMTExamMutation } from "@/features/packages/mtExamsApi";
 
 export const MTDetailsPage = () => {
     const { packageId, modelTestId } = useParams();
@@ -54,11 +54,8 @@ export const MTDetailsPage = () => {
     const submitAllMTExams = async (event) => {
         event.preventDefault();
 
-        console.log("all mtt exams", allMTExams)
-
         // Prepared payload for all exams
         const preparedPayload = allMTExams?.map(mtexam => {
-            console.log("mtexam cdn url", mtexam)
 
             return {
                 "examination_id": mtexam?.exam?.id,
@@ -105,6 +102,7 @@ export const MTDetailsPage = () => {
             <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
                 {/* Header Section */}
                 <MTExamHeader
+                    packageId={packageId}
                     title={parseHtmlContent(modelTestData?.data?.title) || "Model Test Details"}
                     modelTestId={modelTestId}
                 />

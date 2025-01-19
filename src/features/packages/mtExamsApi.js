@@ -1,7 +1,56 @@
+import { persistor } from "@/app/store";
 import { apiSlice } from "../api/apiSlice";
+import { clearMTExamInfo } from "./mtExamSlice";
+import { submittedMTExamInfo } from "./submittedMTExamSlice";
 
 export const mtExamsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        startMTExam: builder.mutation({
+            query: (data) => ({
+                url: "model-test-exam-start",
+                method: "POST",
+                body: data,
+            }),
+        }),
+
+        finishAllMTExam: builder.mutation({
+            query: (data) => ({
+                url: "/model-test-exam-finish",
+                method: "POST",
+                body: data,
+            }),
+
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+
+                try {
+                    const result = await queryFulfilled;
+                    const submittedMTExam = result.data;
+
+                    dispatch(
+                        clearMTExamInfo({
+                            allMTExams: [],
+                            activeExam: {}
+                        })
+                    );
+
+                    localStorage.removeItem('selectedOptionalExam');
+                    persistor.purge(['mtExam']);
+
+                    dispatch(submittedMTExamInfo(submittedMTExam));
+                } catch (err) {
+                    console.log(err);
+                }
+            },
+        }),
+
+        getAllStuResult: builder.query({
+            query: (modelTestId) => `/model-test-all-students-exam-result/${modelTestId}`
+        }),
+
+        getSingleStuResult: builder.query({
+            query: ({studentId, modelTestId}) => `/model-test-exam-result-with-merit/${studentId}/${modelTestId}`
+        }),
+
         uploadAnswerFile: builder.mutation({
             query: (data) => ({
                 url: "/answer-files/upload",
@@ -9,14 +58,6 @@ export const mtExamsApi = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
-
-        // getAnsweredFile: builder.query({
-        //     query: ({data, id}) => ({
-        //         url:   `/answer-files/${id}`,
-        //         method: "GET",
-        //         body: data,
-        //     }),
-        // }),
 
         getAnsweredFile: builder.query({
             query: ({ id, params }) => {
@@ -33,6 +74,10 @@ export const mtExamsApi = apiSlice.injectEndpoints({
 });
 
 export const {
+    useStartMTExamMutation,
+    useFinishAllMTExamMutation,
+    useGetAllStuResultQuery,
+    useGetSingleStuResultQuery,
     useUploadAnswerFileMutation,
     useGetAnsweredFileQuery
 } = mtExamsApi;

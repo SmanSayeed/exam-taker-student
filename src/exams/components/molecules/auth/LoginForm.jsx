@@ -36,7 +36,6 @@ const LoginForm = () => {
         }
 
         if (data && data?.data?.token) {
-            toast.success(data?.message);
             navigate("/exams");
         }
     }, [data, error, navigate, setError]);
