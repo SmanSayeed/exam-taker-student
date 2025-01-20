@@ -51,7 +51,9 @@ export function CreativeQuesForSubmissionView({ queIndex, question }) {
                             <p className="border rounded-full h-6 w-6 p-2 flex items-center justify-center text-sm">
                                 {option?.creative_question_type}
                             </p>
-                            <h1 className="text-sm">{parseHtmlContent(option?.creative_question_text)}</h1>
+                            <h1 className="text-sm">
+                                {parseHtmlContent(option?.creative_question_text)}
+                            </h1>
                         </div>
                     </div>
                 ))}
