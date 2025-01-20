@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { parseHtmlContent } from "@/utils/parseHtmlContent";
 
 export function NormalQuesForSubmissionView({ queIndex, question }) {
     const { title, student_answer } = question || {};
@@ -24,7 +25,7 @@ export function NormalQuesForSubmissionView({ queIndex, question }) {
             {/* Question Title */}
             <div className="mb-4 flex items-center gap-2">
                 <p className="text-base font-medium">{queIndex + 1}. </p>
-                <p className="text-base">{title}</p>
+                <p className="text-base">{parseHtmlContent(title)}</p>
             </div>
         </Card>
     );

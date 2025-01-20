@@ -22,15 +22,16 @@ export const McqQuesForSubmissionView = ({ question, queIndex }) => {
             {/* MCQ Options */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {mcq_options?.map((option, index) => {
-                    const isCorrect = option?.id === student_answer?.correct_option_id;
-                    const isSubmitted = option?.id === student_answer?.mcq_question_id;
+                    const isCorrect = option?.is_correct;
+                    const isSubmittedOptionCorrect = student_answer?.is_submitted_correct;
+                    const isSubmitted = option?.mcq_option_serial === student_answer?.submitted_mcq_option;
 
                     let bgColor = "";
 
                     // Background color logic
-                    if (isSubmitted && isCorrect) {
+                    if (isSubmittedOptionCorrect && isCorrect) {
                         bgColor = "bg-green-300 text-green-900"; // Correct submitted
-                    } else if (isSubmitted && !isCorrect) {
+                    } else if (isSubmitted && !isSubmittedOptionCorrect) {
                         bgColor = "bg-red-600 text-white"; // Incorrect submitted
                     } else if (isCorrect) {
                         bgColor = "bg-green-300 text-green-900"; // Correct but not submitted

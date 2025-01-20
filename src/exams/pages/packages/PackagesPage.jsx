@@ -19,21 +19,6 @@ const PackagesPage = () => {
     ? allPackages?.data.toSorted((a, b) => new Date(b.created_at) - new Date(a.created_at))
     : [];
 
-  // const includedPkgCats = allPkgCats?.data && allPkgCats?.data?.filter(item => item?.additional_package_category);
-
-  // Extract unique additional package categories
-  // const uniqueAdditionalPkgCats = includedPkgCats?.reduce((acc, current) => {
-  //   const isDuplicate = acc.some(
-  //     item => item.id === current.additional_package_category.id
-  //   );
-
-  //   if (!isDuplicate) {
-  //     acc.push(current.additional_package_category);
-  //   }
-
-  //   return acc;
-  // }, []);
-
   if (isLoading) {
     return <Loading />;
   }
@@ -103,18 +88,21 @@ const PackagesPage = () => {
             {/* Dynamic Category Tabs */}
             {
               allPkgCats?.data && allPkgCats?.data.map((item) => {
-                const packagesForAdditionalCats = pkgCats?.data?.filter((pkg) => pkg?.additional_package_category_id === item?.id);
+                const filteredPkg = pkgCats?.data && pkgCats?.data?.filter(pkgCat => pkgCat?.additional_package_category_id === item?.id);
 
                 return (
                   <TabsContent
-                    key={`${item?.additional_package_category?.id}-${item?.additional_package_category?.name}`}
-                    value={item?.additional_package_category?.name}
+                    key={item?.id}
+                    value={item?.name}
                   >
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
                       {
-                        packagesForAdditionalCats && (
-                          packagesForAdditionalCats.map((pkgItem) => (
-                            <PackageCard key={pkgItem.id} singlePackage={pkgItem} />
+                        filteredPkg && (
+                          filteredPkg.map((pkgItem) => (
+                            <PackageCard
+                              key={pkgItem?.id}
+                              singlePackage={pkgItem?.package}
+                            />
                           ))
                         )
                       }
