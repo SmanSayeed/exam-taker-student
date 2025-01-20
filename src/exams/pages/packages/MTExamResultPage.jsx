@@ -9,22 +9,15 @@ const MTExamResultPage = () => {
     const { modelTestId } = useParams();
     const auth = useSelector((state) => state.auth);
 
-    // const { data: studentResultData, isLoading: isMTExamResultLoading } = useGetSingleStuResultQuery({
-    //     studentId: auth.student.id,
-    //     modelTestId: modelTestId,
-    // });
-
     const { data: allStuResultData, isLoading: isMTExamResultLoading } = useGetAllStuResultQuery(modelTestId);
 
-    const { model_test_details, students_results, total_participants } = allStuResultData?.message || {};
+    const { model_test_details, students_results } = allStuResultData?.message || {};
 
     const foundStuResultDetails = students_results?.find(stu => stu?.student_details?.id === auth.student.id);
 
     if (isMTExamResultLoading) {
         return <Loading />;
     }
-
-    // const { model_test_details, result_summary, examination_details } = studentResultData?.message || {};
 
     return (
         <div className="px-5 w-full">
